@@ -56,9 +56,9 @@ public class TransferTele {
         transferMotor.setPower(0);
     }
     private void transferIn(){
-        transferMotor.setPower(0.5);
+        transferMotor.setPower(1);
     }
     private void transferOut(){
-        transferMotor.setPower(-0.5);
+        transferMotor.setPower(-1);
     }
 }
