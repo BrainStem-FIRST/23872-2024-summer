@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robotAuto;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PwmControl;
@@ -38,6 +39,10 @@ public class CollectorAuto {
     public enum CollectorState {
         OFF, IN, OUT
     }
+
+//    public Action collectorOutAction() {
+//        return new Action.  (collectorOut());
+//    }
 
     public void setCollectorState() {
         switch (collectorState) {

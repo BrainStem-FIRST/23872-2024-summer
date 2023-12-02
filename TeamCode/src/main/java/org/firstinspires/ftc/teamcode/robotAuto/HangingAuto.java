@@ -71,7 +71,7 @@ public class HangingAuto {
         REST, UNWIND, WIND
     }
 
-    HangingState hangingState = REST;
+    HangingState hangingState = HangingState.REST;
 
     public void hangingState() {
         switch (hangingState) {

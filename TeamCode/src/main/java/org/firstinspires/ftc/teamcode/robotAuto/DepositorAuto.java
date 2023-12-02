@@ -92,9 +92,9 @@ public class DepositorAuto {
 
     private void setDepositorState(LiftAuto lift){
         if (lift.liftState == LiftAuto.LiftState.ZERO){
-            depositorServoState = RESTING;
+            depositorServoState = DepositorServoState.RESTING;
         } else {
-            depositorServoState = SCORING;
+            depositorServoState = DepositorServoState.SCORING;
         }
     }
     private void depositorResting(){
