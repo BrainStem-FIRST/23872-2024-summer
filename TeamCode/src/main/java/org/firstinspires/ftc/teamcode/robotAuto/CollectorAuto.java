@@ -59,6 +59,22 @@ public class CollectorAuto {
         };
     }
 
+    public Action collectorOffAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    collectorOff();
+                    initialized = true;
+                }
+
+                return true;
+            }
+        };
+    }
+
     public void setCollectorState() {
         switch (collectorState) {
             case OFF: {
