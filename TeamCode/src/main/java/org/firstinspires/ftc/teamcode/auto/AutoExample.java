@@ -21,10 +21,8 @@ public final class AutoExample extends LinearOpMode {
 
         Actions.runBlocking(
             drive.actionBuilder(drive.pose)
-                    .setReversed(true)
-                    .splineTo(new Vector2d(36, -45), Math.toRadians(-90))
-//                    .setReversed(false)
-                    .splineTo(new Vector2d(30, -36), Math.toRadians(180))
+                    .setTangent(Math.toRadians(90))
+                    .splineTo(new Vector2d(30, -36), Math.toRadians(0))
                     .build());
     }
 }
