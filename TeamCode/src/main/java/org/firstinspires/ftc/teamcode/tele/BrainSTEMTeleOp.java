@@ -15,6 +15,8 @@ import org.firstinspires.ftc.teamcode.robotTele.DepositorTele;
 public class BrainSTEMTeleOp extends LinearOpMode {
     private boolean retractionInProgress = false;
     private final ElapsedTime retractionTime = new ElapsedTime();
+
+
     @Override
     public void runOpMode() {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -108,17 +110,20 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.depositor.setScoringState();
             }
 //hanging wind
-//            if (gamepad2.x) {
-//                robot.hanging.setHangingUnwind();
-//            } else if (gamepad2.y) {
-//                robot.hanging.setHangingWind();
-//            }
-//hanging servo
             if (gamepad2.x) {
-                robot.hanging.setLockState();
+                robot.hanging.setHangingUnwind();
             } else if (gamepad2.y) {
-                robot.hanging.setUnlockState();
+                robot.hanging.setHangingWind();
             }
+//hanging servo
+            if (gamepad2.a) {
+                robot.hanging.setLockState();
+            } else if (gamepad2.b) {
+                robot.hanging.setUnlockState();
+                telemetry.addLine("hanging unlock");
+
+            }
+                }
 //drone release
 //            if (gamepad2.a) {
 //                robot.drone.setClaspServo();
@@ -162,5 +167,4 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             telemetry.addData("State of right trigger",toggleButtonRightTrigger.getState());
         }
     }
-}
 
