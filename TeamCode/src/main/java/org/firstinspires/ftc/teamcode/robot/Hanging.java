@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.CachingMotor;
-import org.firstinspires.ftc.teamcode.utils.CachingServo;
+import org.firstinspires.ftc.teamcode.util.CachingServo;
 
 public class Hanging {
     private final DcMotorEx hangingMotor;
