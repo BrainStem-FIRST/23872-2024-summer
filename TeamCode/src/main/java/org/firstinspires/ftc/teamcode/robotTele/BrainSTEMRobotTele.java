@@ -1,28 +1,28 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.robotTele;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class BrainSTEMRobot {
+public class BrainSTEMRobotTele {
     HardwareMap hardwareMap;
     Telemetry telemetry;
     public CollectorTele collector;
     public TransferTele transfer;
-    public Depositor depositor;
-    public Lift lift;
-    public Hanging hanging;
+    public DepositorTele depositor;
+    public LiftTele lift;
+    public HangingTele hanging;
 
-    public BrainSTEMRobot(HardwareMap hardwareMap, Telemetry telemetry) {
+    public BrainSTEMRobotTele(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
 
 
         collector = new CollectorTele(hardwareMap, telemetry);
-        hanging = new Hanging(hardwareMap, telemetry);
+        hanging = new HangingTele(hardwareMap, telemetry);
         transfer = new TransferTele(hardwareMap, telemetry);
-        depositor = new Depositor(hardwareMap, telemetry);
-        lift = new Lift(hardwareMap, telemetry);
+        depositor = new DepositorTele(hardwareMap, telemetry);
+        lift = new LiftTele(hardwareMap, telemetry);
     }
 
     public void update() {

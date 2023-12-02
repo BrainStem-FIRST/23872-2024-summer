@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.robotAuto;
 
-import static org.firstinspires.ftc.teamcode.robot.Hanging.HangingState.REST;
+import static org.firstinspires.ftc.teamcode.robotTele.HangingTele.HangingState.REST;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.CachingMotor;
 import org.firstinspires.ftc.teamcode.util.CachingServo;
 
-public class Hanging {
+public class HangingAuto {
     private final DcMotorEx hangingMotor;
     private final ServoImplEx leftClimber;
     private final ServoImplEx rightClimber;
@@ -24,7 +24,7 @@ public class Hanging {
     private Telemetry telemetry;
     private ServoState servoState = ServoState.LOCK;
 
-    public Hanging(HardwareMap hardwareMap, Telemetry telemetry){
+    public HangingAuto(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
 

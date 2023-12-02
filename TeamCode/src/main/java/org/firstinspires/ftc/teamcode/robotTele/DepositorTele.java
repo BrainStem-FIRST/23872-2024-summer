@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.robotTele;
 
-import static org.firstinspires.ftc.teamcode.robot.Depositor.DepositorServoState.RESTING;
-import static org.firstinspires.ftc.teamcode.robot.Depositor.DepositorServoState.SCORING;
+import static org.firstinspires.ftc.teamcode.robotTele.DepositorTele.DepositorServoState.RESTING;
+import static org.firstinspires.ftc.teamcode.robotTele.DepositorTele.DepositorServoState.SCORING;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PwmControl;
@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.CachingServo;
 
-public class Depositor {
+public class DepositorTele {
     private final Telemetry telemetry;
     private HardwareMap hardwareMap;
     public DepositorServoState depositorServoState = DepositorServoState.RESTING;
@@ -28,7 +28,7 @@ public class Depositor {
     private static final double BOTTOM_PIX_HOLD_MAX = 1677;
     private static final double BOTTOM_PIX_HOLD_MIN = 100;
 
-    public Depositor(HardwareMap hardwareMap,Telemetry telemetry){
+    public DepositorTele(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry=telemetry;
         this.hardwareMap=hardwareMap;
 
@@ -77,7 +77,7 @@ public class Depositor {
     public void setDropState() {
         pixelState = PixelState.DROP;
     }
-    public void depositorServoState(Lift lift) {
+    public void depositorServoState(LiftTele lift) {
         switch (depositorServoState){
             case RESTING: {
                 depositorResting();
@@ -90,8 +90,8 @@ public class Depositor {
         }
     }
 
-    private void setDepositorState(Lift lift){
-        if (lift.liftState == Lift.LiftState.ZERO){
+    private void setDepositorState(LiftTele lift){
+        if (lift.liftState == LiftTele.LiftState.ZERO){
             depositorServoState = RESTING;
         } else {
             depositorServoState = SCORING;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.robotAuto;
 
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,13 +7,13 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.util.CachingServo;
 
-public class Drone {
+public class DroneAuto {
     private final ServoImplEx droneServo;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
     public ServoState servoState = ServoState.CLASP;
 
-    public Drone(HardwareMap hardwareMap, Telemetry telemetry) {
+    public DroneAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
 

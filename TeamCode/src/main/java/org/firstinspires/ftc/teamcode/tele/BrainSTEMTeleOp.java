@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.robot.BrainSTEMRobot;
-import org.firstinspires.ftc.teamcode.robot.Depositor;
+import org.firstinspires.ftc.teamcode.robotTele.BrainSTEMRobotTele;
+import org.firstinspires.ftc.teamcode.robotTele.DepositorTele;
 
 @TeleOp (name = "TeleOp", group = "Robot")
 public class BrainSTEMTeleOp extends LinearOpMode {
@@ -18,7 +18,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-        BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry);
+        BrainSTEMRobotTele robot = new BrainSTEMRobotTele(hardwareMap, telemetry);
         double power = 0.0;
         StickyButton stickyButtonRightBumper = new StickyButton();
         StickyButton stickyButtonLeftBumper = new StickyButton();
@@ -33,7 +33,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (robot.depositor.depositorServoState == Depositor.DepositorServoState.SCORING) {
+            if (robot.depositor.depositorServoState == DepositorTele.DepositorServoState.SCORING) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(
                                 -gamepad1.left_stick_y * 0.4,

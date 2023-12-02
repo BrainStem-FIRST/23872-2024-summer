@@ -1,11 +1,12 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.robotAuto;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-public class Lift {
+
+public class LiftAuto {
     public DcMotorEx liftMotor;
     private HardwareMap hardwareMap;
     private final Telemetry telemetry;
@@ -27,7 +28,7 @@ public class Lift {
     private final static int levelFourHeight = 788;
     private final static int levelFiveHeight = 1000;
 
-    public Lift(HardwareMap hardwareMap, Telemetry telemetry) {
+    public LiftAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
         pidController.setInputBounds(0, 1000);
