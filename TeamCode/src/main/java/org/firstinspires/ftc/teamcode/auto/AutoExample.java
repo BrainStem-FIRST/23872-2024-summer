@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.tuning.TuningOpModes;
 
 @Autonomous(name="Auto Test", group="Robot")
 public final class AutoExample extends LinearOpMode {
-    @Override
 
     public enum MarkerLocation {
         FOUR,
@@ -25,6 +24,7 @@ public final class AutoExample extends LinearOpMode {
 
     private MarkerLocation markerLocation;
 
+    @Override
     public void runOpMode() throws InterruptedException {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, -62, Math.toRadians(-90)));
