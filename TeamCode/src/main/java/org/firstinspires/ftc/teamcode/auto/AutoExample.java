@@ -56,21 +56,22 @@ public final class AutoExample extends LinearOpMode {
 
         waitForStart();
 
-        Actions.runBlocking(
-                new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setTangent(Math.toRadians(90))
-                                .splineTo(new Vector2d(12, -36), Math.toRadians(-90))
-                                .turn(depositTurn)
-                                .build(),
-                        collector.collectorOutAction(),
-                        new SleepAction(1.0),
-                        collector.collectorOffAction(),
-                        drive.actionBuilder(drive.pose)
-                                .setTangent(Math.toRadians(90))
-                                .splineTo(new Vector2d(50, deliveryYPos), Math.toRadians(-90))
-                                .build()
-                )
-        );
+        while (!isStopRequested()) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineTo(new Vector2d(12, -36), Math.toRadians(-90))
+                                    .turn(depositTurn)
+                                    .build(),
+                            collector.collectorOutAction(),
+                            collector.collectorOffAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineTo(new Vector2d(50, deliveryYPos), Math.toRadians(-90))
+                                    .build()
+                    )
+            );
+        }
     }
 }
