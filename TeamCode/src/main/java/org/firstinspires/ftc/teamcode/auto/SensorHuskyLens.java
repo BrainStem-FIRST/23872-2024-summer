@@ -46,7 +46,7 @@ public class SensorHuskyLens extends LinearOpMode {
         // for test purposes, return a known value
         // delete this segment when team prop is available
         //        return 1;
-
+        telemetry.addData("Block List: ", blocks);
         if (blocks.length == 1) {
             if (blocks[0].x < 110) {
                 // Prop is on left
@@ -71,7 +71,7 @@ public class SensorHuskyLens extends LinearOpMode {
     @Override
     public void runOpMode()
     {
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
         /*
          * This sample rate limits the reads solely to allow a user time to observe
