@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode.robotAuto;
 import static org.firstinspires.ftc.teamcode.robotTele.DepositorTele.DepositorServoState.RESTING;
 import static org.firstinspires.ftc.teamcode.robotTele.DepositorTele.DepositorServoState.SCORING;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
@@ -14,7 +18,7 @@ public class DepositorAuto {
     private final Telemetry telemetry;
     private HardwareMap hardwareMap;
     public DepositorServoState depositorServoState = DepositorServoState.RESTING;
-    public PixelState pixelState = PixelState.DROP;
+    public PixelState pixelState = PixelState.HOLD;
     private final ServoImplEx LeftDepositor;
     private final ServoImplEx RightDepositor;
     private final ServoImplEx TopPixHold;
@@ -43,8 +47,25 @@ public class DepositorAuto {
         BottomPixHold.setPwmRange(new PwmControl.PwmRange(BOTTOM_PIX_HOLD_MAX, BOTTOM_PIX_HOLD_MIN));
     }
 
+
     public enum PixelState {
         HOLD, DROP
+    }
+
+    public Action pixelDropAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    pixelDrop();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
     }
 
     public void pixelState() {
@@ -59,13 +80,47 @@ public class DepositorAuto {
             }
         }
     }
+
+    public Action depositorScoringAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    depositorScoring();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+    public Action depositorRestingAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    depositorResting();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
     public void pixelHold() {
         TopPixHold.setPosition(0.01);
         BottomPixHold.setPosition(0.01);
     }
     private void pixelDrop() {
-        TopPixHold.setPosition(0.99);
-        BottomPixHold.setPosition(0.99);
+        telemetry.addData("Pixel Dropped", "True");
+        telemetry.update();
+        TopPixHold.setPosition(0.7);
+        BottomPixHold.setPosition(0.7);
     }
     public enum DepositorServoState {
         RESTING, SCORING
