@@ -27,35 +27,8 @@ public final class RedAutoBackdrop extends LinearOpMode {
     int targetTagPos = -1;
     int targetBlockPos = -1; // The block of interest within the blocks array.
 
-    int getTargetTag(HuskyLens.Block[] blocks) {
-//        telemetry.addData("ID 1", "True");
-//        telemetry.addData("ID 2", "True");
-//        updateTelemetry();
 
-        int propPos;
-        // for test purposes, return a known value
-        // delete this segment when team prop is available
-        //        return 1;
-        telemetry.addData("Block List: ", blocks);
-        if (blocks.length == 1) {
-            if (blocks[0].x < 110) {
-                // Prop is on left
-                propPos = 4;
-            } else if (blocks[0].x > 210) {
-                // prop is on right
-                propPos = 6;
-            } else {
-                // prop is on center
-                propPos = 5;
-            }
-        } else {
-            // could not recognize; return center
-            propPos = 5;
-        }
 
-        return propPos;
-
-    }
 
 
     @Override
@@ -119,13 +92,15 @@ public final class RedAutoBackdrop extends LinearOpMode {
 //        rateLimit.reset();
 
         blocks = huskyLens.blocks();
-        telemetry.addData("amount of blocks", blocks.length);
+
         double turn = 0;
         double yPos = -36;
 
         while (!isStarted()) {
+            blocks = huskyLens.blocks();
+            telemetry.addData("amount of blocks", blocks.length);
+            telemetry.update();
             if (blocks.length != 0) {
-                blocks = huskyLens.blocks();
                 switch(blocks[0].x) {
                     case 4: {
                         turn = -90;

@@ -11,7 +11,7 @@ public class BrainSTEMRobotTele {
     public TransferTele transfer;
     public DepositorTele depositor;
     public LiftTele lift;
-    public HangingTele hanging;
+//    public HangingTele hanging;
 
     public BrainSTEMRobotTele(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -19,7 +19,7 @@ public class BrainSTEMRobotTele {
 
 
         collector = new CollectorTele(hardwareMap, telemetry);
-        hanging = new HangingTele(hardwareMap, telemetry);
+//        hanging = new HangingTele(hardwareMap, telemetry);
         transfer = new TransferTele(hardwareMap, telemetry);
         depositor = new DepositorTele(hardwareMap, telemetry);
         lift = new LiftTele(hardwareMap, telemetry);
@@ -28,8 +28,8 @@ public class BrainSTEMRobotTele {
     public void update() {
         telemetry.addData("collectorState", collector.collectorState);
         collector.setCollectorState();
-        hanging.hangingState();
-        hanging.setServoState();
+//        hanging.hangingState();
+//        hanging.setServoState();
         transfer.transferState();
         depositor.depositorServoState(lift);
         depositor.pixelState();
