@@ -120,7 +120,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 //                robot.hanging.setUnlockState();
 //                telemetry.addLine("hanging unlock");
 
-            }
+
 //drone release
             if (gamepad2.right_trigger > 0.2) {
                 robot.drone.setClaspServo();
@@ -163,5 +163,6 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             robot.update();
         }
     }
+}
 
 
