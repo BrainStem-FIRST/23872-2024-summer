@@ -122,11 +122,11 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
             }
 //drone release
-//            if (gamepad2.a) {
-//                robot.drone.setClaspServo();
-//            } else if (gamepad2.b) {
-//                robot.drone.setReleaseServo();
-//            }
+            if (gamepad2.right_trigger > 0.2) {
+                robot.drone.setClaspServo();
+            } else if (gamepad2.left_trigger > 0.2) {
+                robot.drone.setReleaseServo();
+            }
 //lift and depositor
 
             stickyButtonA.update(gamepad1.a);

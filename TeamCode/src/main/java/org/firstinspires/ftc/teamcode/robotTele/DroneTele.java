@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robotTele;
 
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -18,7 +19,14 @@ public class DroneTele {
         this.hardwareMap = hardwareMap;
 
         droneServo = new CachingServo(hardwareMap.get(ServoImplEx.class, "DroneServo"));
+
+        droneServo.setPwmRange(new PwmControl.PwmRange(DroneServo_MAX, DroneServo_MIN));
+
     }
+
+    private static final double DroneServo_MAX = 1840;
+    private static final double DroneServo_MIN = 1500;
+
 
     public enum ServoState {
         CLASP, RELEASE
