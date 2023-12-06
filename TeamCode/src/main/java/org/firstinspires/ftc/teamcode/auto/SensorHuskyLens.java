@@ -42,6 +42,8 @@ public class SensorHuskyLens extends LinearOpMode {
 //        telemetry.addData("ID 2", "True");
 //        updateTelemetry();
 
+
+
         int propPos;
         // for test purposes, return a known value
         // delete this segment when team prop is available
@@ -55,7 +57,7 @@ public class SensorHuskyLens extends LinearOpMode {
                 // prop is on right
                 propPos = (a == alliance.BLUE) ? 3 : 6;
             } else {
-                // prop is on center
+                // prop is on center\
                 propPos = (a == alliance.BLUE) ? 2 : 5;
             }
         } else {
@@ -65,7 +67,13 @@ public class SensorHuskyLens extends LinearOpMode {
             propPos = (a == alliance.BLUE) ? 2 : 5;
         }
 
+        telemetry.addData("Thing location  :", blocks[0].x);
+telemetry.update();
+
         return propPos;
+
+
+
 
     }
 
@@ -173,10 +181,7 @@ public class SensorHuskyLens extends LinearOpMode {
                 sleep(20);
             }
             telemetry.update();
-
-
         }
-
 
     }
 }

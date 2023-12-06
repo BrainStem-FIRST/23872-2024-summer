@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
@@ -37,67 +38,37 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
-        /*
-         * This sample rate limits the reads solely to allow a user time to observe
-         * what is happening on the Driver Station telemetry.  Typical applications
-         * would not likely rate limit.
-         */
-        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
+//        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
 
-        /*
-         * Immediately expire so that the first time through we'll do the read.
-         */
+//        rateLimit.expire();
 
-        rateLimit.expire();
 
-        /*
-         * Basic check to see if the device is alive and communicating.  This is not
-         * technically necessary here as the HuskyLens class does this in its
-         * doInitialization() method which is called when the device is pulled out of
-         * the hardware map.  However, sometimes it's unclear why a device reports as
-         * failing on initialization.  In the case of this device, it's because the
-         * call to knock() failed.
-         */
         if (!huskyLens.knock()) {
             telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
         } else {
             telemetry.addData(">>", "Press start to continue");
         }
 
-        /*
-         * The device uses the concept of an algorithm to determine what types of
-         * objects it will look for and/or what mode it is in.  The algorithm may be
-         * selected using the scroll wheel on the device, or via software as shown in
-         * the call to selectAlgorithm().
-         *
-         * The SDK itself does not assume that the user wants a particular algorithm on
-         * startup, and hence does not set an algorithm.
-         *
-         * Users, should, in general, explicitly choose the algorithm they want to use
-         * within the OpMode by calling selectAlgorithm() and passing it one of the values
-         * found in the enumeration HuskyLens.Algorithm.
-         */
-        //huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         telemetry.update();
 
 
-//        if (!rateLimit.hasExpired()) {
-//            continue;
-//        }
-//        rateLimit.reset();
+
 
         blocks = huskyLens.blocks();
 
         double turn = 0;
         double yPos = -36;
         int line = 4;
+        int counter = 0;
 
-        while (!isStarted()) {
+        while (!isStarted() && !isStopRequested()) {
             blocks = huskyLens.blocks();
             telemetry.addData("amount of blocks", blocks.length);
-            telemetry.update();
+            telemetry.addData("counter", counter);
+            counter ++;
+//            telemetry.update();
             if (blocks.length != 0) {
                 if (blocks[0].x < 50) {
                     // Prop is on left
@@ -143,6 +114,8 @@ public final class RedAutoBackdrop extends LinearOpMode {
                 telemetry.addData("Line", line);
                 telemetry.addData("Y Position", yPos);
                 telemetry.addData("Turn", turn);
+                telemetry.addData("Thing location  :", blocks[0].x);
+
                 telemetry.update();
             }
 
@@ -169,9 +142,8 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             depositor.depositorRestingAction(),
                             new SleepAction(2.0),
                             drive.actionBuilder(drive.pose)
-                                    .strafeTo(new Vector2d(55, -55))
+                                    .strafeTo(new Vector2d(58, -55))
                                     .build()
-
                     )
             );
         }
