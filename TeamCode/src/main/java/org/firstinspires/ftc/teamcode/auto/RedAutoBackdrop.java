@@ -28,9 +28,6 @@ public final class RedAutoBackdrop extends LinearOpMode {
     int targetBlockPos = -1; // The block of interest within the blocks array.
 
 
-
-
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -95,32 +92,44 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
         double turn = 0;
         double yPos = -36;
+        int line = 4;
 
         while (!isStarted()) {
             blocks = huskyLens.blocks();
             telemetry.addData("amount of blocks", blocks.length);
             telemetry.update();
             if (blocks.length != 0) {
-                switch(blocks[0].x) {
-                    case 4: {
-                        turn = 0;
-                        yPos = -32;
-                        break;
-                    }
-                    case 5: {
-                        turn = 90;
-                        yPos = -36;
-                        break;
-                    }
-                    case 6: {
-                        turn = 180;
-                        yPos = -40;
-                        break;
-                    }
-                }
+                if (blocks[0].x < 50) {
+                    // Prop is on left
+                    line = 4;
+                } else if (blocks[0].x > 280) {
+                    // prop is on right
+                    line = 6;
+                } else if (blocks[0].x > 50 && blocks[0].x < 280) {
+                    // prop is on center
+                    line = 5;
 
-            } else {
-                telemetry.addLine("Don't see the prop :(");
+
+                    switch (line) {
+                        case 4: {
+                            turn = 0;
+                            yPos = -28;
+                            break;
+                        }
+                        case 5: {
+                            turn = -90;
+                            yPos = -32;
+                            break;
+                        }
+                        case 6: {
+                            turn = 180;
+                            yPos = -40;
+                            break;
+                        }
+                    }
+
+                } else {
+                    telemetry.addLine("Don't see the prop :(");
 
 //                if (targetTagPos == -1) {
 //                    telemetry.addLine("(The prop has never been seen)");
@@ -129,39 +138,42 @@ public final class RedAutoBackdrop extends LinearOpMode {
 //                    telemetry.addData("which was: ", targetTagPos);
 //                }
 
-                sleep(20);
+                    sleep(20);
+                }
+                telemetry.addData("Line", line);
+                telemetry.addData("Y Position", yPos);
+                telemetry.addData("Turn", turn);
+                telemetry.update();
             }
-            telemetry.addData("Y Position", yPos);
-            telemetry.addData("Turn", turn);
-            telemetry.update();
+
+            waitForStart();
+
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineTo(new Vector2d(10, -36), Math.toRadians(turn))
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(0.8),
+                            collector.collectorOffAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineTo(new Vector2d(30, -60), Math.toRadians(-90))
+                                    .splineTo(new Vector2d(58, yPos), Math.toRadians(-90))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(2.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(2.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(2.0),
+                            drive.actionBuilder(drive.pose)
+                                    .strafeTo(new Vector2d(55, -55))
+                                    .build()
+
+                    )
+            );
         }
-
-        waitForStart();
-
-        Actions.runBlocking(
-                new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setTangent(Math.toRadians(90))
-                                .splineTo(new Vector2d(10, -36), Math.toRadians(turn))
-                                .build(),
-                        collector.collectorOutAction(),
-                        new SleepAction(0.8),
-                        collector.collectorOffAction(),
-                        drive.actionBuilder(drive.pose)
-                                .setTangent(Math.toRadians(0))
-                                .splineTo(new Vector2d(55, yPos), Math.toRadians(-90))
-                                .build(),
-                        depositor.depositorScoringAction(),
-                        new SleepAction(2.0),
-                        depositor.pixelDropAction(),
-                        new SleepAction(2.0),
-                        depositor.depositorRestingAction(),
-                        new SleepAction(2.0),
-                        drive.actionBuilder(drive.pose)
-                                .strafeTo(new Vector2d(55, -55))
-                                .build()
-
-                )
-        );
     }
 }

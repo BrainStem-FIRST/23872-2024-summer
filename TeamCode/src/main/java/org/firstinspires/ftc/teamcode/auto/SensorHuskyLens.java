@@ -48,10 +48,10 @@ public class SensorHuskyLens extends LinearOpMode {
         //        return 1;
         telemetry.addData("Block List: ", blocks);
         if (blocks.length == 1) {
-            if (blocks[0].x < 110) {
+            if (blocks[0].x < 50) {
                 // Prop is on left
                 propPos = (a == alliance.BLUE) ? 1 : 4;
-            } else if (blocks[0].x > 210) {
+            } else if (blocks[0].x > 280) {
                 // prop is on right
                 propPos = (a == alliance.BLUE) ? 3 : 6;
             } else {
