@@ -103,17 +103,17 @@ public final class RedAutoBackdrop extends LinearOpMode {
             if (blocks.length != 0) {
                 switch(blocks[0].x) {
                     case 4: {
-                        turn = -90;
+                        turn = 0;
                         yPos = -32;
                         break;
                     }
                     case 5: {
-                        turn = 0;
+                        turn = 90;
                         yPos = -36;
                         break;
                     }
                     case 6: {
-                        turn = 90;
+                        turn = 180;
                         yPos = -40;
                         break;
                     }

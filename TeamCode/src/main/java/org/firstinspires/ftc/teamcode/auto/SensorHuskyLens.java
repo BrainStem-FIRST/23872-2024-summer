@@ -59,6 +59,8 @@ public class SensorHuskyLens extends LinearOpMode {
                 propPos = (a == alliance.BLUE) ? 2 : 5;
             }
         } else {
+            telemetry.addData("Did not see prop", "True");
+            telemetry.update();
             // could not recognize; return center
             propPos = (a == alliance.BLUE) ? 2 : 5;
         }
@@ -66,6 +68,8 @@ public class SensorHuskyLens extends LinearOpMode {
         return propPos;
 
     }
+
+
 
 
     @Override
