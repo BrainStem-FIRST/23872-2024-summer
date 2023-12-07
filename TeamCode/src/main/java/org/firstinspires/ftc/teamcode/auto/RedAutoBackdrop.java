@@ -125,15 +125,14 @@ public final class RedAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineTo(new Vector2d(12, -30), Math.toRadians(90))
+                                    .splineTo(new Vector2d(12, -30), Math.toRadians(turn))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.8),
                             collector.collectorOffAction(),
                             drive.actionBuilder(drive.pose)
-                                    .lineToY(-50)
                                     .setTangent(Math.toRadians(0))
-                                    .splineTo(new Vector2d(58, -40), Math.toRadians(-90))
+                                    .splineTo(new Vector2d(55, yPos), Math.toRadians(-90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
@@ -142,7 +141,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             depositor.depositorRestingAction(),
                             new SleepAction(2.0),
                             drive.actionBuilder(drive.pose)
-                                    .strafeTo(new Vector2d(58, -55))
+                                    .strafeTo(new Vector2d(58, -70))
                                     .build()
                     )
             );
