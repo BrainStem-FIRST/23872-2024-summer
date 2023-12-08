@@ -28,7 +28,6 @@ public final class RedAutoBackdrop extends LinearOpMode {
     int targetTagPos = -1;
     int targetBlockPos = -1; // The block of interest within the blocks array.
 
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -37,10 +36,6 @@ public final class RedAutoBackdrop extends LinearOpMode {
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
-
-//        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
-
-//        rateLimit.expire();
 
 
         if (!huskyLens.knock()) {
@@ -101,13 +96,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
                 } else {
                     telemetry.addLine("Don't see the prop :(");
-
-//                if (targetTagPos == -1) {
-//                    telemetry.addLine("(The prop has never been seen)");
-//                } else {
-//                    telemetry.addLine("\nBut we HAVE seen the prop before");
-//                    telemetry.addData("which was: ", targetTagPos);
-//                }
+                    
 
                     sleep(20);
                 }
@@ -141,7 +130,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             depositor.depositorRestingAction(),
                             new SleepAction(2.0),
                             drive.actionBuilder(drive.pose)
-                                    .strafeTo(new Vector2d(58, -70))
+                                    .strafeTo(new Vector2d(58, -65))
                                     .build()
                     )
             );

@@ -12,7 +12,7 @@ public class BrainSTEMRobotTele {
     public DepositorTele depositor;
     public LiftTele lift;
 //    public HangingTele hanging;
-    public HangingTele hanging;
+//    public HangingTele hanging;
     public DroneTele drone;
 
     public BrainSTEMRobotTele(HardwareMap hardwareMap, Telemetry telemetry) {
