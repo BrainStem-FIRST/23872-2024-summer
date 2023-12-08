@@ -23,12 +23,12 @@ public class LiftTele {
     private final static int levelTwoHeight = 326;
     private final static int levelThreeHeight = 553;
     private final static int levelFourHeight = 788;
-    private final static int levelFiveHeight = 1030;
+    private final static int levelFiveHeight = 1080;
 
     public LiftTele(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        pidController.setInputBounds(0, 1030);
+        pidController.setInputBounds(0, 1080);
         pidController.setOutputBounds(-0.25, 1);
         liftMotor = new org.firstinspires.ftc.teamcode.util.CachingMotor(hardwareMap.get(DcMotorEx.class, "Lift"));
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
