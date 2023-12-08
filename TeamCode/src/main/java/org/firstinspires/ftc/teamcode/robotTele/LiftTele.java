@@ -13,25 +13,23 @@ public class LiftTele {
     public int levelCounter = 0;
 
 
-
     private final static double kP = 0.85;
-    //kP value not working.. needs tuning
     private final static double kI = 0.0;
     private final static double kD = 0.0;
-    private final static double kS = 0.002;
+    private final static double kS = 0.02;
     PIDController pidController = new PIDController(kP, kI, kD);
     private final static int levelZeroHeight = 0;
     private final static int levelOneHeight = 108;
     private final static int levelTwoHeight = 326;
     private final static int levelThreeHeight = 553;
     private final static int levelFourHeight = 788;
-    private final static int levelFiveHeight = 1000;
+    private final static int levelFiveHeight = 1030;
 
     public LiftTele(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        pidController.setInputBounds(0, 1000);
-        pidController.setOutputBounds(-1, 1);
+        pidController.setInputBounds(0, 1030);
+        pidController.setOutputBounds(-0.25, 1);
         liftMotor = new org.firstinspires.ftc.teamcode.util.CachingMotor(hardwareMap.get(DcMotorEx.class, "Lift"));
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -85,7 +83,8 @@ public class LiftTele {
     }
             public void setLiftHeight(int liftHeight) {
                 pidController.setTarget(liftHeight);
-                double error = liftHeight - liftMotor.getCurrentPosition();
+                double currentPosition = liftMotor.getCurrentPosition();
+                double error = liftHeight - currentPosition;
                 if (Math.abs(error) < 5){
                     error = 0;
                 }
@@ -93,9 +92,13 @@ public class LiftTele {
                 if (Math.abs(error) < 25){
                     power = power/4;
                 }
+                if (liftHeight < 25 && currentPosition < 25) {
+                    power = 0;
+                }
                 liftMotor.setPower(power);
                 telemetry.addData("liftError", error);
                 telemetry.addData("liftPower", power);
+                telemetry.addData("currentPosition", currentPosition);
                 telemetry.addData("liftTarget", liftHeight);
 
             }

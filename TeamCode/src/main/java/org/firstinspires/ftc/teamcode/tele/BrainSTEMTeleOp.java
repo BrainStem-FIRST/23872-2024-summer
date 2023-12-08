@@ -92,7 +92,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 
             if (retractionInProgress) {
-                if (retractionTime.seconds() > 0.5) {
+                if (retractionTime.seconds() > 1.0) {
                     robot.depositor.setRestingState();
                 }
                 if (retractionTime.seconds() > 1.0) {
@@ -154,11 +154,11 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 
 
-//            stickyButtonA.update(gamepad1.a);
-//            if (stickyButtonA.getState()) {
-//                robot.lift.setLiftZero();
-//                telemetry.addLine("LiftZero");
-//            }
+            stickyButtonA.update(gamepad1.a);
+            if (stickyButtonA.getState()) {
+                robot.lift.setLiftZero();
+                telemetry.addLine("LiftZero");
+            }
 
             robot.update();
         }

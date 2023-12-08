@@ -22,7 +22,6 @@ public class BrainSTEMRobotTele {
 
         collector = new CollectorTele(hardwareMap, telemetry);
 //        hanging = new HangingTele(hardwareMap, telemetry);
-        hanging = new HangingTele(hardwareMap, telemetry);
         drone = new DroneTele(hardwareMap, telemetry);
         transfer = new TransferTele(hardwareMap, telemetry);
         depositor = new DepositorTele(hardwareMap, telemetry);
@@ -34,8 +33,6 @@ public class BrainSTEMRobotTele {
         collector.setCollectorState();
 //        hanging.hangingState();
 //        hanging.setServoState();
-        hanging.hangingState();
-        hanging.setServoState();
         drone.setServoState();
         transfer.transferState();
         depositor.depositorServoState(lift);
