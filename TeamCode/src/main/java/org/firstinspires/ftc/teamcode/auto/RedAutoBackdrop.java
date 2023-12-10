@@ -51,19 +51,19 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
 
 
-        blocks = huskyLens.blocks();
+//        blocks = huskyLens.blocks();
 
         double turn = 0;
         double yPos = -36;
         int line = 4;
         int counter = 0;
 
-        while (!isStarted() && !isStopRequested()) {
+        while (!isStopRequested()) {
             blocks = huskyLens.blocks();
             telemetry.addData("amount of blocks", blocks.length);
             telemetry.addData("counter", counter);
             counter ++;
-//            telemetry.update();
+            telemetry.update();
             if (blocks.length != 0) {
                 if (blocks[0].x < 50) {
                     // Prop is on left
