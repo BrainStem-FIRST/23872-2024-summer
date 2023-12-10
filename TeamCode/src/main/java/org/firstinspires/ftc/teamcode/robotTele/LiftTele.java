@@ -168,5 +168,8 @@ public class LiftTele {
     public void setLiftFive() {
         liftState = LiftState.FIVE;
     }
+    public void resetEncoders() {
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
 }

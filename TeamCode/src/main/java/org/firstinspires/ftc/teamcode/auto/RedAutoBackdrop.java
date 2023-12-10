@@ -75,11 +75,11 @@ public final class RedAutoBackdrop extends LinearOpMode {
             while (!isStarted() && !isStopRequested()) {
 
                 // Read the scene
-                blocks = robot.huskyLens.blocks();
+//                blocks = robot.huskyLens.blocks();
                 telemetry.addData("amount of blocks", blocks.length);
 
                 if (blocks.length != 0) {
-                    targetTagPos = getTargetTag(blocks, alliance());
+//                    targetTagPos = getTargetTag(blocks, alliance());
                     telemetry.addData("Found target prop: ", targetTagPos);
                 } else {
                     telemetry.addLine("Don't see the prop :(");
@@ -149,6 +149,6 @@ public final class RedAutoBackdrop extends LinearOpMode {
 //                                    .build()
 //                    )
 //            );
-//        }
-//    }
-//}
+        }
+    }
+}}
