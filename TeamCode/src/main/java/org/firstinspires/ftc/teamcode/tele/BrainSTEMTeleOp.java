@@ -82,22 +82,22 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.transfer.transferState();
             }
 
-//            if (gamepad2.right_trigger > 0.2) {
-//                robot.collector.setCollectorIn();
-//                robot.collector.setCollectorState();
-//                robot.transfer.setTransferIn();
-//                robot.transfer.transferState();
-//            } else if (gamepad2.left_trigger > 0.2) {
-//                robot.collector.setCollectorOut();
-//                robot.collector.setCollectorState();
-//                robot.transfer.setTransferOut();
-//                robot.transfer.transferState();
-//            } else {
-//                robot.collector.setCollectorOff();
-//                robot.collector.setCollectorState();
-//                robot.transfer.setTransferOff();
-//                robot.transfer.transferState();
-//            }
+            if (gamepad2.right_trigger > 0.2) {
+                robot.collector.setCollectorIn();
+                robot.collector.setCollectorState();
+                robot.transfer.setTransferIn();
+                robot.transfer.transferState();
+            } else if (gamepad2.left_trigger > 0.2) {
+                robot.collector.setCollectorOut();
+                robot.collector.setCollectorState();
+                robot.transfer.setTransferOut();
+                robot.transfer.transferState();
+            } else {
+                robot.collector.setCollectorOff();
+                robot.collector.setCollectorState();
+                robot.transfer.setTransferOff();
+                robot.transfer.transferState();
+            }
 
 
 //pixel holder
@@ -118,6 +118,14 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 if (retractionTime.seconds() > 1.0) {
                     robot.lift.levelCounter = 0;
                     retractionInProgress = false;
+                    robot.collector.setCollectorOff();
+                }
+            }
+
+            if (gamepad1.left_bumper) {
+                elapsedTime.reset();
+                robot.collector.setCollectorOut();
+                if (elapsedTime.seconds() == 2) {
                     robot.collector.setCollectorOff();
                 }
             }
