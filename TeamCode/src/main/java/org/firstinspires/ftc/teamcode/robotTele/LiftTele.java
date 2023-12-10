@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robotTele;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -13,10 +14,10 @@ public class LiftTele {
     public int levelCounter = 0;
 
 
-    private final static double kP = 0.85;
+    private final static double kP = 0.01;
     private final static double kI = 0.0;
     private final static double kD = 0.0;
-    private final static double kS = 0.02;
+    private final static double kS = 0.04;
     PIDController pidController = new PIDController(kP, kI, kD);
     private final static int levelZeroHeight = 0;
     private final static int levelOneHeight = 108;
@@ -34,6 +35,7 @@ public class LiftTele {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         liftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public enum LiftState {
@@ -100,6 +102,7 @@ public class LiftTele {
                 telemetry.addData("liftPower", power);
                 telemetry.addData("currentPosition", currentPosition);
                 telemetry.addData("liftTarget", liftHeight);
+                telemetry.addData("lift encoder", liftMotor.getCurrentPosition());
 
             }
 
