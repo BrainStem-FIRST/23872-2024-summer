@@ -28,6 +28,8 @@ public class BrainSTEMTeleOp extends LinearOpMode {
         StickyButton stickyButtonB = new StickyButton();
         ToggleButton toggleButtonRightTrigger = new ToggleButton();
         ToggleButton toggleButtonLeftTrigger = new ToggleButton();
+        StickyButton gamepad2StickyButtonA = new StickyButton();
+        StickyButton gamepad2StickyButtonB = new StickyButton();
         ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -79,6 +81,24 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.transfer.setTransferOff();
                 robot.transfer.transferState();
             }
+
+            if (gamepad2.right_trigger > 0.2) {
+                robot.collector.setCollectorIn();
+                robot.collector.setCollectorState();
+                robot.transfer.setTransferIn();
+                robot.transfer.transferState();
+            } else if (gamepad2.left_trigger > 0.2) {
+                robot.collector.setCollectorOut();
+                robot.collector.setCollectorState();
+                robot.transfer.setTransferOut();
+                robot.transfer.transferState();
+            } else {
+                robot.collector.setCollectorOff();
+                robot.collector.setCollectorState();
+                robot.transfer.setTransferOff();
+                robot.transfer.transferState();
+            }
+
 
 //pixel holder
             if (gamepad1.right_bumper) {
@@ -141,14 +161,12 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.lift.updateLevel();
             }
 
-            stickyButtonLeftBumper.update(gamepad2.left_bumper);
-            stickyButtonRightBumper.update(gamepad2.right_bumper);
-            if (stickyButtonLeftBumper.getState()) {
-                robot.depositor.setScoringState();
+            gamepad2StickyButtonA.update(gamepad2.a);
+            gamepad2StickyButtonB.update(gamepad2.b);
+            if (gamepad2StickyButtonA.getState()) {
                 robot.lift.increaseLevel();
                 robot.lift.updateLevel();
-            } else if (stickyButtonRightBumper.getState()) {
-                robot.depositor.setRestingState();
+            } else if (gamepad2StickyButtonB.getState()) {
                 robot.lift.decreaseLevel();
                 robot.lift.updateLevel();
             }
