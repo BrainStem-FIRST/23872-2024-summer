@@ -50,15 +50,18 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
 
         double turn = 0;
-        double yPos = -36;
+        double yPos = -30;
         int line = 4;
-        int counter = 0;
-
+        int backup = 10;
+        int cnt = 0;
+        telemetry.addData("started", isStarted());
         while (!isStarted() && !isStopRequested()) {
             blocks = huskyLens.blocks();
-            counter++;
+            cnt++;
             telemetry.addData("amount of blocks", blocks.length);
-            telemetry.addData("counter", counter);
+            telemetry.addData("counter", cnt);
+            telemetry.addData("started", isStarted());
+
             telemetry.update();
             if (blocks.length != 0) {
                 if (blocks[0].x < 50) {
@@ -67,85 +70,77 @@ public final class RedAutoBackdrop extends LinearOpMode {
                 } else if (blocks[0].x > 280) {
                     // prop is on right
                     line = 6;
-                } else if (blocks[0].x > 50 && blocks[0].x < 280) {
+                } else  {
                     // prop is on center
                     line = 5;
-
-                    while (!isStarted() && !isStopRequested()) {
-
-                        // Read the scene
-//                blocks = robot.huskyLens.blocks();
-                        telemetry.addData("amount of blocks", blocks.length);
-
-                        if (blocks.length != 0) {
-//                    targetTagPos = getTargetTag(blocks, alliance());
-                            telemetry.addData("Found target prop: ", targetTagPos);
-                        } else {
-                            telemetry.addLine("Don't see the prop :(");
-
-                            if (targetTagPos == -1) {
-                                telemetry.addLine("(The prop has never been seen)");
-                            } else {
-                                telemetry.addLine("\nBut we HAVE seen the prop before");
-                                telemetry.addData("which was: ", targetTagPos);
-                            }
-
-                            switch (line) {
-                                case 4: {
-                                    turn = 0;
-                                    yPos = -28;
-                                    break;
-                                }
-                                case 5: {
-                                    turn = -90;
-                                    yPos = -32;
-                                    break;
-                                }
-                                case 6: {
-                                    turn = 180;
-                                    yPos = -40;
-                                    break;
-                                }
-                            }
-
-                            sleep(20);
-                        }
-                        telemetry.addData("Line", line);
-                        telemetry.addData("Y Position", yPos);
-                        telemetry.addData("Turn", turn);
-                        telemetry.addData("Thing location  :", blocks[0].x);
-
-                        telemetry.update();
-                    }
                 }
 
-                waitForStart();
-
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .setTangent(Math.toRadians(90))
-                                        .splineTo(new Vector2d(12, -30), Math.toRadians(turn))
-                                        .build(),
-                                collector.collectorOutAction(),
-                                new SleepAction(0.8),
-                                collector.collectorOffAction(),
-                                drive.actionBuilder(drive.pose)
-                                        .setTangent(Math.toRadians(0))
-                                        .splineTo(new Vector2d(55, yPos), Math.toRadians(-90))
-                                        .build(),
-                                depositor.depositorScoringAction(),
-                                new SleepAction(2.0),
-                                depositor.pixelDropAction(),
-                                new SleepAction(2.0),
-                                depositor.depositorRestingAction(),
-                                new SleepAction(2.0),
-                                drive.actionBuilder(drive.pose)
-                                        .strafeTo(new Vector2d(58, -65))
-                                        .build()
-                        )
-                );
+                switch (line) {
+                    case 4: {
+                        turn = 0;
+                        yPos = -30;
+                        backup = -30;
+                        break;
+                    }
+                    case 5: {
+                        turn = 90;
+                        // check this turn angle;
+                        yPos = -36;
+                        backup = -20;
+                        break;
+                    }
+                    case 6: {
+                        turn = 180;
+                        yPos = -45;
+                        backup = -30;
+                        break;
+                    }
+                }
             }
+
+
+            telemetry.addData("Line", line);
+            telemetry.addData("Y Position", yPos);
+            telemetry.addData("Turn", turn);
+            //        telemetry.addData("Thing location :", blocks[0].x);
+            telemetry.addData("started", isStarted());
+
+
+            telemetry.update();
+
         }
+        telemetry.addData("started after while", isStarted());
+
+        waitForStart();
+        telemetry.addData("Going for", line);
+        telemetry.update();
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setTangent(Math.toRadians(90))
+                                .splineTo(new Vector2d(12, backup), Math.toRadians(turn))
+                                .build(),
+                        collector.collectorOutAction(),
+                        new SleepAction(0.8),
+                        collector.collectorOffAction(),
+                        drive.actionBuilder(drive.pose)
+                                .setTangent(Math.toRadians(0))
+                                .splineTo(new Vector2d(55, yPos), Math.toRadians(-90))
+                                .build(),
+                        depositor.depositorScoringAction(),
+                        new SleepAction(2.0),
+                        depositor.pixelDropAction(),
+                        new SleepAction(2.0),
+                        depositor.depositorRestingAction(),
+                        new SleepAction(2.0),
+                        drive.actionBuilder(drive.pose)
+                                .strafeTo(new Vector2d(58, -65))
+                                .build()
+                )
+        );
     }
 }
+
+
+
+

@@ -48,7 +48,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         blocks = huskyLens.blocks();
 
         double turn = 0;
-        double yPos = -36;
+        double yPos = 30;
         int line = 4;
         int counter = 0;
 
@@ -73,7 +73,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     switch (line) {
                         case 4: {
                             turn = 0;
-                            yPos = 28;
+                            yPos = 30;
                             break;
                         }
                         case 5: {
@@ -107,14 +107,14 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineTo(new Vector2d(10, 35), Math.toRadians(180))
+                                    .splineTo(new Vector2d(10, 35), Math.toRadians(turn))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.65),
                             collector.collectorOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineTo(new Vector2d(55, 36), Math.toRadians(90))
+                                    .splineTo(new Vector2d(55, yPos), Math.toRadians(90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
