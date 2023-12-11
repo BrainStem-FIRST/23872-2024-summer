@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.robotTele.DepositorTele;
 @TeleOp (name = "TeleOp", group = "Robot")
 public class BrainSTEMTeleOp extends LinearOpMode {
     private boolean retractionInProgress = false;
+    private ElapsedTime waitForHolder = new ElapsedTime();
     private final ElapsedTime retractionTime = new ElapsedTime();
 
 
@@ -75,7 +76,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOut();
                 robot.transfer.transferState();
-            } else {
+            } else if (!(gamepad1.right_trigger > 0.2) && !(gamepad1.left_trigger > 0.2)){
                 robot.collector.setCollectorOff();
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOff();
@@ -92,7 +93,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOut();
                 robot.transfer.transferState();
-            } else {
+            } else if (!(gamepad2.right_trigger > 0.2) && !(gamepad2.left_trigger > 0.2)){
                 robot.collector.setCollectorOff();
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOff();
@@ -124,9 +125,12 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
             if (gamepad1.left_bumper) {
                 elapsedTime.reset();
-                robot.collector.setCollectorOut();
-                if (elapsedTime.seconds() == 2) {
-                    robot.collector.setCollectorOff();
+                    robot.collector.setCollectorOut();
+                    robot.transfer.setTransferOut();
+                    if (elapsedTime.seconds() == 7) {
+                        robot.collector.setCollectorOff();
+                        robot.transfer.setTransferOff();
+                    }
                 }
             }
 //depositor
@@ -195,6 +199,6 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             robot.update();
         }
     }
-}
+
 
 
