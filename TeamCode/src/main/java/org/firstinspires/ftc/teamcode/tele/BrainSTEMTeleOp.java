@@ -83,22 +83,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.transfer.transferState();
             }
 
-            if (gamepad2.right_trigger > 0.2) {
-                robot.collector.setCollectorIn();
-                robot.collector.setCollectorState();
-                robot.transfer.setTransferIn();
-                robot.transfer.transferState();
-            } else if (gamepad2.left_trigger > 0.2) {
-                robot.collector.setCollectorOut();
-                robot.collector.setCollectorState();
-                robot.transfer.setTransferOut();
-                robot.transfer.transferState();
-            } else if (!(gamepad2.right_trigger > 0.2) && !(gamepad2.left_trigger > 0.2)){
-                robot.collector.setCollectorOff();
-                robot.collector.setCollectorState();
-                robot.transfer.setTransferOff();
-                robot.transfer.transferState();
-            }
+
 
 
 //pixel holder
