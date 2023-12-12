@@ -41,10 +41,10 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             if (robot.depositor.depositorServoState == DepositorTele.DepositorServoState.SCORING) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(
-                                -gamepad1.left_stick_y * 0.4,
-                                -gamepad1.left_stick_x * 0.4
+                                -gamepad1.left_stick_y * 0.45,
+                                -gamepad1.left_stick_x * 0.45
                         ),
-                        -gamepad1.right_stick_x * 0.4));
+                        -gamepad1.right_stick_x * 0.45));
 
 
             } else {
@@ -57,6 +57,14 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 
             drive.updatePoseEstimate();
+
+            if (gamepad2.left_stick_button) {
+                robot.lift.setRawPower(-1);
+            }
+            if (gamepad2.right_stick_button) {
+                robot.lift.resetEncoders();
+
+            }
 
             if (gamepad1.left_stick_y == 1.0) {
                 robot.collector.setCollectorOff();
@@ -76,15 +84,12 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOut();
                 robot.transfer.transferState();
-            } else if (!(gamepad1.right_trigger > 0.2) && !(gamepad1.left_trigger > 0.2)){
+            } else if (!(gamepad1.right_trigger > 0.2) && !(gamepad1.left_trigger > 0.2)) {
                 robot.collector.setCollectorOff();
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOff();
                 robot.transfer.transferState();
             }
-
-
-
 
 //pixel holder
             if (gamepad1.right_bumper) {
@@ -97,6 +102,22 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 toggleButtonLeftTrigger.update(false);
             }
 
+
+            if (gamepad1.left_bumper) {
+                elapsedTime.reset();
+                robot.collector.setCollectorOut();
+                robot.transfer.setTransferOut();
+                if (elapsedTime.seconds() == 7) {
+                    robot.collector.setCollectorOff();
+                    robot.transfer.setTransferOff();
+                }
+            }
+//depositor
+            if (gamepad1.x) {
+                robot.depositor.setRestingState();
+            } else if (gamepad1.y) {
+                robot.depositor.setScoringState();
+            }
             if (retractionInProgress) {
                 if (retractionTime.seconds() > 1.0) {
                     robot.depositor.setRestingState();
@@ -107,35 +128,19 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                     robot.collector.setCollectorOff();
                 }
             }
-
-            if (gamepad1.left_bumper) {
-                elapsedTime.reset();
-                    robot.collector.setCollectorOut();
-                    robot.transfer.setTransferOut();
-                    if (elapsedTime.seconds() == 7) {
-                        robot.collector.setCollectorOff();
-                        robot.transfer.setTransferOff();
-                    }
-                }
-            }
-//depositor
-            if (gamepad1.x) {
-                robot.depositor.setRestingState();
-            } else if (gamepad1.y) {
-                robot.depositor.setScoringState();
-            }
 //hanging wind
 //            if (gamepad2.x) {
 //                robot.hanging.setHangingUnwind();
 //            } else if (gamepad2.y) {
 //                robot.hanging.setHangingWind();
-//            }
+////            }
 ////hanging servo
-//            if (gamepad2.a) {
-//                robot.hanging.setLockState();
-//            } else if (gamepad2.b) {
-//                robot.hanging.setUnlockState();
-//                telemetry.addLine("hanging unlock");
+            if (gamepad2.left_trigger > 0.2) {
+                robot.hanging.setLockState();
+            } else if (gamepad2.right_trigger > 0.2) {
+                robot.hanging.setUnlockState();
+                telemetry.addLine("hanging unlock");
+            }
 
 
 //drone release
@@ -170,20 +175,10 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 
 
-            stickyButtonA.update(gamepad1.a);
-            if (stickyButtonA.getState()) {
-                robot.lift.setLiftZero();
-                telemetry.addLine("LiftZero");
-            }
-
-            if (gamepad2.left_stick_button && gamepad2.right_stick_button) {
-                robot.lift.setRawPower(-1);
-                robot.lift.resetEncoders();
-            }
-
             robot.update();
         }
     }
+}
 
 
 
