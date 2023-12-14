@@ -59,7 +59,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             drive.updatePoseEstimate();
 
             if (gamepad2.left_stick_button) {
-                robot.lift.setRawPower(-1);
+                robot.lift.setRawPower(-.25);
             }
             if (gamepad2.right_stick_button) {
                 robot.lift.resetEncoders();
@@ -119,11 +119,13 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 }
             }
 //hanging wind
-//            if (gamepad2.x) {
-//                robot.hanging.setHangingUnwind();
-//            } else if (gamepad2.y) {
-//                robot.hanging.setHangingWind();
-////            }
+            if (gamepad2.y) {
+                robot.hanging.setHangingUnwind();
+            } else if (gamepad2.x) {
+                robot.hanging.setHangingWind();
+            } else {
+                robot.hanging.setHangingRest();
+            }
 ////hanging servo
             if (gamepad2.left_trigger > 0.2) {
                 robot.hanging.setLockState();
@@ -134,9 +136,9 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
 
 //drone release
-            if (gamepad2.right_bumper) {
+            if (gamepad2.left_bumper) {
                 robot.drone.setClaspServo();
-            } else if (gamepad2.left_bumper) {
+            } else if (gamepad2.right_bumper) {
                 robot.drone.setReleaseServo();
             }
 //lift and depositor
