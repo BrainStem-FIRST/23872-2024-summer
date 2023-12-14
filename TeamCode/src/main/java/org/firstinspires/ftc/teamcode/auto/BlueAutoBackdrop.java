@@ -52,6 +52,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         int line = 4;
         int counter = 0;
         int tan = 0;
+        int bkdturn = 0;
 
         telemetry.addData("started", isStarted());
         while (!isStarted() && !isStopRequested()) {
@@ -69,7 +70,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                 } else if (blocks[0].x > 260) {
                     // prop is on right
                     line = 3;
-                } else if (blocks[0].x > 50 && blocks[0].x < 280) {
+                } else {
                     // prop is on center
                     line = 2;
                 }
@@ -79,18 +80,21 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             turn = -90;
                             yPos = 45;
                             tan = 0;
+                            bkdturn = 180;
                             break;
                         }
                         case 2: {
                             turn = 180;
-                            yPos = 40;
+                            yPos = 38;
                             tan = 0;
+                            bkdturn = -90;
                             break;
                         }
                         case 3: {
                             turn = -90;
-                            yPos = 33;
+                            yPos = 30;
                             tan = 180;
+                            bkdturn = 0;
                             break;
                         }
                     }
@@ -114,14 +118,20 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
                                         .setTangent(Math.toRadians(tan))
-                                        .splineTo(new Vector2d(14, 25), Math.toRadians(turn))
+                                        .splineTo(new Vector2d(14, 30), Math.toRadians(turn))
                                         .build(),
                                 collector.collectorOutAction(),
                                 new SleepAction(0.65),
                                 collector.collectorOffAction(),
+// Pull robot back to clear the spikes
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(90))
+                                        .splineTo(new Vector2d(14, 55), Math.toRadians(90))
+                                        .build(),
+ // Move robot to backdrop
                                 drive.actionBuilder(drive.pose)
                                         .setTangent(Math.toRadians(0))
-                                        .splineTo(new Vector2d(62, yPos), Math.toRadians(90))
+                                        .splineTo(new Vector2d(62, yPos), Math.toRadians(bkdturn))
                                         .build(),
                                 depositor.depositorScoringAction(),
                                 new SleepAction(2.0),
