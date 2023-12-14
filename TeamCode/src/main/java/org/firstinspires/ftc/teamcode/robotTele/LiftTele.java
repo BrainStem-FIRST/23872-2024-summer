@@ -146,6 +146,7 @@ public class LiftTele {
     }
 
     public void setRawPower (double power){
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftMotor.setPower(power);
     }
 
@@ -168,7 +169,7 @@ public class LiftTele {
     public void setLiftFive() {
         liftState = LiftState.FIVE;
     }
-    public void resetEncoders() {
+    public void  resetEncoders() {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
