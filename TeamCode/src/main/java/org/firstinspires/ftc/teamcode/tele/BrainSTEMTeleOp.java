@@ -58,12 +58,10 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
             drive.updatePoseEstimate();
 
-            if (gamepad2.left_stick_button) {
-                robot.lift.setRawPower(-.25);
-            }
-            if (gamepad2.right_stick_button) {
+            if (gamepad2.right_stick_button && gamepad2.left_stick_button) {
                 robot.lift.resetEncoders();
-
+            } else if (gamepad2.left_stick_button) {
+                robot.lift.setRawPower(-.45);
             }
 
             if (gamepad1.left_stick_y == 1.0) {
@@ -147,12 +145,12 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             stickyButtonB.update(gamepad1.b);
             if (stickyButtonA.getState()) {
                 robot.depositor.setScoringState();
-                robot.lift.increaseLevel();
-                robot.lift.updateLevel();
+//                robot.lift.increaseLevel();
+//                robot.lift.updateLevel();
             } else if (stickyButtonB.getState()) {
                 robot.depositor.setRestingState();
-                robot.lift.decreaseLevel();
-                robot.lift.updateLevel();
+//                robot.lift.decreaseLevel();
+//                robot.lift.updateLevel();
             }
 
             gamepad2StickyButtonA.update(gamepad2.a);
