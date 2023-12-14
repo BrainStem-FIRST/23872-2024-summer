@@ -51,82 +51,91 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         double yPos = 30;
         int line = 4;
         int counter = 0;
+        int tan = 0;
 
+        telemetry.addData("started", isStarted());
         while (!isStarted() && !isStopRequested()) {
             blocks = huskyLens.blocks();
+            counter++;
             telemetry.addData("amount of blocks", blocks.length);
             telemetry.addData("counter", counter);
-            counter ++;
-//            telemetry.update();
+            telemetry.addData("started", isStarted());
+
+            telemetry.update();
             if (blocks.length != 0) {
                 if (blocks[0].x < 50) {
                     // Prop is on left
-                    line = 4;
-                } else if (blocks[0].x > 280) {
+                    line = 1;
+                } else if (blocks[0].x > 260) {
                     // prop is on right
-                    line = 6;
+                    line = 3;
                 } else if (blocks[0].x > 50 && blocks[0].x < 280) {
                     // prop is on center
-                    line = 5;
-
+                    line = 2;
+                }
 
                     switch (line) {
-                        case 4: {
-                            turn = 0;
-                            yPos = 30;
-                            break;
-                        }
-                        case 5: {
+                        case 1: {
                             turn = -90;
-                            yPos = 32;
+                            yPos = 45;
+                            tan = 0;
                             break;
                         }
-                        case 6: {
+                        case 2: {
                             turn = 180;
                             yPos = 40;
+                            tan = 0;
+                            break;
+                        }
+                        case 3: {
+                            turn = -90;
+                            yPos = 33;
+                            tan = 180;
                             break;
                         }
                     }
 
-                } else {
-                    telemetry.addLine("Don't see the prop");
+                    telemetry.addData("Line", line);
+                    telemetry.addData("Y Position", yPos);
+                    telemetry.addData("Turn", turn);
+                    telemetry.addData("Thing location  :", blocks[0].x);
 
-                    sleep(20);
+
+                    telemetry.update();
                 }
-                telemetry.addData("Line", line);
-                telemetry.addData("Y Position", yPos);
-                telemetry.addData("Turn", turn);
-                telemetry.addData("Thing location  :", blocks[0].x);
 
-                telemetry.update();
             }
+                telemetry.addData("started after while", isStarted());
 
-            waitForStart();
-
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineTo(new Vector2d(10, 35), Math.toRadians(turn))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(0.65),
-                            collector.collectorOffAction(),
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineTo(new Vector2d(55, yPos), Math.toRadians(90))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(2.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(2.0),
-                            drive.actionBuilder(drive.pose)
-                                    .strafeTo(new Vector2d(58, 65))
-                                    .build()
-                    )
-            );
-        }
+                waitForStart();
+                telemetry.addData("Going for", line);
+                telemetry.update();
+                Actions.runBlocking(
+                        new SequentialAction(
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(tan))
+                                        .splineTo(new Vector2d(14, 25), Math.toRadians(turn))
+                                        .build(),
+                                collector.collectorOutAction(),
+                                new SleepAction(0.65),
+                                collector.collectorOffAction(),
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(0))
+                                        .splineTo(new Vector2d(62, yPos), Math.toRadians(90))
+                                        .build(),
+                                depositor.depositorScoringAction(),
+                                new SleepAction(2.0),
+                                depositor.pixelDropAction(),
+                                new SleepAction(2.0),
+                                depositor.depositorRestingAction(),
+                                new SleepAction(2.0),
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(90))
+                                        .strafeTo(new Vector2d(62, 70))
+                                        .build()
+                        )
+                );
     }
 }
+
+

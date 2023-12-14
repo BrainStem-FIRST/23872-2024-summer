@@ -26,8 +26,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
     // Determine the prop position
     int targetTagPos = -1;
-    int targetBlockPos = -1; // The block of interest within the blocks array.
-
+    int targetBlockPos = -1; // The block of interest within the blocks array.e
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -52,8 +51,9 @@ public final class RedAutoBackdrop extends LinearOpMode {
         double turn = 0;
         double yPos = -30;
         int line = 4;
-        int backup = 10;
         int cnt = 0;
+        int tan = 0;
+
         telemetry.addData("started", isStarted());
         while (!isStarted() && !isStopRequested()) {
             blocks = huskyLens.blocks();
@@ -67,7 +67,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                 if (blocks[0].x < 50) {
                     // Prop is on left
                     line = 4;
-                } else if (blocks[0].x > 280) {
+                } else if (blocks[0].x > 270) {
                     // prop is on right
                     line = 6;
                 } else  {
@@ -77,36 +77,34 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
                 switch (line) {
                     case 4: {
-                        turn = 0;
+                        turn = 90;
                         yPos = -30;
-                        backup = -30;
+                        tan = 180;
                         break;
                     }
                     case 5: {
-                        turn = 90;
-                        // check this turn angle;
-                        yPos = -36;
-                        backup = -20;
+                        turn = 180;
+                        yPos = -38;
+                        tan = 0;
                         break;
                     }
                     case 6: {
-                        turn = 180;
+                        turn = 90;
                         yPos = -45;
-                        backup = -30;
+                        tan = 0;
                         break;
                     }
+
                 }
+                telemetry.addData("Line", line);
+                telemetry.addData("Y Position", yPos);
+                telemetry.addData("Turn", turn);
+                telemetry.addData("Thing location :", blocks[0].x);
+                telemetry.addData("started", isStarted());
+
+
+                telemetry.update();
             }
-
-
-            telemetry.addData("Line", line);
-            telemetry.addData("Y Position", yPos);
-            telemetry.addData("Turn", turn);
-            //        telemetry.addData("Thing location :", blocks[0].x);
-            telemetry.addData("started", isStarted());
-
-
-            telemetry.update();
 
         }
         telemetry.addData("started after while", isStarted());
@@ -117,15 +115,15 @@ public final class RedAutoBackdrop extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .setTangent(Math.toRadians(90))
-                                .splineTo(new Vector2d(12, backup), Math.toRadians(turn))
+                                .setTangent(Math.toRadians(tan))
+                                .splineTo(new Vector2d(14, -30), Math.toRadians(turn))
                                 .build(),
                         collector.collectorOutAction(),
                         new SleepAction(0.8),
                         collector.collectorOffAction(),
                         drive.actionBuilder(drive.pose)
                                 .setTangent(Math.toRadians(0))
-                                .splineTo(new Vector2d(55, yPos), Math.toRadians(-90))
+                                .splineTo(new Vector2d(62, yPos), Math.toRadians(-90))
                                 .build(),
                         depositor.depositorScoringAction(),
                         new SleepAction(2.0),
@@ -134,6 +132,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                         depositor.depositorRestingAction(),
                         new SleepAction(2.0),
                         drive.actionBuilder(drive.pose)
+                                .setTangent(Math.toRadians(-90))
                                 .strafeTo(new Vector2d(58, -65))
                                 .build()
                 )

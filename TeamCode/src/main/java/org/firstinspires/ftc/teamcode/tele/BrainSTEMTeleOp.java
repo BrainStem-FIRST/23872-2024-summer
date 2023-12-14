@@ -102,16 +102,6 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 toggleButtonLeftTrigger.update(false);
             }
 
-
-            if (gamepad1.left_bumper) {
-                elapsedTime.reset();
-                robot.collector.setCollectorOut();
-                robot.transfer.setTransferOut();
-                if (elapsedTime.seconds() == 7) {
-                    robot.collector.setCollectorOff();
-                    robot.transfer.setTransferOff();
-                }
-            }
 //depositor
             if (gamepad1.x) {
                 robot.depositor.setRestingState();
