@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.MeepMeep;
@@ -21,21 +22,20 @@ public class MeepMeepTesting {
                 .build();
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(12, -62, Math.toRadians(-90)))
-                        .setTangent(Math.toRadians(90))
-                        .splineTo(new Vector2d(12, -30), Math.toRadians(90))
-//                        .setTangent(Math.toRadians(0))
-                        .setReversed(true)
-                        .lineToY(-50)
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(12, 62, Math.toRadians(90)))
                         .setTangent(Math.toRadians(0))
-                        .splineTo(new Vector2d(58, -40), Math.toRadians(-90))
-                        .strafeTo(new Vector2d(58, -55))
-                        .build());
+                        .splineTo(new Vector2d(14, 25), Math.toRadians(-90))
+                .setTangent(Math.toRadians(0))
+                .splineTo(new Vector2d(62, 45), Math.toRadians(90))
+                        .setTangent(Math.toRadians(90))
+                .strafeTo(new Vector2d(62, 70))
+                .build());
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
 
                 .addEntity(myBot)
                 .start();
+
     }
 }
