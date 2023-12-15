@@ -71,6 +71,23 @@ public class CollectorAuto {
         };
     }
 
+    public Action drawbridgeUpAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    setDrawbridgeUp();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+
     public void setCollectorState() {
         switch (collectorState) {
             case OFF: {
