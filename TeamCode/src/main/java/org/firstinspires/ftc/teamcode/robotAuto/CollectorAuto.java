@@ -18,25 +18,21 @@ public class CollectorAuto {
     private final Telemetry telemetry;
     private final DcMotorEx CollectorMotor;
     private final ServoImplEx DrawbridgeServo;
-    public DrawbridgeState drawbridgeState = DrawbridgeState.ONE;
+    public DrawbridgeState drawbridgeState = DrawbridgeState.DOWN;
     public CollectorState collectorState = CollectorState.OFF;
-
-    private static final double Level1 = 2088;
-    private static final double Level2 = 1931;
-    private static final double Level3 = 1802;
-    private static final double Level4 = 1613;
-    private static final double Level5 = 1433;
+    private static final double Down = 1665;
+    private static final double Up = 740;
     public CollectorAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         CollectorMotor = new CachingMotor(hardwareMap.get(DcMotorEx.class, "Collector"));
         DrawbridgeServo = new CachingServo(hardwareMap.get(ServoImplEx.class, "Drawbridge"));
-        DrawbridgeServo.setPwmRange(new PwmControl.PwmRange(Level5, Level1));
+        DrawbridgeServo.setPwmRange(new PwmControl.PwmRange(Down, Up));
 
     }
 
 
     public enum DrawbridgeState {
-        ONE, TWO, THREE, FOUR, FIVE
+        DOWN, UP
     }
 
     public enum CollectorState {
@@ -95,63 +91,23 @@ public class CollectorAuto {
     public void setDrawbridgeState() {
         telemetry.addData("DrawbridgeState", drawbridgeState);
         switch (drawbridgeState){
-            case ONE: {
-                DrawbridgeOne();
+            case DOWN: {
+                setDrawbridgeDown();
                 break;
             }
-            case TWO: {
-                setDrawbridgeTwo();
+            case UP: {
+                setDrawbridgeUp();
                 break;
             }
-            case THREE: {
-                setDrawbridgeThree();
-                break;
-            }
-            case FOUR: {
-                setDrawbridgeFour();
-                break;
-            }
-            case FIVE: {
-                setDrawbridgeFive();
-                break;
-            }
-
         }
     }
 
-        public void setDrawbridgeOne(){
-        drawbridgeState = DrawbridgeState.ONE;
+        public void setDrawbridgeUp(){
+        drawbridgeState = DrawbridgeState.UP;
         }
-         public void setDrawbridgeTwo(){
-        drawbridgeState = DrawbridgeState.TWO;
+         public void setDrawbridgeDown(){
+        drawbridgeState = DrawbridgeState.DOWN;
     }
-        public void setDrawbridgeThree(){
-        drawbridgeState = DrawbridgeState.THREE;
-    }
-        public void setDrawbridgeFour(){
-        drawbridgeState = DrawbridgeState.FOUR;
-    }
-        public void setDrawbridgeFive(){
-        drawbridgeState = DrawbridgeState.FIVE;
-    }
-
-    public void DrawbridgeOne(){
-        DrawbridgeServo.setPosition(1);
-    }
-    public void DrawbridgeTwo(){
-        DrawbridgeServo.setPosition(Level2/(Level1-Level5));
-    }
-    public void DrawbridgeThree(){
-        DrawbridgeServo.setPosition(Level3/(Level1-Level5));
-    }
-    public void DrawbridgeFour(){
-        DrawbridgeServo.setPosition(Level4/Level1-Level5);
-    }
-    public void DrawbridgeFive(){
-        DrawbridgeServo.setPosition(0);
-    }
-
-
         public void setCollectorOff(){
         collectorState = CollectorState.OFF;
     }
