@@ -19,10 +19,10 @@ public class DepositorTele {
     private final ServoImplEx RightDepositor;
     private final ServoImplEx TopPixHold;
     private final ServoImplEx BottomPixHold;
-    private static final double LEFT_DEPOSITOR_MAX = 550;
-    private static final double LEFT_DEPOSITOR_MIN = 1850;
-    private static final double RIGHT_DEPOSITOR_MAX = 700;
-    private static final double RIGHT_DEPOSITOR_MIN = 2000;
+    private static final double LEFT_DEPOSITOR_MAX = 2520;
+    private static final double LEFT_DEPOSITOR_MIN = 1319;
+    private static final double RIGHT_DEPOSITOR_MAX = 797;
+    private static final double RIGHT_DEPOSITOR_MIN = 2010;
     private static final double TOP_PIX_HOLD_MAX = 1350;
     private static final double TOP_PIX_HOLD_MIN = 100;
     private static final double BOTTOM_PIX_HOLD_MAX = 1677;
