@@ -103,7 +103,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     telemetry.addData("Y Position", yPos);
                     telemetry.addData("Turn", turn);
                     telemetry.addData("Thing location  :", blocks[0].x);
-
+                    telemetry.addData("Bkd turn", bkdturn);
 
                     telemetry.update();
                 }

@@ -103,9 +103,9 @@ public final class RedAutoBackdrop extends LinearOpMode {
                 telemetry.addData("Line", line);
                 telemetry.addData("Y Position", yPos);
                 telemetry.addData("Turn", turn);
+                telemetry.addData("Back Turn", bkdturn);
                 telemetry.addData("Thing location :", blocks[0].x);
                 telemetry.addData("started", isStarted());
-                telemetry.addData("Back Turn", bkdturn);
 
                 telemetry.update();
             }
