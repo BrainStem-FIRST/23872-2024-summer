@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotTele.BrainSTEMRobotTele;
 import org.firstinspires.ftc.teamcode.robotTele.DepositorTele;
+import org.firstinspires.ftc.teamcode.robotTele.LiftTele;
 
 @TeleOp (name = "TeleOp", group = "Robot")
 public class BrainSTEMTeleOp extends LinearOpMode {
@@ -25,12 +26,12 @@ public class BrainSTEMTeleOp extends LinearOpMode {
         double power = 0.0;
         StickyButton stickyButtonRightBumper = new StickyButton();
         StickyButton stickyButtonLeftBumper = new StickyButton();
-        StickyButton stickyButtonA = new StickyButton();
-        StickyButton stickyButtonB = new StickyButton();
+        StickyButton raiseDepositorButton = new StickyButton();
+        StickyButton lowerDepositorButton = new StickyButton();
         ToggleButton toggleButtonRightTrigger = new ToggleButton();
         ToggleButton toggleButtonLeftTrigger = new ToggleButton();
-        StickyButton gamepad2StickyButtonA = new StickyButton();
-        StickyButton gamepad2StickyButtonB = new StickyButton();
+        StickyButton increaseLiftButton = new StickyButton();
+        StickyButton decreaseLiftButton = new StickyButton();
         ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -58,11 +59,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
             drive.updatePoseEstimate();
 
-            if (gamepad2.right_stick_button && gamepad2.left_stick_button) {
-                robot.lift.resetEncoders();
-            } else if (gamepad2.left_stick_button) {
-                robot.lift.setRawPower(-.45);
-            }
+
 
             if (gamepad1.left_stick_y == 1.0) {
                 robot.collector.setCollectorOff();
@@ -141,25 +138,32 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 //lift and depositor
 
-            stickyButtonA.update(gamepad1.a);
-            stickyButtonB.update(gamepad1.b);
-            if (stickyButtonA.getState()) {
-                robot.depositor.setScoringState();
-//                robot.lift.increaseLevel();
-//                robot.lift.updateLevel();
-            } else if (stickyButtonB.getState()) {
-                robot.depositor.setRestingState();
-//                robot.lift.decreaseLevel();
-//                robot.lift.updateLevel();
-            }
 
-            gamepad2StickyButtonA.update(gamepad2.a);
-            gamepad2StickyButtonB.update(gamepad2.b);
-            if (gamepad2StickyButtonA.getState()) {
+//            if (gamepad2.right_stick_button && gamepad2.left_stick_button) {
+//                robot.lift.resetEncoders();
+//                robot.lift.updateLevel();
+//
+//                            }
+
+            raiseDepositorButton.update(gamepad1.a);
+            lowerDepositorButton.update(gamepad1.b);
+            if (raiseDepositorButton.getState()) {
                 robot.depositor.setScoringState();
                 robot.lift.increaseLevel();
                 robot.lift.updateLevel();
-            } else if (gamepad2StickyButtonB.getState()) {
+            } else if (lowerDepositorButton.getState()) {
+                robot.depositor.setRestingState();
+                robot.lift.decreaseLevel();
+                robot.lift.updateLevel();
+            }
+
+            increaseLiftButton.update(gamepad2.a);
+            decreaseLiftButton.update(gamepad2.b);
+            if (increaseLiftButton.getState()) {
+                robot.depositor.setScoringState();
+                robot.lift.increaseLevel();
+                robot.lift.updateLevel();
+            } else if (decreaseLiftButton.getState()) {
                 robot.lift.decreaseLevel();
                 robot.lift.updateLevel();
             }

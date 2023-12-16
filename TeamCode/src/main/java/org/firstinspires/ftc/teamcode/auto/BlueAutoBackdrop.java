@@ -80,6 +80,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                telemetry.update();
             }
 
+<<<<<<< Updated upstream
         }
         telemetry.addData("started after while", isStarted());
 
@@ -178,6 +179,43 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     )
             );
         }
+=======
+                waitForStart();
+                telemetry.addData("Going for", line);
+                telemetry.update();
+                Actions.runBlocking(
+                        new SequentialAction(
+                                collector.drawbridgeUpAction(),
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(tan))
+                                        .splineTo(new Vector2d(14, 30), Math.toRadians(turn))
+                                        .build(),
+                                collector.collectorOutAction(),
+                                new SleepAction(0.65),
+                                collector.collectorOffAction(),
+// Pull robot back to clear the spikes
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(90))
+                                        .splineTo(new Vector2d(14, 55), Math.toRadians(90))
+                                        .build(),
+ // Move robot to backdrop
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(0))
+                                        .splineTo(new Vector2d(62, yPos), Math.toRadians(bkdturn))
+                                        .build(),
+                                depositor.depositorScoringAction(),
+                                new SleepAction(2.0),
+                                depositor.pixelDropAction(),
+                                new SleepAction(2.0),
+                                depositor.depositorRestingAction(),
+                                new SleepAction(2.0),
+                                drive.actionBuilder(drive.pose)
+                                        .setTangent(Math.toRadians(90))
+                                        .strafeTo(new Vector2d(62, 70))
+                                        .build()
+                        )
+                );
+>>>>>>> Stashed changes
     }
 }
 

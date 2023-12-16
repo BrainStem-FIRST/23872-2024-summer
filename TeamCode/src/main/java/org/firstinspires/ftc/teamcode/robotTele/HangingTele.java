@@ -16,10 +16,10 @@ public class HangingTele {
     private final DcMotorEx hangingMotor;
     private final ServoImplEx leftClimber;
     private final ServoImplEx rightClimber;
-    private static final double LEFT_CLIMBER_MAX = 950;
-    private static final double LEFT_CLIMBER_MIN = 425;
-    private static final double RIGHT_CLIMBER_MAX = 1056;
-    private static final double RIGHT_CLIMBER_MIN = 585;
+    private static final double LEFT_CLIMBER_MAX = 1250;
+    private static final double LEFT_CLIMBER_MIN = 785;
+    private static final double RIGHT_CLIMBER_MAX = 1130;
+    private static final double RIGHT_CLIMBER_MIN = 700;
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
     private ServoState servoState = ServoState.LOCK;

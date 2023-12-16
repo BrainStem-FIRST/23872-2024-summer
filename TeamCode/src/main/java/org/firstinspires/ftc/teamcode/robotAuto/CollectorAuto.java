@@ -87,7 +87,10 @@ public class CollectorAuto {
         };
     }
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     public void setCollectorState() {
         switch (collectorState) {
             case OFF: {

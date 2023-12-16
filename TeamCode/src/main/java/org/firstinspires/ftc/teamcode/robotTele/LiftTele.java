@@ -39,12 +39,15 @@ public class LiftTele {
     }
 
     public enum LiftState {
-        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT
+        ZERO, ONE, TWO, THREE, FOUR, FIVE, RESET
     }
 
     public void liftState() {
 
         switch (liftState) {
+            case RESET: {
+                resetEncoders();
+            }
             case ZERO: {
                 setLiftHeight(levelZeroHeight);
                 updateLevel();
@@ -107,7 +110,9 @@ public class LiftTele {
             }
 
             public void increaseLevel(){
+
                 levelCounter += 1;
+
                 if (levelCounter >= 6){
                     levelCounter = 5;
                 }
@@ -138,6 +143,9 @@ public class LiftTele {
                         break;
                     case 5:
                         liftState = LiftState.FIVE;
+                        break;
+                    case 7:
+                        liftState = LiftState.RESET;
                         break;
                 }
             }
@@ -171,6 +179,11 @@ public class LiftTele {
     }
     public void  resetEncoders() {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setPower(-0.05);
+    }
+
+    public void resetLift(){
+        liftState = LiftState.RESET;
     }
 
 }
