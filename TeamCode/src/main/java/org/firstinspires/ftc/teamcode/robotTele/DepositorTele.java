@@ -22,8 +22,8 @@ public class DepositorTele {
     private static final double LEFT_DEPOSITOR_MAX = 2520;
     private static final double LEFT_DEPOSITOR_MIN = 1319;
     private static final double RIGHT_DEPOSITOR_MAX = 797;
-    private static final double RIGHT_DEPOSITOR_MIN = 2010;
-    private static final double TOP_PIX_HOLD_MAX = 1350;
+    private static final double RIGHT_DEPOSITOR_MIN = 2390;
+    private static final double TOP_PIX_HOLD_MAX = 970;
     private static final double TOP_PIX_HOLD_MIN = 100;
     private static final double BOTTOM_PIX_HOLD_MAX = 1677;
     private static final double BOTTOM_PIX_HOLD_MIN = 100;

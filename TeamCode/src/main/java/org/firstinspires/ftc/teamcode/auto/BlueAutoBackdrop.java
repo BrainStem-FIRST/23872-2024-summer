@@ -47,12 +47,9 @@ public final class BlueAutoBackdrop extends LinearOpMode {
 
         blocks = huskyLens.blocks();
 
-        double turn = 0;
-        double yPos = 30;
-        int line = 4;
+        int line = 3;
         int counter = 0;
-        int tan = 0;
-//        int bkdturn = 0;
+
 
         telemetry.addData("started", isStarted());
         while (!isStarted() && !isStopRequested()) {
@@ -63,7 +60,8 @@ public final class BlueAutoBackdrop extends LinearOpMode {
             telemetry.addData("started", isStarted());
 
             telemetry.update();
-            if (blocks.length != 0) {
+            if (blocks.length != 0)
+            {
                 if (blocks[0].x < 50) {
                     // Prop is on left
                     line = 1;
@@ -75,78 +73,113 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     line = 2;
                 }
 
-                    switch (line) {
-                        case 1: {
-                            turn = -90;
-                            yPos = 45;
-                            tan = 0;
-//                            bkdturn = 180;
-                            break;
-                        }
-                        case 2: {
-                            turn = 180;
-                            yPos = 41;
-                            tan = 0;
-//                            bkdturn = -90;
-                            break;
-                        }
-                        case 3: {
-                            turn = -90;
-                            yPos = 37;
-                            tan = 180;
-//                            bkdturn = 0;
-                            break;
-                        }
-                    }
 
-                    telemetry.addData("Line", line);
-                    telemetry.addData("Y Position", yPos);
-                    telemetry.addData("Turn", turn);
-                    telemetry.addData("Thing location  :", blocks[0].x);
-//                    telemetry.addData("Bkd turn", bkdturn);
+               telemetry.addData("Line", line);
+               telemetry.addData("Thing location  :", blocks[0].x);
 
-                    telemetry.update();
-                }
-
+               telemetry.update();
             }
-                telemetry.addData("started after while", isStarted());
 
-                waitForStart();
-                telemetry.addData("Going for", line);
-                telemetry.update();
-                Actions.runBlocking(
-                        new SequentialAction(
-                                collector.drawbridgeUpAction(),
-                                drive.actionBuilder(drive.pose)
-                                        .setTangent(Math.toRadians(tan))
-                                        .splineTo(new Vector2d(14, 30), Math.toRadians(turn))
-                                        .build(),
-                                collector.collectorOutAction(),
-                                new SleepAction(0.65),
-                                collector.collectorOffAction(),
-// Pull robot back to clear the spikes
-//                                drive.actionBuilder(drive.pose)
-//                                        .setTangent(Math.toRadians(90))
-//                                        .splineTo(new Vector2d(14, 55), Math.toRadians(90))
-//                                        .build(),
- // Move robot to backdrop
-                                drive.actionBuilder(drive.pose)
-                                        .setTangent(Math.toRadians(0))
-                                        .splineTo(new Vector2d(62, yPos), Math.toRadians(90))
-                                        .build(),
-                                depositor.depositorScoringAction(),
-                                new SleepAction(2.0),
-                                depositor.pixelDropAction(),
-                                new SleepAction(2.0),
-                                depositor.depositorRestingAction(),
-                                new SleepAction(2.0),
-                                drive.actionBuilder(drive.pose)
-                                        .setTangent(Math.toRadians(90))
-                                        .strafeTo(new Vector2d(62, 70))
-                                        .build()
-                        )
-                );
+        }
+        telemetry.addData("started after while", isStarted());
+
+        waitForStart();
+        telemetry.addData("Going for", line);
+        telemetry.update();
+
+        if (line == 1) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.drawbridgeUpAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(15, 30, Math.toRadians(0)), Math.toRadians(0))
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(0.65),
+                            collector.collectorOffAction(),
+                            // Move robot to backdrop
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(115))
+                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(2.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(2.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(2.5),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(62, 65))
+                                    .build()
+                    )
+            );
+        }
+        if (line == 2) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.drawbridgeUpAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(15, 30, Math.toRadians(-90)), Math.toRadians(-90))
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(0.65),
+                            collector.collectorOffAction(),
+                            // Move robot to backdrop
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+//                                    .lineToY(new Vector2d(14, 60))
+                                    .splineToLinearHeading(new Pose2d(50, 37, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(2.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(2.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(2.5),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(62, 65))
+                                    .build()
+                    )
+            );
+        }
+        if (line == 3) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.drawbridgeUpAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(7, 30, Math.toRadians(180)), Math.toRadians(180))
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(0.65),
+                            collector.collectorOffAction(),
+                            // Move robot to backdrop
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(50, 30, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(2.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(2.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(2.5),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(62, 65))
+                                    .build()
+                    )
+            );
+        }
     }
 }
+
 
 
