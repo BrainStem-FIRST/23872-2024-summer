@@ -118,6 +118,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
         telemetry.update();
         Actions.runBlocking(
                 new SequentialAction(
+                        collector.drawbridgeUpAction(),
                         drive.actionBuilder(drive.pose)
                                 .setTangent(Math.toRadians(tan))
                                 .splineTo(new Vector2d(14, -30), Math.toRadians(turn))
