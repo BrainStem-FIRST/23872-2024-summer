@@ -145,20 +145,20 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 //
 //                            }
 
-            raiseDepositorButton.update(gamepad1.a);
-            lowerDepositorButton.update(gamepad1.b);
-            if (raiseDepositorButton.getState()) {
-                robot.depositor.setScoringState();
-                robot.lift.increaseLevel();
-                robot.lift.updateLevel();
-            } else if (lowerDepositorButton.getState()) {
-                robot.depositor.setRestingState();
-                robot.lift.decreaseLevel();
-                robot.lift.updateLevel();
-            }
+//            raiseDepositorButton.update(gamepad1.a);
+//            lowerDepositorButton.update(gamepad1.b);
+//            if (raiseDepositorButton.getState()) {
+//                robot.depositor.setScoringState();
+//                robot.lift.increaseLevel();
+//                robot.lift.updateLevel();
+//            } else if (lowerDepositorButton.getState()) {
+//                robot.depositor.setRestingState();
+//                robot.lift.decreaseLevel();
+//                robot.lift.updateLevel();
+//            }
 
-            increaseLiftButton.update(gamepad2.a);
-            decreaseLiftButton.update(gamepad2.b);
+            increaseLiftButton.update(gamepad1.a);
+            decreaseLiftButton.update(gamepad1.b);
             if (increaseLiftButton.getState()) {
                 robot.depositor.setScoringState();
                 robot.lift.increaseLevel();
