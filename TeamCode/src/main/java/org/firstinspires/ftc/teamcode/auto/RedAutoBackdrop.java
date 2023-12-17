@@ -103,7 +103,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             // Move robot to backdrop
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(-90))
+                                    .setTangent(Math.toRadians(180))
                                     .splineToLinearHeading(new Pose2d(50, -30, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
