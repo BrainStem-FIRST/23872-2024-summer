@@ -140,7 +140,7 @@ public class CollectorAuto {
     private void collectorIn(){
         CollectorMotor.setPower(1);
     }
-    private void collectorOut() { CollectorMotor.setPower(-0.2);
+    private void collectorOut() { CollectorMotor.setPower(-0.1);
     }
 
 }
