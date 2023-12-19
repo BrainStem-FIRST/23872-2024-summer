@@ -26,7 +26,7 @@ public class DepositorTele {
     private static final double RIGHT_DEPOSITOR_MIN = 2390;
     private static final double TOP_PIX_HOLD_MAX = 970;
     private static final double TOP_PIX_HOLD_MIN = 100;
-    private static final double BOTTOM_PIX_HOLD_MAX = 1677;
+    private static final double BOTTOM_PIX_HOLD_MAX = 1800;
     private static final double BOTTOM_PIX_HOLD_MIN = 100;
 
     public DepositorTele(HardwareMap hardwareMap, Telemetry telemetry){
