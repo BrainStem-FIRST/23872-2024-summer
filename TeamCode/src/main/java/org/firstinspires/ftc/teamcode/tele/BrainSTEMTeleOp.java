@@ -107,10 +107,10 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.depositor.setScoringState();
             }
             if (retractionInProgress) {
-                if (retractionTime.seconds() > 0.05){
-                    robot.lift.increaseLevel();
-                    robot.lift.updateLevel();
-                }
+//                if (retractionTime.seconds() > 0.05){
+//                    robot.lift.increaseLevel();
+//                    robot.lift.updateLevel();
+//                }
                 if (retractionTime.seconds() > 0.5) {
                     robot.depositor.setRestingState();
                 }
