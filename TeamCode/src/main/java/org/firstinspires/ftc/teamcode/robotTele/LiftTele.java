@@ -20,11 +20,15 @@ public class LiftTele {
     private final static double kS = 0.04;
     PIDController pidController = new PIDController(kP, kI, kD);
     private final static int levelZeroHeight = 0;
-    private final static int levelOneHeight = 108;
-    private final static int levelTwoHeight = 326;
-    private final static int levelThreeHeight = 553;
-    private final static int levelFourHeight = 788;
-    private final static int levelFiveHeight = 1080;
+    private final static int levelOneHeight = 90;
+    private final static int levelTwoHeight = 190;
+    private final static int levelThreeHeight = 325;
+    private final static int levelFourHeight = 430;
+    private final static int levelFiveHeight = 540;
+    private final static int levelSixHeight = 665;
+    private final static int levelSevenHeight = 785;
+    private final static int levelEightHeight = 900;
+    private final static int levelNineHeight = 1080;
 
     public LiftTele(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -35,11 +39,10 @@ public class LiftTele {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         liftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public enum LiftState {
-        ZERO, ONE, TWO, THREE, FOUR, FIVE, RESET
+        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, RESET
     }
 
     public void liftState() {
@@ -63,23 +66,47 @@ public class LiftTele {
             case TWO: {
                 setLiftHeight(levelTwoHeight);
                 updateLevel();
-                telemetry.addData("lift enum", "Two");
+                telemetry.addData("lift enum", "Zero");
                 break;
             }
             case THREE: {
                 setLiftHeight(levelThreeHeight);
                 updateLevel();
-                telemetry.addData("lift enum", "Three");
+                telemetry.addData("lift enum", "Two");
                 break;
             }
             case FOUR: {
                 setLiftHeight(levelFourHeight);
                 updateLevel();
-                telemetry.addData("lift enum", "Four");
+                telemetry.addData("lift enum", "Zero");
                 break;
             }
             case FIVE: {
                 setLiftHeight(levelFiveHeight);
+                updateLevel();
+                telemetry.addData("lift enum", "Three");
+                break;
+            }
+            case SIX: {
+                setLiftHeight(levelSixHeight);
+                updateLevel();
+                telemetry.addData("lift enum", "Three");
+                break;
+            }
+            case SEVEN: {
+                setLiftHeight(levelSevenHeight);
+                updateLevel();
+                telemetry.addData("lift enum", "Four");
+                break;
+            }
+            case EIGHT: {
+                setLiftHeight(levelEightHeight);
+                updateLevel();
+                telemetry.addData("lift enum", "Five");
+                break;
+            }
+            case NINE: {
+                setLiftHeight(levelNineHeight);
                 updateLevel();
                 telemetry.addData("lift enum", "Five");
                 break;
@@ -113,8 +140,8 @@ public class LiftTele {
 
                 levelCounter += 1;
 
-                if (levelCounter >= 6){
-                    levelCounter = 5;
+                if (levelCounter >= 9){
+                    levelCounter = 9;
                 }
             }
             public void decreaseLevel() {
@@ -144,7 +171,19 @@ public class LiftTele {
                     case 5:
                         liftState = LiftState.FIVE;
                         break;
+                    case 6:
+                        liftState = LiftState.SIX;
+                        break;
                     case 7:
+                        liftState = LiftState.SEVEN;
+                        break;
+                    case 8:
+                        liftState = LiftState.EIGHT;
+                        break;
+                    case 9:
+                        liftState = LiftState.NINE;
+                        break;
+                    case 10:
                         liftState = LiftState.RESET;
                         break;
                 }

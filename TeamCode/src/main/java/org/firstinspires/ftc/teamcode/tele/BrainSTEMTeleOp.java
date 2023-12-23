@@ -17,6 +17,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
     private boolean retractionInProgress = false;
     private ElapsedTime waitForHolder = new ElapsedTime();
     private final ElapsedTime retractionTime = new ElapsedTime();
+    private final ElapsedTime restingTime = new ElapsedTime();
 
 
     @Override
@@ -87,11 +88,13 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 
 //pixel holder
-            if (gamepad1.right_bumper) {
+            stickyButtonRightBumper.update(gamepad1.right_bumper);
+            stickyButtonLeftBumper.update(gamepad1.left_bumper);
+            if (stickyButtonRightBumper.getState()) {
                 retractionTime.reset();
                 retractionInProgress = true;
                 robot.depositor.setDropState();
-            } else if (gamepad1.left_bumper) {
+            } else if (stickyButtonLeftBumper.getState()) {
                 robot.depositor.setHoldState();
                 toggleButtonRightTrigger.update(false);
                 toggleButtonLeftTrigger.update(false);
@@ -104,10 +107,15 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.depositor.setScoringState();
             }
             if (retractionInProgress) {
-                if (retractionTime.seconds() > 1.0) {
+                if (retractionTime.seconds() > 0.05){
+                    robot.lift.increaseLevel();
+                    robot.lift.updateLevel();
+                }
+                if (retractionTime.seconds() > 0.5) {
                     robot.depositor.setRestingState();
                 }
-                if (retractionTime.seconds() > 1.0) {
+                if (retractionTime.seconds() > 0.75){
+                    robot.lift.setLiftZero();
                     robot.lift.levelCounter = 0;
                     retractionInProgress = false;
                     robot.collector.setCollectorOff();
