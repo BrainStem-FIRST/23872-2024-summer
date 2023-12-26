@@ -13,18 +13,18 @@ import org.firstinspires.ftc.teamcode.util.CachingServo;
 public class DepositorTele {
     private final Telemetry telemetry;
     private HardwareMap hardwareMap;
-    public DepositorServoState depositorServoState = DepositorServoState.RESTING;
-    public PixelState pixelState = PixelState.DROP;
     private final ServoImplEx LeftDepositor;
     private final ServoImplEx RightDepositor;
     private final ServoImplEx TopPixHold;
     private final ServoImplEx BottomPixHold;
-
+    public DepositorServoState depositorServoState = RESTING;
+    public PixelState pixelState = PixelState.DROP;
+    public int stateCounter = 1;
     private static final double LEFT_DEPOSITOR_MAX = 2520;
     private static final double LEFT_DEPOSITOR_MIN = 1319;
     private static final double RIGHT_DEPOSITOR_MAX = 797;
     private static final double RIGHT_DEPOSITOR_MIN = 2390;
-    private static final double TOP_PIX_HOLD_MAX = 970;
+    private static final double TOP_PIX_HOLD_MAX = 1700;
     private static final double TOP_PIX_HOLD_MIN = 100;
     private static final double BOTTOM_PIX_HOLD_MAX = 1800;
     private static final double BOTTOM_PIX_HOLD_MIN = 100;
@@ -45,13 +45,16 @@ public class DepositorTele {
     }
 
     public enum PixelState {
-        HOLD, DROP
+        HOLD, DROP, HALF
     }
-
     public void pixelState() {
         switch (pixelState){
             case HOLD: {
                 pixelHold();
+                break;
+            }
+            case HALF: {
+                pixelHalf();
                 break;
             }
             case DROP: {
@@ -64,19 +67,53 @@ public class DepositorTele {
         TopPixHold.setPosition(0.01);
         BottomPixHold.setPosition(0.01);
     }
+
+    public void pixelHalf() {
+        TopPixHold.setPosition(0.01);
+        BottomPixHold.setPosition(0.99);
+    }
     private void pixelDrop() {
         TopPixHold.setPosition(0.99);
         BottomPixHold.setPosition(0.99);
     }
-    public enum DepositorServoState {
-        RESTING, SCORING
+
+    //increaseState only if needed later
+    //not used currently
+    public void icreaseState(){
+        stateCounter += 1;
+        if (stateCounter >= 2){
+            stateCounter = 2;
+        }
+    }
+    public void decreaseState() {
+        if (stateCounter == 0) {
+            stateCounter = 0;
+        } else if (stateCounter == 1){
+            stateCounter = 0;
+        } else if (stateCounter == 2){
+            stateCounter = 1;
+        }
     }
 
+    public void updateState() {
+        switch (stateCounter) {
+            case 0:
+                pixelState = PixelState.DROP;
+                break;
+            case 1:
+                pixelState = PixelState.HALF;
+                break;
+            case 2:
+                pixelState = PixelState.HOLD;
+                break;
+        }
+    }
     public void setHoldState() {
         pixelState = PixelState.HOLD;
     }
-    public void setDropState() {
-        pixelState = PixelState.DROP;
+
+    public enum DepositorServoState {
+        RESTING, SCORING
     }
     public void depositorServoState(LiftTele lift) {
         switch (depositorServoState){
@@ -91,13 +128,14 @@ public class DepositorTele {
         }
     }
 
-    private void setDepositorState(LiftTele lift){
-        if (lift.liftState == LiftTele.LiftState.ZERO){
+    private void setDepositorState(LiftTele lift) {
+        if (lift.liftState == LiftTele.LiftState.ZERO) {
             depositorServoState = RESTING;
         } else {
             depositorServoState = SCORING;
         }
     }
+
     private void depositorResting(){
         LeftDepositor.setPosition(0.99);
         RightDepositor.setPosition(0.99);
@@ -110,10 +148,10 @@ public class DepositorTele {
     }
 
     public void setRestingState() {
-        depositorServoState = DepositorServoState.RESTING;
+        depositorServoState = RESTING;
     }
     public void setScoringState() {
-        depositorServoState = DepositorServoState.SCORING;
+        depositorServoState = SCORING;
     }
 
 
