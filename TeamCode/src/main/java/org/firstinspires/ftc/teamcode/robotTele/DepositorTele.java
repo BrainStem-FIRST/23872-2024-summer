@@ -20,9 +20,9 @@ public class DepositorTele {
     public DepositorServoState depositorServoState = RESTING;
     public PixelState pixelState = PixelState.DROP;
     public int stateCounter = 0;
-    private static final double LEFT_DEPOSITOR_MAX = 2520;
-    private static final double LEFT_DEPOSITOR_MIN = 1319;
-    private static final double RIGHT_DEPOSITOR_MAX = 540;
+    private static final double LEFT_DEPOSITOR_MAX = 2181;
+    private static final double LEFT_DEPOSITOR_MIN = 1104;
+    private static final double RIGHT_DEPOSITOR_MAX = 550;
     private static final double RIGHT_DEPOSITOR_MIN = 1671;
     private static final double TOP_PIX_HOLD_MAX = 1700;
     private static final double TOP_PIX_HOLD_MIN = 100;
