@@ -18,6 +18,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
     private ElapsedTime waitForHolder = new ElapsedTime();
     private final ElapsedTime retractionTime = new ElapsedTime();
     private final ElapsedTime restingTime = new ElapsedTime();
+    private int rightBumperCounter = 0;
 
 
     @Override
@@ -82,14 +83,33 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             stickyButtonRightBumper.update(gamepad1.right_bumper);
             stickyButtonLeftBumper.update(gamepad1.left_bumper);
             if (stickyButtonRightBumper.getState()) {
-                retractionTime.reset();
-                retractionInProgress = true;
-               robot.depositor.decreaseState();
-               robot.depositor.updateState();
-            } else if (stickyButtonLeftBumper.getState()) {
+//                retractionTime.reset();
+//                retractionInProgress = true;
+//               robot.depositor.decreaseState();
+//               robot.depositor.updateState();
+                rightBumperCounter += 1;
+            }
+            if (stickyButtonLeftBumper.getState()) {
                 toggleButtonRightTrigger.update(false);
                 toggleButtonLeftTrigger.update(false);
-                robot.depositor.setHoldState();
+                robot.depositor.stateCounter = 2;
+                robot.depositor.updateState();
+            }
+
+            if (rightBumperCounter == 1) {
+                if (stickyButtonRightBumper.getState()) {
+                    robot.depositor.decreaseState();
+                    robot.depositor.updateState();
+                }
+            }
+            if (rightBumperCounter == 2) {
+                rightBumperCounter = 0;
+                robot.depositor.decreaseState();
+                robot.depositor.updateState();
+                if (gamepad1.right_bumper) {
+                    retractionTime.reset();
+                    retractionInProgress = true;
+                }
             }
 
 //depositor
@@ -170,8 +190,9 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
 
                 robot.update();
-            telemetry.addData("top pixel state", robot.depositor.pixelState);
-            telemetry.update();
+                telemetry.addData("rightBumperCounter", rightBumperCounter);
+                telemetry.addData("stateCounter", robot.depositor.stateCounter);
+                telemetry.update();
             }
         }
     }

@@ -19,11 +19,11 @@ public class DepositorTele {
     private final ServoImplEx BottomPixHold;
     public DepositorServoState depositorServoState = RESTING;
     public PixelState pixelState = PixelState.DROP;
-    public int stateCounter = 1;
+    public int stateCounter = 0;
     private static final double LEFT_DEPOSITOR_MAX = 2520;
     private static final double LEFT_DEPOSITOR_MIN = 1319;
-    private static final double RIGHT_DEPOSITOR_MAX = 797;
-    private static final double RIGHT_DEPOSITOR_MIN = 2390;
+    private static final double RIGHT_DEPOSITOR_MAX = 540;
+    private static final double RIGHT_DEPOSITOR_MIN = 1671;
     private static final double TOP_PIX_HOLD_MAX = 1700;
     private static final double TOP_PIX_HOLD_MIN = 100;
     private static final double BOTTOM_PIX_HOLD_MAX = 1800;
@@ -86,15 +86,17 @@ public class DepositorTele {
         }
     }
     public void decreaseState() {
-        if (stateCounter == 0) {
-            stateCounter = 0;
-        } else if (stateCounter == 1){
-            stateCounter = 0;
-        } else if (stateCounter == 2){
-            stateCounter = 1;
+//        if (stateCounter == 0) {
+//            stateCounter = 0;
+//        } else if (stateCounter == 1){
+//            stateCounter = 0;
+//        } else if (stateCounter == 2){
+//            stateCounter = 1;
+//        }
+        if(stateCounter != 0){
+            stateCounter -= 1;
         }
     }
-
     public void updateState() {
         switch (stateCounter) {
             case 0:
