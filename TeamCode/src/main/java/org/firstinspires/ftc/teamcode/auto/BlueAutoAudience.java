@@ -98,15 +98,15 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(-22, 27, Math.toRadians(0)), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.65),
+                            new SleepAction(0.85),
                             collector.collectorOffAction(),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
+                                    .setTangent(Math.toRadians(90))
                                     .strafeTo(new Vector2d(-25,0))
                                     .build(),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(33, 0, Math.toRadians(0)), Math.toRadians(0))
                                     .build()
 //                            depositor.depositorScoringAction(),
 //                            new SleepAction(2.0),
