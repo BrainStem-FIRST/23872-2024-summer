@@ -27,12 +27,11 @@ public final class BlueAutoAudience extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-26, 62, Math.toRadians(90)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
-
 
         if (!huskyLens.knock()) {
             telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
@@ -51,6 +50,7 @@ public final class BlueAutoAudience extends LinearOpMode {
         int counter = 0;
 
 
+
         telemetry.addData("started", isStarted());
         while (!isStarted() && !isStopRequested()) {
             blocks = huskyLens.blocks();
@@ -58,6 +58,7 @@ public final class BlueAutoAudience extends LinearOpMode {
             telemetry.addData("amount of blocks", blocks.length);
             telemetry.addData("counter", counter);
             telemetry.addData("started", isStarted());
+            telemetry.addData("Heading", drive.pose.heading);
 
             telemetry.update();
             if (blocks.length != 0) {
@@ -65,11 +66,11 @@ public final class BlueAutoAudience extends LinearOpMode {
                     // Prop is on left
                     line = 1;
                 } else if (blocks[0].x > 260) {
-                    // prop is on right
-                    line = 3;
+                    // prop is on right 3
+                  line = 1;
                 } else {
-                    // prop is on center
-                    line = 2;
+                    // prop is on center 2
+                    line = 1;
                 }
 
 
@@ -78,9 +79,9 @@ public final class BlueAutoAudience extends LinearOpMode {
 
                 telemetry.update();
             }
-
+//2
             if (blocks.length == 0){
-                line = 2;
+                line = 1;
             }
 
         }
@@ -89,29 +90,32 @@ public final class BlueAutoAudience extends LinearOpMode {
         waitForStart();
         telemetry.addData("Going for", line);
         telemetry.update();
-
         if (line == 1) {
             Actions.runBlocking(
                     new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-22, 27, Math.toRadians(0)), Math.toRadians(0))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(0.65),
-                            collector.collectorOffAction(),
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-35, 27, Math.toRadians(0)), Math.toRadians(0))
+                            drive.actionBuilder(new Pose2d(-35.25, 62.50, Math.toRadians(90)))
+                                    .setReversed(true)
+                                    .splineToLinearHeading(new Pose2d(-44, 36, Math.toRadians(0)), Math.toRadians(180))
                                     .build(),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(-25,0))
+                                    .splineToConstantHeading(new Vector2d(-36, 34), Math.toRadians(0))
                                     .build(),
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
-                                    .build()
+                            collector.collectorInAction(),
+                            new SleepAction(0.85),
+                            collector.collectorOffAction()
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(true)
+//                                    .setTangent(Math.toRadians(90))
+//                                    .splineToLinearHeading(new Pose2d(-35, 30, Math.toRadians(0)), Math.toRadians(180))
+//                                    .build()
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .strafeTo(new Vector2d(-25,0))
+//                                    .build(),
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
+//                                    .build()
 //                            depositor.depositorScoringAction(),
 //                            new SleepAction(2.0),
 //                            depositor.pixelDropAction(),
@@ -124,6 +128,11 @@ public final class BlueAutoAudience extends LinearOpMode {
 //                                    .build()
 //                    )
                     ));
+
+            while (opModeIsActive()) {
+                telemetry.addData("Heading", drive.pose.heading);
+                telemetry.update();
+            }
         }
         if (line == 2) {
             Actions.runBlocking(

@@ -23,16 +23,16 @@ public class MeepMeepTesting {
                 .build();
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(12, 62, Math.toRadians(90)))
-                            .setTangent(Math.toRadians(0))
-                            .splineTo(new Vector2d(14, 30), Math.toRadians(180))
-                        .setTangent(Math.toRadians(90))
-                      .splineTo(new Vector2d(14, 55), Math.toRadians(90))
-                       .setTangent(Math.toRadians(0))
-                       .splineTo(new Vector2d(62, 38), Math.toRadians(-90))
-                   //     .setTangent(Math.toRadians(-90))
-                  //      .strafeTo(new Vector2d(58, -65))
-                        .build());
+//        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-26, 62, Math.toRadians(90)))
+//                        .setTangent(Math.toRadians(-90))
+//                        .splineToLinearHeading(new Pose2d(-22, 27, Math.toRadians(0)), Math.toRadians(0))
+//                        .setTangent(Math.toRadians(0))
+//                        .splineToLinearHeading(new Pose2d(-35, 27, Math.toRadians(0)), Math.toRadians(0))
+//                        .setTangent(Math.toRadians(-90))
+//                        .strafeTo(new Vector2d(-25,0))
+//                        .setTangent(Math.toRadians(-90))
+//                        .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
+//                        .build(),
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)

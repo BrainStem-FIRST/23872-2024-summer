@@ -55,6 +55,22 @@ public class CollectorAuto {
         };
     }
 
+    public Action collectorInAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    collectorIn();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
     public Action collectorOffAction() {
         return new Action() {
             private boolean initialized = false;
@@ -138,7 +154,7 @@ public class CollectorAuto {
 
     private void collectorOff() {CollectorMotor.setPower(0);}
     private void collectorIn(){
-        CollectorMotor.setPower(1);
+        CollectorMotor.setPower(0.1);
     }
     private void collectorOut() { CollectorMotor.setPower(-0.1);
     }
