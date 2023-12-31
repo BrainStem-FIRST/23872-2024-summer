@@ -95,42 +95,36 @@ public final class RedAutoBackdrop extends LinearOpMode {
         if (line == 4) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
                                     .splineToLinearHeading(new Pose2d(9, -27, Math.toRadians(180)), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.85),
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(10, -27, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            collector.collectorOffAction(),
+                            collector.collectorOffAction()
+                    )
+            );
                             // Move robot to backdrop
-                            telemetryPacket -> {
-                                telemetry.addData("Heading before",Math.toDegrees(drive.pose.heading.log()));
-//                                telemetry.update();
-                                return false;
-                            },
-                            drive.actionBuilder(drive.pose)
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                              drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(10))
                                     .splineToLinearHeading(new Pose2d(55,-31, Math.toRadians(-180)), Math.toRadians(0))
                                     .build(),
-                            telemetryPacket -> {
-                                telemetry.addData("Heading after",Math.toDegrees(drive.pose.heading.log()));
-                                telemetry.update();
-                                return false;
-                            },
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
                             depositor.pixelDropAction(),
                             new SleepAction(2.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
-                            drive.actionBuilder(drive.pose)
+                            new SleepAction(2.5)
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                              drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
                                     .strafeTo(new Vector2d(62, -65))
                                     .build()
