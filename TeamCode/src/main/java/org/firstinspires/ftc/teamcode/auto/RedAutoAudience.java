@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 
-@Autonomous(name="Red Auto Backdrop", group="Robot")
-public final class RedAutoBackdrop extends LinearOpMode {
+@Autonomous(name="Red Auto Audience", group="Robot")
+public final class RedAutoAudience extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
     private HuskyLens huskyLens;

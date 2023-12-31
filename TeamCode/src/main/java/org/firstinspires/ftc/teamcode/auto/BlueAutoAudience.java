@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 
-@Autonomous(name="Red Auto Backdrop", group="Robot")
-public final class RedAutoBackdrop extends LinearOpMode {
+@Autonomous(name="Blue Auto Audience", group="Robot")
+public final class BlueAutoAudience extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
@@ -27,7 +27,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, -62, Math.toRadians(-90)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-26, 62, Math.toRadians(90)));
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
 
@@ -47,7 +47,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
         blocks = huskyLens.blocks();
 
-        int line = 6;
+        int line = 3;
         int counter = 0;
 
 
@@ -60,17 +60,16 @@ public final class RedAutoBackdrop extends LinearOpMode {
             telemetry.addData("started", isStarted());
 
             telemetry.update();
-            if (blocks.length != 0)
-            {
+            if (blocks.length != 0) {
                 if (blocks[0].x < 50) {
                     // Prop is on left
-                    line = 4;
+                    line = 1;
                 } else if (blocks[0].x > 260) {
                     // prop is on right
-                    line = 6;
+                    line = 3;
                 } else {
                     // prop is on center
-                    line = 5;
+                    line = 2;
                 }
 
 
@@ -79,8 +78,9 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
                 telemetry.update();
             }
+
             if (blocks.length == 0){
-                line = 5;
+                line = 2;
             }
 
         }
@@ -90,55 +90,44 @@ public final class RedAutoBackdrop extends LinearOpMode {
         telemetry.addData("Going for", line);
         telemetry.update();
 
-
-
-        if (line == 4) {
+        if (line == 1) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(7, -27, Math.toRadians(180)), Math.toRadians(180))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(0.85),
-                            collector.collectorOffAction(),
-                            // Move robot to backdrop
-                            telemetryPacket -> {
-                                telemetry.addData("Heading before",Math.toDegrees(drive.pose.heading.log()));
-//                                telemetry.update();
-                                return false;
-                            },
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(10))
-                                    .splineToLinearHeading(new Pose2d(55,-31, Math.toRadians(-180)), Math.toRadians(0))
-                                    .build(),
-                            telemetryPacket -> {
-                                telemetry.addData("Heading after",Math.toDegrees(drive.pose.heading.log()));
-                                telemetry.update();
-                                return false;
-                            },
-                            depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(2.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(62, -65))
+                                    .splineToLinearHeading(new Pose2d(-22, 27, Math.toRadians(0)), Math.toRadians(0))
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(0.65),
+                            collector.collectorOffAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .strafeTo(new Vector2d(-25,0))
+                                    .build(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
-                    )
-            );
+//                            depositor.depositorScoringAction(),
+//                            new SleepAction(2.0),
+//                            depositor.pixelDropAction(),
+//                            new SleepAction(2.0),
+//                            depositor.depositorRestingAction(),
+//                            new SleepAction(2.5),
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(90))
+//                                    .strafeTo(new Vector2d(62, 65))
+//                                    .build()
+//                    )
+            ));
         }
-        if (line == 5) {
+        if (line == 2) {
             Actions.runBlocking(
                     new SequentialAction(
                             collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(15, -30, Math.toRadians(90)), Math.toRadians(90))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(15, 34, Math.toRadians(-90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.65),
@@ -148,7 +137,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
 //                                    .lineToY(new Vector2d(14, 60))
-                                    .splineToLinearHeading(new Pose2d(55, -37, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(50, 37, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
@@ -157,19 +146,19 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             depositor.depositorRestingAction(),
                             new SleepAction(2.5),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(62, -65))
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(62, 65))
                                     .build()
                     )
             );
         }
-        if (line == 6) {
+        if (line == 3) {
             Actions.runBlocking(
                     new SequentialAction(
                             collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(45))
-                                    .splineToLinearHeading(new Pose2d(15, -27, Math.toRadians(0)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(7, 27, Math.toRadians(180)), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.65),
@@ -177,8 +166,8 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             // Move robot to backdrop
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(-115))
-                                    .splineToLinearHeading(new Pose2d(55, -45, Math.toRadians(180)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(50, 30, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
@@ -187,8 +176,8 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             depositor.depositorRestingAction(),
                             new SleepAction(2.5),
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(62, -65))
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(62, 65))
                                     .build()
                     )
             );
