@@ -20,6 +20,8 @@ public final class BlueAutoAudience extends LinearOpMode {
     private HuskyLens huskyLens;
     private HuskyLens.Block[] blocks;
 
+    private Pose2d startPose = new Pose2d(-35.25, 62.50, Math.toRadians(90));
+
     // Determine the prop position
     int targetTagPos = -1;
     int targetBlockPos = -1; // The block of interest within the blocks array.
@@ -28,6 +30,8 @@ public final class BlueAutoAudience extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
+        //Set starting position
+        drive.pose = startPose;
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
 
@@ -58,7 +62,9 @@ public final class BlueAutoAudience extends LinearOpMode {
             telemetry.addData("amount of blocks", blocks.length);
             telemetry.addData("counter", counter);
             telemetry.addData("started", isStarted());
-            telemetry.addData("Heading", drive.pose.heading);
+            telemetry.addData("Current Position", drive.pose.position);
+            telemetry.addData("Current Heading", drive.pose.heading.toString());
+            drive.updatePoseEstimate();
 
             telemetry.update();
             if (blocks.length != 0) {
@@ -93,16 +99,21 @@ public final class BlueAutoAudience extends LinearOpMode {
         if (line == 1) {
             Actions.runBlocking(
                     new SequentialAction(
-                            drive.actionBuilder(new Pose2d(-35.25, 62.50, Math.toRadians(90)))
+                            drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .splineToLinearHeading(new Pose2d(-44, 36, Math.toRadians(0)), Math.toRadians(180))
-                                    .build(),
+                                    .build()));
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
+                                    .setReversed(false)
+                                    .setTangent(Math.toRadians(0))
                                     .splineToConstantHeading(new Vector2d(-36, 34), Math.toRadians(0))
-                                    .build(),
-                            collector.collectorInAction(),
-                            new SleepAction(0.85),
-                            collector.collectorOffAction()
+                                    .build()));
+                            //collector.collectorInAction(),
+                            //new SleepAction(0.85),
+                            //collector.collectorOffAction()
 //                            drive.actionBuilder(drive.pose)
 //                                    .setReversed(true)
 //                                    .setTangent(Math.toRadians(90))
@@ -127,7 +138,6 @@ public final class BlueAutoAudience extends LinearOpMode {
 //                                    .strafeTo(new Vector2d(62, 65))
 //                                    .build()
 //                    )
-                    ));
 
             while (opModeIsActive()) {
                 telemetry.addData("Heading", drive.pose.heading);
