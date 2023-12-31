@@ -98,10 +98,15 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(7, -27, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(9, -27, Math.toRadians(180)), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.85),
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(10, -27, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
                             collector.collectorOffAction(),
                             // Move robot to backdrop
                             telemetryPacket -> {
@@ -169,10 +174,10 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(45))
-                                    .splineToLinearHeading(new Pose2d(15, -27, Math.toRadians(0)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(17, -27, Math.toRadians(0)), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.65),
+                            new SleepAction(0.75),
                             collector.collectorOffAction(),
                             // Move robot to backdrop
                             drive.actionBuilder(drive.pose)

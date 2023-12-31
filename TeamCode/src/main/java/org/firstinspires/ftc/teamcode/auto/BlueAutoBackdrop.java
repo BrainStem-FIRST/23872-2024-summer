@@ -99,13 +99,13 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(15, 27, Math.toRadians(0)), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.65),
+                            new SleepAction(0.85),
                             collector.collectorOffAction(),
                             // Move robot to backdrop
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(115))
-                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 45, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
