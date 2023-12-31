@@ -32,6 +32,8 @@ public class BrainSTEMTeleOp extends LinearOpMode {
         ToggleButton toggleButtonLeftTrigger = new ToggleButton();
         StickyButton increaseLiftButton = new StickyButton();
         StickyButton decreaseLiftButton = new StickyButton();
+        StickyButton stickyButtonX = new StickyButton();
+        StickyButton stickyButtonY = new StickyButton();
         ElapsedTime elapsedTime = new ElapsedTime();
 
 
@@ -113,9 +115,11 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             }
 
 //depositor
-            if (gamepad1.x) {
+            stickyButtonX.update(gamepad1.x);
+            stickyButtonY.update(gamepad1.y);
+            if (stickyButtonX.getState()) {
                 robot.depositor.setRestingState();
-            } else if (gamepad1.y) {
+            } else if (stickyButtonY.getState()) {
                 robot.depositor.setScoringState();
             }
             if (retractionInProgress) {
@@ -192,6 +196,8 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.update();
                 telemetry.addData("rightBumperCounter", rightBumperCounter);
                 telemetry.addData("stateCounter", robot.depositor.stateCounter);
+                telemetry.addData("left servo pos", robot.depositor.LeftDepositor.getPosition());
+                telemetry.addData("right servo pos", robot.depositor.RightDepositor.getPosition());
                 telemetry.update();
             }
         }
