@@ -93,60 +93,79 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         if (line == 1) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(15, 27, Math.toRadians(0)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(18, 26, Math.toRadians(0)), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.85),
-                            collector.collectorOffAction(),
+                            collector.collectorOffAction()
                             // Move robot to backdrop
+                    )
+            );
+                            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(115))
-                                    .splineToLinearHeading(new Pose2d(55, 45, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 42, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
                             depositor.pixelDropAction(),
                             new SleepAction(2.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(62, 65))
-                                    .build()
+                            new SleepAction(2.5)
                     )
             );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+            drive.actionBuilder(drive.pose)
+                    .setTangent(Math.toRadians(90))
+                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                    .build()
+                    )
+            );
+
         }
         if (line == 2) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(15, 34, Math.toRadians(-90)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(15, 29, Math.toRadians(-90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.65),
-                            collector.collectorOffAction(),
+                            collector.collectorOffAction()
                             // Move robot to backdrop
+                    )
+            );
+                            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
+                                    .setTangent(Math.toRadians(0))
 //                                    .lineToY(new Vector2d(14, 60))
-                                    .splineToLinearHeading(new Pose2d(50, 37, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 3, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
                             depositor.pixelDropAction(),
                             new SleepAction(2.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
+                            new SleepAction(2.5)
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(62, 65))
+                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
                                     .build()
                     )
             );
@@ -161,23 +180,33 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.65),
-                            collector.collectorOffAction(),
+                            collector.collectorOffAction()
                             // Move robot to backdrop
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(50, 30, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 28, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
                             depositor.pixelDropAction(),
                             new SleepAction(2.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
+                            new SleepAction(2.5)
+                            )
+            ); drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(62, 65))
+                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
                                     .build()
+
                     )
             );
         }
