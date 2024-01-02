@@ -150,7 +150,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
 //                                    .lineToY(new Vector2d(14, 60))
-                                    .splineToLinearHeading(new Pose2d(55, 3, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 34, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),

@@ -23,10 +23,10 @@ public class DepositorAuto {
     private final ServoImplEx RightDepositor;
     private final ServoImplEx TopPixHold;
     private final ServoImplEx BottomPixHold;
-    private static final double LEFT_DEPOSITOR_MAX = 2470;
-    private static final double LEFT_DEPOSITOR_MIN = 1220;
-    private static final double RIGHT_DEPOSITOR_MAX = 720;
-    private static final double RIGHT_DEPOSITOR_MIN = 1990;
+    private static final double LEFT_DEPOSITOR_MAX = 1950;
+    private static final double LEFT_DEPOSITOR_MIN = 800;
+    private static final double RIGHT_DEPOSITOR_MAX = 800;
+    private static final double RIGHT_DEPOSITOR_MIN = 1950;
     private static final double TOP_PIX_HOLD_MAX = 1350;
     private static final double TOP_PIX_HOLD_MIN = 100;
     private static final double BOTTOM_PIX_HOLD_MAX = 1677;

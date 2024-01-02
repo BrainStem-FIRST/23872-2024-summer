@@ -23,22 +23,42 @@ public class MeepMeepTesting {
                 .build();
 
 
-//        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-26, 62, Math.toRadians(90)))
-//                        .setTangent(Math.toRadians(-90))
-//                        .splineToLinearHeading(new Pose2d(-22, 27, Math.toRadians(0)), Math.toRadians(0))
-//                        .setTangent(Math.toRadians(0))
-//                        .splineToLinearHeading(new Pose2d(-35, 27, Math.toRadians(0)), Math.toRadians(0))
-//                        .setTangent(Math.toRadians(-90))
-//                        .strafeTo(new Vector2d(-25,0))
-//                        .setTangent(Math.toRadians(-90))
-//                        .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
-//                        .build(),
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-32.23, 62.50, Math.toRadians(90)))
+                                 .setReversed(false)
+                                 .setTangent(Math.toRadians(-90))
+                                 .splineToLinearHeading(new Pose2d(-34, 29, Math.toRadians(180)), Math.toRadians(0))
+                                 .setReversed(false)
+                                 .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-42, 29), Math.toRadians(180))
+                                .setTangent(Math.toRadians(0))
+                                .lineToXConstantHeading(-34)
+                                .setTangent(Math.toRadians(-90))
+                                .strafeTo(new Vector2d(-34,4))
+                                .setTangent(Math.toRadians(0))
+                                .lineToXConstantHeading(30)
+//                                .setReversed(true)
+//                                .setTangent(Math.toRadians(180))
+//                                .splineToLinearHeading(new Pose2d(-65, 27, Math.toRadians(0)), Math.toRadians(180))
+//                                .setReversed(true)
+//                                .setTangent(Math.toRadians(0))
+//                                .lineToX(-53)
+//                                .setReversed(true)
+//                                .setTangent(Math.toRadians(180))
+//                                .splineToLinearHeading(new Pose2d(-35,2,Math.toRadians(0)),Math.toRadians(90))
+//                                .setTangent(Math.toRadians(0))
+//                                .lineToXConstantHeading(30)
+//                                .setReversed(true)
+//                                .setTangent(Math.toRadians(90))
+//                                .splineToLinearHeading(new Pose2d(53.5, 28, Math.toRadians(180)), Math.toRadians(0))
+//                                .setTangent(Math.toRadians(90))
+//                                .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                .build());
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
 
                 .addEntity(myBot)
                 .start();
-
     }
 }

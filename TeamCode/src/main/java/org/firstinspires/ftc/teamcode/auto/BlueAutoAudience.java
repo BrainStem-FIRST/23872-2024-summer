@@ -69,14 +69,14 @@ public final class BlueAutoAudience extends LinearOpMode {
             telemetry.update();
             if (blocks.length != 0) {
                 if (blocks[0].x < 50) {
-                    // Prop is on left
-                    line = 1;
+                    // Prop is on left 1
+                    line = 3;
                 } else if (blocks[0].x > 260) {
                     // prop is on right 3
-                  line = 1;
+                  line = 3;
                 } else {
                     // prop is on center 2
-                    line = 1;
+                    line = 3;
                 }
 
 
@@ -87,7 +87,7 @@ public final class BlueAutoAudience extends LinearOpMode {
             }
 //2
             if (blocks.length == 0){
-                line = 1;
+                line = 3 ;
             }
 
         }
@@ -109,35 +109,61 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(-36, 34), Math.toRadians(0))
-                                    .build()));
-                            //collector.collectorInAction(),
-                            //new SleepAction(0.85),
-                            //collector.collectorOffAction()
-//                            drive.actionBuilder(drive.pose)
-//                                    .setReversed(true)
-//                                    .setTangent(Math.toRadians(90))
-//                                    .splineToLinearHeading(new Pose2d(-35, 30, Math.toRadians(0)), Math.toRadians(180))
-//                                    .build()
-//                            drive.actionBuilder(drive.pose)
-//                                    .setTangent(Math.toRadians(-90))
-//                                    .strafeTo(new Vector2d(-25,0))
-//                                    .build(),
-//                            drive.actionBuilder(drive.pose)
-//                                    .setTangent(Math.toRadians(-90))
-//                                    .splineToLinearHeading(new Pose2d(50, 45, Math.toRadians(180)), Math.toRadians(180))
-//                                    .build()
-//                            depositor.depositorScoringAction(),
-//                            new SleepAction(2.0),
-//                            depositor.pixelDropAction(),
-//                            new SleepAction(2.0),
-//                            depositor.depositorRestingAction(),
-//                            new SleepAction(2.5),
-//                            drive.actionBuilder(drive.pose)
-//                                    .setTangent(Math.toRadians(90))
-//                                    .strafeTo(new Vector2d(62, 65))
-//                                    .build()
-//                    )
+                                    .splineToConstantHeading(new Vector2d(-32, 29), Math.toRadians(0))
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(.90),
+                            collector.collectorOffAction()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(0)), Math.toRadians(0))
+                                    .build()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(0))
+                                    .lineToXConstantHeading(30)
+                                    .build()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(53.5, 40, Math.toRadians(180)), Math.toRadians(90))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(1.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(1.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(1.5)
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                    .build()
+                    )
+            );
 
             while (opModeIsActive()) {
                 telemetry.addData("Heading", drive.pose.heading);
@@ -147,60 +173,156 @@ public final class BlueAutoAudience extends LinearOpMode {
         if (line == 2) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(15, 34, Math.toRadians(-90)), Math.toRadians(-90))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(0.65),
-                            collector.collectorOffAction(),
-                            // Move robot to backdrop
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
-//                                    .lineToY(new Vector2d(14, 60))
-                                    .splineToLinearHeading(new Pose2d(50, 37, Math.toRadians(180)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(-34, 19, Math.toRadians(90)), Math.toRadians(-90))
                                     .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(2.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
+                            collector.collectorOutAction(),
+                            new SleepAction(1),
+                            collector.collectorOffAction()
+
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(62, 65))
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
             );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(0))
+                                    .lineToXConstantHeading(30)
+                                    .build()
+                    )
+            );
+
+            // Move robot to backdrop
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53.5, 39, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(1.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(1.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(1.5)
+
+
+
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                    .build()
+                            )
+            );
+
+
         }
         if (line == 3) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
+                                    .setReversed(false)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(7, 27, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-34, 29, Math.toRadians(180)), Math.toRadians(0))
+                                    .build()
+
+                            )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(false)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-37, 29), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.65),
-                            collector.collectorOffAction(),
-                            // Move robot to backdrop
+                            new SleepAction(.95),
+                            collector.collectorOffAction()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(0))
+                                    .lineToXConstantHeading(-34)
+                                    .build()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .strafeTo(new Vector2d(-34,6))
+                                    .build()
+                    )
+            );
+
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(0))
+                                    .lineToXConstantHeading(30)
+                                    .build()
+                    )
+            );
+//            // Move robot to backdrop
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(50, 30, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53.5, 29.5, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5),
+                            new SleepAction(1.5)
+
+
+
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(62, 65))
+                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
                                     .build()
                     )
             );
