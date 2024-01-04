@@ -49,7 +49,7 @@ public final class BlueAutoAudience extends LinearOpMode {
 
 
         blocks = huskyLens.blocks();
-
+//3
         int line = 3;
         int counter = 0;
 
@@ -87,7 +87,7 @@ public final class BlueAutoAudience extends LinearOpMode {
             }
 //2
             if (blocks.length == 0){
-                line = 3 ;
+                line = 3;
             }
 
         }
@@ -109,10 +109,10 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(-32, 29), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(-30.75, 29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.90),
+                            new SleepAction(.95),
                             collector.collectorOffAction()
                     )
             );
@@ -144,7 +144,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(53.5, 40, Math.toRadians(180)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(55, 42.75, Math.toRadians(180)), Math.toRadians(90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -159,8 +159,8 @@ public final class BlueAutoAudience extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading( new Pose2d(54,8, Math.toRadians(180)), Math.toRadians(-90))
                                     .build()
                     )
             );
@@ -214,7 +214,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(53.5, 39, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 39, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -232,8 +232,8 @@ public final class BlueAutoAudience extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading( new Pose2d(54,9, Math.toRadians(180)), Math.toRadians(-90))
                                     .build()
                             )
             );
@@ -303,7 +303,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(53.5, 29.5, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 30, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -321,8 +321,8 @@ public final class BlueAutoAudience extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading( new Pose2d(54,7.5, Math.toRadians(180)), Math.toRadians(-90))
                                     .build()
                     )
             );

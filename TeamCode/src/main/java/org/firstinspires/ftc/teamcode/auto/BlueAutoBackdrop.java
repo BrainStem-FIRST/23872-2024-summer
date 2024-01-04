@@ -68,8 +68,8 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     // prop is on right
                     line = 3;
                 } else {
-                    // prop is on center
-                    line = 2;
+                    // prop is on center 2
+                    line = 1;
                 }
 
 
@@ -95,7 +95,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(18, 26, Math.toRadians(0)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(17, 26, Math.toRadians(0)), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.85),
