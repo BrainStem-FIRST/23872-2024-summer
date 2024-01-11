@@ -103,6 +103,17 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             // Move robot to backdrop
                     )
             );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(15,-45), Math.toRadians(-90))
+                                    .build()
+                    )
+            );
                             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(

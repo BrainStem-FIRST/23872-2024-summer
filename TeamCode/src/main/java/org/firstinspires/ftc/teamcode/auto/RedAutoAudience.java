@@ -64,13 +64,13 @@ public final class RedAutoAudience extends LinearOpMode {
             {
                 if (blocks[0].x < 50) {
                     // Prop is on left
-                    line = 6;
+                    line = 4;
                 } else if (blocks[0].x > 260) {
                     // prop is on right
                     line = 6;
                 } else {
                     // prop is on center
-                    line = 6;
+                    line = 5;
                 }
 
 
@@ -81,7 +81,7 @@ public final class RedAutoAudience extends LinearOpMode {
             }
             //5
             if (blocks.length == 0){
-                line = 6;
+                line = 5;
             }
 
         }
@@ -97,7 +97,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-34, -29, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-33, -29, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
 
                     )
@@ -200,7 +200,7 @@ public final class RedAutoAudience extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(90))
+                                    .setTangent(Math.toRadians(180))
                                     .splineToLinearHeading(new Pose2d(-35, -9, Math.toRadians(170)), Math.toRadians(0))
                                     .build()
                     )
@@ -258,7 +258,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-30.75, -29, Math.toRadians(0)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(-29, -30, Math.toRadians(0)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.95),
@@ -281,7 +281,7 @@ public final class RedAutoAudience extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
+                                    .setTangent(Math.toRadians(180))
                                     .splineToLinearHeading(new Pose2d(-35, -10, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
@@ -303,7 +303,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(57, -48, Math.toRadians(180)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(60, -48, Math.toRadians(180)), Math.toRadians(-90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),

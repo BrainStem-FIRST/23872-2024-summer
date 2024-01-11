@@ -179,7 +179,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(45))
-                                    .splineToLinearHeading(new Pose2d(22, -27, Math.toRadians(0)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(18, -27, Math.toRadians(0)), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.85),
@@ -187,13 +187,24 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             // Move robot to backdrop
                     )
             );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(15,-45), Math.toRadians(-90))
+                                    .build()
+                    )
+            );
                             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(-115))
-                                    .splineToLinearHeading(new Pose2d(55, -45, Math.toRadians(180)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, -42, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
@@ -209,7 +220,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading( new Pose2d(48,-65, Math.toRadians(180)), Math.toRadians(-90))
+                                    .splineToLinearHeading( new Pose2d(50,-65, Math.toRadians(180)), Math.toRadians(-90))
                                     .build()
                     )
             );
