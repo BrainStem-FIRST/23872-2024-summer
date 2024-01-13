@@ -68,10 +68,10 @@ public final class BlueAutoAudience extends LinearOpMode {
 
             telemetry.update();
             if (blocks.length != 0) {
-                if (blocks[0].x < 50) {
+                if (blocks[0].x < 80) {
                     // Prop is on left 1
                     line = 3;
-                } else if (blocks[0].x > 260) {
+                } else if (blocks[0].x > 240) {
                     // prop is on right 3
                   line = 3;
                 } else {

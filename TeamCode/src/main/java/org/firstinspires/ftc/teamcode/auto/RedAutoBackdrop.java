@@ -62,10 +62,10 @@ public final class RedAutoBackdrop extends LinearOpMode {
             telemetry.update();
             if (blocks.length != 0)
             {
-                if (blocks[0].x < 50) {
+                if (blocks[0].x < 80) {
                     // Prop is on left
                     line = 4;
-                } else if (blocks[0].x > 260) {
+                } else if (blocks[0].x > 240) {
                     // prop is on right
                     line = 6;
                 } else {
