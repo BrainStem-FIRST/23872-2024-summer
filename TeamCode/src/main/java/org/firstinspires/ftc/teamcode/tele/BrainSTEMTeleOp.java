@@ -85,10 +85,6 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             stickyButtonRightBumper.update(gamepad1.right_bumper);
             stickyButtonLeftBumper.update(gamepad1.left_bumper);
             if (stickyButtonRightBumper.getState()) {
-//                retractionTime.reset();
-//                retractionInProgress = true;
-//               robot.depositor.decreaseState();
-//               robot.depositor.updateState();
                 rightBumperCounter += 1;
             }
             if (stickyButtonLeftBumper.getState()) {
