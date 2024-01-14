@@ -113,7 +113,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-30.75, 29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.95),
+                            new SleepAction(.85),
                             collector.collectorOffAction()
                     )
             );
@@ -145,7 +145,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(53.75, 42.75, Math.toRadians(180)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(54.25, 42.75, Math.toRadians(180)), Math.toRadians(90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -253,7 +253,6 @@ public final class BlueAutoAudience extends LinearOpMode {
                             )
             );
 
-            drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
@@ -262,7 +261,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-39, 29), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.95),
+                            new SleepAction(.75),
                             collector.collectorOffAction()
                     )
             );
@@ -304,7 +303,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(55, 30, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(55, 33, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),

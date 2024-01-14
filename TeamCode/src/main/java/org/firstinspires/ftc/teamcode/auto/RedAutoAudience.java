@@ -109,7 +109,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-36.50, -29), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-38.5, -29), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.95),
@@ -154,7 +154,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(56.5, -34, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(56.5, -33, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -210,7 +210,7 @@ public final class RedAutoAudience extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
+                                    .setTangent(Math.toRadians(0))
                                     .splineToLinearHeading(new Pose2d(30, -9, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
@@ -234,7 +234,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(56, -41, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(57, -40, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -271,7 +271,7 @@ public final class RedAutoAudience extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(-28, -30, Math.toRadians(0)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.95),
+                            new SleepAction(.85),
                             collector.collectorOffAction()
                     )
             );
@@ -312,8 +312,8 @@ public final class RedAutoAudience extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(58.5, -47.5, Math.toRadians(180)), Math.toRadians(-90))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(57.25, -48.75, Math.toRadians(180)), Math.toRadians(-90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
