@@ -189,7 +189,7 @@ public final class RedAutoAudience extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(-34, -19, Math.toRadians(-90)), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(1),
+                            new SleepAction(0.95),
                             collector.collectorOffAction()
 
                     )
@@ -199,22 +199,32 @@ public final class RedAutoAudience extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(-35, -9, Math.toRadians(170)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(90))
+                                    .lineToYConstantHeading(-10)
                                     .build()
                     )
             );
-
+//
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .lineToXConstantHeading(30)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(30, -9, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
             );
+
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(0))
+//                                    .lineToXLinearHeading(30, Math.toRadians(180))
+//                                    .build()
+//                    )
+//            );
 
             // Move robot to backdrop
 
@@ -224,7 +234,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(56.75, -39, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(56, -41, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -258,7 +268,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-29, -30, Math.toRadians(0)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(-28, -30, Math.toRadians(0)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.95),
@@ -303,7 +313,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(60, -48, Math.toRadians(180)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(58.5, -47.5, Math.toRadians(180)), Math.toRadians(-90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
