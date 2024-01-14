@@ -158,8 +158,8 @@ public class DepositorAuto {
         telemetry.addData("ServoState", "Resting");
     }
     private void depositorScoring(){
-        LeftDepositor.setPosition(0.01);
-        RightDepositor.setPosition(0.01);
+        LeftDepositor.setPosition(0.007);
+        RightDepositor.setPosition(0.007);
         telemetry.addData("ServoState", "Scoring");
     }
 

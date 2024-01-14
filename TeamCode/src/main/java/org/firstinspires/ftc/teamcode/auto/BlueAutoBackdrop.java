@@ -69,7 +69,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     line = 3;
                 } else {
                     // prop is on center 2
-                    line = 1;
+                    line = 2;
                 }
 
 
@@ -120,7 +120,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(115))
-                                    .splineToLinearHeading(new Pose2d(55, 42, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53.25, 42, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
@@ -161,7 +161,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
 //                                    .lineToY(new Vector2d(14, 60))
-                                    .splineToLinearHeading(new Pose2d(55, 34, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53.25, 34, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
@@ -201,7 +201,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(55, 28, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53.25, 28, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.0),
