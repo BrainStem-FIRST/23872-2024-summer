@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotTele.PresentationRobotTele;
 import org.firstinspires.ftc.teamcode.robotTele.DepositorTele;
 
-@TeleOp (name = "TeleOp", group = "Robot")
+@TeleOp (name = "PresenTeleOp", group = "Robot")
 public class PresentationTeleOp extends LinearOpMode {
     private boolean retractionInProgress = false;
     private ElapsedTime waitForHolder = new ElapsedTime();
