@@ -113,8 +113,10 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-30.75, 29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.85),
-                            collector.collectorOffAction()
+                            new SleepAction(.77),
+                            collector.collectorOffAction(),
+                             new SleepAction(10)
+
                     )
             );
 
@@ -180,8 +182,10 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(-34, 19, Math.toRadians(90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(1),
-                            collector.collectorOffAction()
+                            new SleepAction(.77),
+                            collector.collectorOffAction(),
+                            new SleepAction(10)
+
 
                     )
             );
@@ -215,7 +219,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(52.5, 38, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53, 39, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -261,8 +265,10 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-39, 29), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.75),
-                            collector.collectorOffAction()
+                            new SleepAction(.70),
+                            collector.collectorOffAction(),
+                            new SleepAction(10)
+
                     )
             );
 
