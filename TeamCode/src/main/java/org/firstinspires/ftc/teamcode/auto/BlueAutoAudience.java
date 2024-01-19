@@ -113,7 +113,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-30.75, 29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.77),
+                            new SleepAction(.65),
                             collector.collectorOffAction(),
                              new SleepAction(10)
 
@@ -182,7 +182,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(-34, 19, Math.toRadians(90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.77),
+                            new SleepAction(.65),
                             collector.collectorOffAction(),
                             new SleepAction(10)
 

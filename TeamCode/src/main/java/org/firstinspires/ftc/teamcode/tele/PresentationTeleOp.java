@@ -85,6 +85,10 @@ public class PresentationTeleOp extends LinearOpMode {
                     robot.lift.decreaseLevel();
                     robot.lift.updateLevel();
                 }
+                if (gamepad2.b){
+                    robot.lift.setLiftZero();
+                    robot.depositor.setRestingState();
+                }
 
                 robot.update();
             }
