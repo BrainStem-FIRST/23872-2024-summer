@@ -68,10 +68,10 @@ public final class BlueAutoAudience extends LinearOpMode {
 
             telemetry.update();
             if (blocks.length != 0) {
-                if (blocks[0].x < 80) {
+                if (blocks[0].x < 110) {
                     // Prop is on left 1
                     line = 1;
-                } else if (blocks[0].x > 240) {
+                } else if (blocks[0].x > 220) {
                     // prop is on right 3
                   line = 3;
                 } else {
@@ -85,9 +85,9 @@ public final class BlueAutoAudience extends LinearOpMode {
 
                 telemetry.update();
             }
-//2
+//3
             if (blocks.length == 0){
-                line = 3;
+                line = 1;
             }
 
         }
@@ -147,7 +147,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(54.25, 42.75, Math.toRadians(180)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(55, 42.75, Math.toRadians(180)), Math.toRadians(90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -219,7 +219,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(53, 39, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(56, 39, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),

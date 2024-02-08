@@ -8,6 +8,7 @@ public class BrainSTEMRobotAuto {
     HardwareMap hardwareMap;
     Telemetry telemetry;
     public CollectorAuto collector;
+    public CollectorAuto drawbridge;
     public TransferAuto transfer;
     public DepositorAuto depositor;
     public LiftAuto lift;
@@ -19,6 +20,7 @@ public class BrainSTEMRobotAuto {
 
 
         collector = new CollectorAuto(hardwareMap, telemetry);
+        drawbridge = new CollectorAuto(hardwareMap, telemetry);
         hanging = new HangingAuto(hardwareMap, telemetry);
         transfer = new TransferAuto(hardwareMap, telemetry);
         depositor = new DepositorAuto(hardwareMap, telemetry);
@@ -28,6 +30,7 @@ public class BrainSTEMRobotAuto {
     public void update() {
         telemetry.addData("collectorState", collector.collectorState);
         collector.setCollectorState();
+        drawbridge.setDrawbridgeState();
         hanging.hangingState();
         hanging.setServoState();
         transfer.transferState();

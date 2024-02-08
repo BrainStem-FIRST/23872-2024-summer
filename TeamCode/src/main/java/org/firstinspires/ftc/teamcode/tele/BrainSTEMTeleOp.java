@@ -79,6 +79,10 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.collector.setCollectorState();
                 robot.transfer.setTransferOff();
                 robot.transfer.transferState();
+                if (gamepad2.a&& gamepad2.b){
+                    robot.collector.DrawbridgeFive();
+
+                }
             }
 
 //pixel holder

@@ -62,10 +62,10 @@ public final class RedAutoAudience extends LinearOpMode {
             telemetry.update();
             if (blocks.length != 0)
             {
-                if (blocks[0].x < 80) {
+                if (blocks[0].x < 110) {
                     // Prop is on left
                     line = 4;
-                } else if (blocks[0].x > 240) {
+                } else if (blocks[0].x > 220) {
                     // prop is on right
                     line = 6;
                 } else {
@@ -81,7 +81,7 @@ public final class RedAutoAudience extends LinearOpMode {
             }
             //5
             if (blocks.length == 0){
-                line = 5;
+                line = 4;
             }
 
         }
@@ -156,7 +156,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(56.5, -33, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(56.5, -38.5, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -303,7 +303,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(-35, -10, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-35, -5, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
             );

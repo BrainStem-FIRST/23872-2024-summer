@@ -80,7 +80,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
             }
 
             if (blocks.length == 0){
-                line = 2;
+                line = 1;
             }
 
         }
@@ -191,7 +191,6 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         if (line == 3) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
                                     .splineToLinearHeading(new Pose2d(5, 28.5, Math.toRadians(180)), Math.toRadians(180))

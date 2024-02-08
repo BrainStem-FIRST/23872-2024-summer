@@ -80,7 +80,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                 telemetry.update();
             }
             if (blocks.length == 0){
-                line = 5;
+                line = 4;
             }
 
         }
@@ -134,13 +134,12 @@ public final class RedAutoBackdrop extends LinearOpMode {
         if (line == 5) {
             Actions.runBlocking(
                     new SequentialAction(
-                            collector.drawbridgeUpAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
                                     .splineToLinearHeading(new Pose2d(15, -28, Math.toRadians(90)), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.65),
+                            new SleepAction(0.60),
                             collector.collectorOffAction()
                             )
             );
