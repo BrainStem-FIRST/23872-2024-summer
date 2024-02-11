@@ -21,15 +21,18 @@ public class CollectorAuto {
     private final ServoImplEx DrawbridgeServo;
     public DrawbridgeState drawbridgeState = DrawbridgeState.A_UP;
     public CollectorState collectorState = CollectorState.OFF;
-    private static final double A_5 = 700;
-    private static final double A_4 = 1000;
+
     private static final double A_UP = 100;
+    private static final double A_4 = 1000;
+    private static final double A_5 = 650;
+
+
 
     public CollectorAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         CollectorMotor = new CachingMotor(hardwareMap.get(DcMotorEx.class, "Collector"));
         DrawbridgeServo = new CachingServo(hardwareMap.get(ServoImplEx.class, "Drawbridge"));
-        DrawbridgeServo.setPwmRange(new PwmControl.PwmRange(A_4, A_5, A_UP));
+        DrawbridgeServo.setPwmRange(new PwmControl.PwmRange(A_4, A_UP));
 
     }
 
@@ -125,21 +128,21 @@ public class CollectorAuto {
         };
     }
 
-    public Action Audience_4() {
-        return new Action() {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    setAutoDrawbridge_4();
-                    initialized = true;
-                }
-
-                return false;
-            }
-        };
-    }
+//    public Action Audience_4() {
+//        return new Action() {
+//            private boolean initialized = false;
+//
+//            @Override
+//            public boolean run(@NonNull TelemetryPacket packet) {
+//                if (!initialized) {
+//                    setAutoDrawbridge_4();
+//                    initialized = true;
+//                }
+//
+//                return false;
+//            }
+//        };
+//    }
 
     public Action Audience_5() {
         return new Action() {
@@ -160,29 +163,33 @@ public class CollectorAuto {
         telemetry.addData("DrawbridgeState", drawbridgeState);
         switch (drawbridgeState) {
             case A_UP: {
-                setAutoDrawbridgeUp();
+                AutoDrawbridgeUp();
                 break;
             }
-            case A_4: {
-                setAutoDrawbridge_4();
-                break;
-            }
+//            case A_4: {
+//                AutoDrawbridge_4();
+//                break;
+//            }
             case A_5: {
-                setAutoDrawbridge_5();
+                AutoDrawbridge_5();
+                break;
             }
         }
     }
 
-    public void setAutoDrawbridgeUp() {drawbridgeState = DrawbridgeState.A_UP;
-    }
-
-    public void setAutoDrawbridge_4() {
-        drawbridgeState = DrawbridgeState.A_4;
-    }
+    public void setAutoDrawbridgeUp() {drawbridgeState = DrawbridgeState.A_UP;}
+//    public void setAutoDrawbridge_4() {
+//        drawbridgeState = DrawbridgeState.A_4;
+//    }
     public void setAutoDrawbridge_5() {
         drawbridgeState = DrawbridgeState.A_5;
     }
 
+    public void AutoDrawbridgeUp() {DrawbridgeServo.setPosition(0.99);}
+   // public void AutoDrawbridge_4() {DrawbridgeServo.setPosition(0.01);}
+    public void AutoDrawbridge_5() {
+        DrawbridgeServo.setPosition(0.01);
+    }
 
     public void setCollectorOff() {
         collectorState = CollectorState.OFF;
@@ -201,11 +208,11 @@ public class CollectorAuto {
     }
 
     private void collectorIn() {
-        CollectorMotor.setPower(0.4);
+        CollectorMotor.setPower(0.85);
     }
 
     private void collectorOut() {
-        CollectorMotor.setPower(-0.1);
+        CollectorMotor.setPower(-0.85);
     }
 
 }

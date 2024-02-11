@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 
+
 @Autonomous(name="Blue Auto Audience", group="Robot")
 public final class BlueAutoAudience extends LinearOpMode {
 
@@ -113,10 +114,8 @@ public final class BlueAutoAudience extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-30.75, 29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.65),
-                            collector.collectorOffAction(),
-                             new SleepAction(10)
-
+                            new SleepAction(0.2),
+                            collector.collectorOffAction()
                     )
             );
 
@@ -126,6 +125,36 @@ public final class BlueAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-72, 23,Math.toRadians(180)), Math.toRadians(180))
+                                            .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(1.25),
+                            collector.collectorInAction(),
+                            new SleepAction((1.0))
+                            )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .splineToLinearHeading(new Pose2d(-58,22, Math.toRadians(150)),Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-58,22, Math.toRadians(-150)),Math.toRadians(180))
+                                            .build(),
+                            collector.collectorInAction(),
+                            new SleepAction((3.0)),
+                            depositor.pixelHoldAction(),
+                            collector.collectorOutAction(),
+                            new SleepAction(2.5)
+
+                            )
+            );
+                    drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
                                     .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(0)), Math.toRadians(0))
                                     .build()
                     )
