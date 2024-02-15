@@ -9,8 +9,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotTele.BrainSTEMRobotTele;
+import org.firstinspires.ftc.teamcode.robotTele.CollectorTele;
 import org.firstinspires.ftc.teamcode.robotTele.DepositorTele;
 import org.firstinspires.ftc.teamcode.robotTele.LiftTele;
+import org.firstinspires.ftc.teamcode.robotTele.TransferTele;
 
 @TeleOp (name = "TeleOp", group = "Robot")
 public class BrainSTEMTeleOp extends LinearOpMode {
@@ -19,6 +21,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
     private final ElapsedTime retractionTime = new ElapsedTime();
     private final ElapsedTime restingTime = new ElapsedTime();
     private int rightBumperCounter = 0;
+
 
 
     @Override
@@ -89,7 +92,14 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.drawbridge.setDrawbridgeFive();
             } else if (gamepad2.b) {
                 robot.drawbridge.setDrawbridgeOne();
-            } else if (!gamepad2.b && !gamepad2.a)
+            } else if (!gamepad2.b && !gamepad2.a){}
+
+            if (robot.depositor.pixelState == DepositorTele.PixelState.HOLD) {
+                //add wait
+                robot.collector.setCollectorOut();
+                robot.transfer.setTransferOut();
+            }
+
 
 
 //pixel holder
@@ -208,7 +218,8 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 telemetry.update();
             }
         }
-    }
+
+}
 
 
 
