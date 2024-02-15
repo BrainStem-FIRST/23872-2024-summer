@@ -21,8 +21,8 @@ public class BrainSTEMTeleOp extends LinearOpMode {
     private final ElapsedTime retractionTime = new ElapsedTime();
     private final ElapsedTime restingTime = new ElapsedTime();
     private int rightBumperCounter = 0;
-
-
+    private boolean waitInProgress = false;
+    private final ElapsedTime waitTime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -95,11 +95,15 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             } else if (!gamepad2.b && !gamepad2.a){}
 
             if (robot.depositor.pixelState == DepositorTele.PixelState.HOLD) {
-                //add wait
-                robot.collector.setCollectorOut();
-                robot.transfer.setTransferOut();
-            }
+                if (waitTime.seconds() > 1){
+                    robot.collector.setCollectorOut();
+                    robot.transfer.setTransferOut();
+                }
 
+            }
+            if (stickyButtonLeftBumper.getState()){
+                waitTime.reset();
+            }
 
 
 //pixel holder
