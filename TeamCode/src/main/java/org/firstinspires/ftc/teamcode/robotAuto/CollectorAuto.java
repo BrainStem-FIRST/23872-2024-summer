@@ -39,7 +39,7 @@ public class CollectorAuto {
     }
 
     public enum CollectorState {
-        OFF, IN, OUT
+        OFF, IN, OUT, STACK_OUT, STACK_IN, STACK_OFF
     }
 
     public Action collectorOutAction() {
@@ -90,7 +90,53 @@ public class CollectorAuto {
         };
     }
 
+    public Action collectorStackOffAction() {
+        return new Action() {
+            private boolean initialized = false;
 
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    collectorStackOff();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+    public Action collectorStackOutAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    collectorStackOut();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+    public Action collectorStackInAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    collectorStackIn();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
 
     public void setCollectorState() {
         switch (collectorState) {
@@ -104,6 +150,18 @@ public class CollectorAuto {
             }
             case OUT: {
                 collectorOut();
+                break;
+            }
+            case STACK_IN: {
+                collectorStackIn();
+                break;
+            }
+            case STACK_OUT: {
+                collectorStackOut();
+                break;
+            }
+            case STACK_OFF: {
+                collectorStackOff();
                 break;
             }
         }
@@ -196,6 +254,18 @@ public class CollectorAuto {
         collectorState = CollectorState.OUT;
     }
 
+    public void setCollectorStackOff() {
+        collectorState = CollectorState.OFF;
+    }
+
+    public void setCollectorStackIn() {
+        collectorState = CollectorState.IN;
+    }
+
+    public void setCollectorStackOut() {
+        collectorState = CollectorState.OUT;
+    }
+
     private void collectorOff() {
         CollectorMotor.setPower(0);
     }
@@ -206,6 +276,18 @@ public class CollectorAuto {
 
     private void collectorOut() {
         CollectorMotor.setPower(-0.1);
+    }
+
+    private void collectorStackOff() {
+        CollectorMotor.setPower(0);
+    }
+
+    private void collectorStackIn() {
+        CollectorMotor.setPower(1);
+    }
+
+    private void collectorStackOut() {
+        CollectorMotor.setPower(-1);
     }
 
 }

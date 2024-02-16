@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -13,8 +14,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 
-@Autonomous(name="Blue Auto Audience", group="Robot")
-public final class BlueAutoAudience extends LinearOpMode {
+@Autonomous(name="Blue Auto Audience Stacks", group="Robot")
+public final class BlueAutoAudienceStacks extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
@@ -115,7 +116,7 @@ public final class BlueAutoAudience extends LinearOpMode {
                             collector.collectorOutAction(),
                             new SleepAction(.65),
                             collector.collectorOffAction(),
-                             new SleepAction(10)
+                            new SleepAction(0.5)
 
                     )
             );
@@ -124,16 +125,42 @@ public final class BlueAutoAudience extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
                                     .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-65, 5, Math.toRadians(180)), Math.toRadians(180))
+                                    .build(),
+                            collector.collectorStackInAction()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+                Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeToConstantHeading(new Vector2d(-60,15))
+                                    .build(),
+                            new SleepAction(1.5),
+                            depositor.pixelHoldAction(),
+                            new SleepAction(2.5)
+                    )
+                );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new ParallelAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
                                     .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(0)), Math.toRadians(0))
-                                    .build()
+                                    .build(),
+                            collector.collectorOutAction()
                     )
             );
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
+                            collector.collectorStackOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(0))
                                     .lineToXConstantHeading(30)
