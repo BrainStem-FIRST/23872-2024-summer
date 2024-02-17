@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
+import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
 @Autonomous(name="Blue Auto Audience Stacks", group="Robot")
 public final class BlueAutoAudienceStacks extends LinearOpMode {
@@ -35,6 +36,8 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
         drive.pose = startPose;
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
+        TransferAuto transfer = new TransferAuto(hardwareMap, telemetry);
+
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
@@ -126,41 +129,48 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(-65, 5, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-64.65, 5, Math.toRadians(180)), Math.toRadians(180))
+                                    .setTangent(Math.toRadians(-90))
+                                    .strafeTo(new Vector2d(-63,18))
                                     .build(),
-                            collector.collectorStackInAction()
+                            collector.collectorStackInAction(),
+                            transfer.transferInAction()
                     )
             );
 
             drive.updatePoseEstimate();
-                Actions.runBlocking(
+            Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .strafeToConstantHeading(new Vector2d(-60,15))
-                                    .build(),
-                            new SleepAction(1.5),
+                                    .setTangent((Math.toRadians(180)))
+                                    .lineToXConstantHeading(-63)
+                                    .build()
+                    )
+            );
+                Actions.runBlocking(
+                    new SequentialAction(
+                            new SleepAction(0.5),
                             depositor.pixelHoldAction(),
-                            new SleepAction(2.5)
+                            new SleepAction(0.5)
                     )
                 );
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
-                    new ParallelAction(
+                    new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(0)), Math.toRadians(0))
-                                    .build(),
-                            collector.collectorOutAction()
+                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(180)), Math.toRadians(0))
+                                    .build()
                     )
             );
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
-                    new SequentialAction(
-                            collector.collectorStackOffAction(),
+                    new ParallelAction(
+                            collector.collectorStackOutAction(),
+                            transfer.transferOutAction(),
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(0))
                                     .lineToXConstantHeading(30)
@@ -171,17 +181,33 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
+                            collector.collectorStackOffAction(),
+                            transfer.transferOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(55, 42.75, Math.toRadians(180)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(57.5, 35, Math.toRadians(180)), Math.toRadians(90))
                                     .build(),
                             depositor.depositorScoringAction(),
+                            new SleepAction(2.3),
+                            depositor.bottomPixelDropAction(),
+                            new SleepAction(1.0)
+                    )
+
+                    );
+
+                    drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                            .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(57,46.55),Math.toRadians(90))
+                                    .build(),
                             new SleepAction(1.0),
-                            depositor.pixelDropAction(),
+                            depositor.topPixelDropAction(),
                             new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1)
                     )
             );
 
@@ -200,166 +226,166 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                 telemetry.update();
             }
         }
-        if (line == 2) {
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-34, 19, Math.toRadians(90)), Math.toRadians(-90))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(.65),
-                            collector.collectorOffAction(),
-                            new SleepAction(10)
-
-
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(180)), Math.toRadians(0))
-                                    .build()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .lineToXConstantHeading(30)
-                                    .build()
-                    )
-            );
-
-            // Move robot to backdrop
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(56, 39, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
-
-
-
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading( new Pose2d(51,9, Math.toRadians(180)), Math.toRadians(-90))
-                                    .build()
-                            )
-            );
-
-
-        }
-        if (line == 3) {
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(false)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-34, 29, Math.toRadians(180)), Math.toRadians(0))
-                                    .build()
-
-                            )
-            );
-
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(false)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-39, 29), Math.toRadians(180))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(.70),
-                            collector.collectorOffAction(),
-                            new SleepAction(10)
-
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .lineToXConstantHeading(-35.5)
-                                    .build()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(-34,6))
-                                    .build()
-                    )
-            );
-
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .lineToXConstantHeading(30)
-                                    .build()
-                    )
-            );
+//        if (line == 2) {
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(true)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .splineToLinearHeading(new Pose2d(-34, 19, Math.toRadians(90)), Math.toRadians(-90))
+//                                    .build(),
+//                            collector.collectorOutAction(),
+//                            new SleepAction(.65),
+//                            collector.collectorOffAction(),
+//                            new SleepAction(10)
+//
+//
+//                    )
+//            );
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(true)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(180)), Math.toRadians(0))
+//                                    .build()
+//                    )
+//            );
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(0))
+//                                    .lineToXConstantHeading(30)
+//                                    .build()
+//                    )
+//            );
+//
 //            // Move robot to backdrop
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(55, 35, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
-
-
-
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading( new Pose2d(51,7.5, Math.toRadians(180)), Math.toRadians(-90))
-                                    .build()
-                    )
-            );
-        }
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(true)
+//                                    .setTangent(Math.toRadians(0))
+//                                    .splineToLinearHeading(new Pose2d(56, 39, Math.toRadians(180)), Math.toRadians(0))
+//                                    .build(),
+//                            depositor.depositorScoringAction(),
+//                            new SleepAction(1.0),
+//                            depositor.pixelDropAction(),
+//                            new SleepAction(1.0),
+//                            depositor.depositorRestingAction(),
+//                            new SleepAction(1.5)
+//
+//
+//
+//                    )
+//            );
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .splineToLinearHeading( new Pose2d(51,9, Math.toRadians(180)), Math.toRadians(-90))
+//                                    .build()
+//                            )
+//            );
+//
+//
+//        }
+//        if (line == 3) {
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(false)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .splineToLinearHeading(new Pose2d(-34, 29, Math.toRadians(180)), Math.toRadians(0))
+//                                    .build()
+//
+//                            )
+//            );
+//
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(false)
+//                                    .setTangent(Math.toRadians(180))
+//                                    .splineToConstantHeading(new Vector2d(-39, 29), Math.toRadians(180))
+//                                    .build(),
+//                            collector.collectorOutAction(),
+//                            new SleepAction(.70),
+//                            collector.collectorOffAction(),
+//                            new SleepAction(10)
+//
+//                    )
+//            );
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(0))
+//                                    .lineToXConstantHeading(-35.5)
+//                                    .build()
+//                    )
+//            );
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .strafeTo(new Vector2d(-34,6))
+//                                    .build()
+//                    )
+//            );
+//
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(0))
+//                                    .lineToXConstantHeading(30)
+//                                    .build()
+//                    )
+//            );
+////            // Move robot to backdrop
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setReversed(true)
+//                                    .setTangent(Math.toRadians(90))
+//                                    .splineToLinearHeading(new Pose2d(55, 35, Math.toRadians(180)), Math.toRadians(0))
+//                                    .build(),
+//                            depositor.depositorScoringAction(),
+//                            new SleepAction(1.0),
+//                            depositor.pixelDropAction(),
+//                            new SleepAction(1.0),
+//                            depositor.depositorRestingAction(),
+//                            new SleepAction(1.5)
+//
+//
+//
+//                    )
+//            );
+//
+//            drive.updatePoseEstimate();
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .setTangent(Math.toRadians(-90))
+//                                    .splineToLinearHeading( new Pose2d(51,7.5, Math.toRadians(180)), Math.toRadians(-90))
+//                                    .build()
+//                    )
+//            );
+//        }
     }
 }
 
