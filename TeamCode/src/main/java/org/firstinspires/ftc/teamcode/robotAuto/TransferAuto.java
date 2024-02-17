@@ -14,6 +14,8 @@ public class TransferAuto {
     private Telemetry telemetry;
     private final DcMotorEx transferMotor;
     private HardwareMap hardwareMap;
+
+    public TransferAuto.TransferState transferState = TransferAuto.TransferState.OFF;
     public TransferAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry=telemetry;
         this.hardwareMap=hardwareMap;
@@ -23,14 +25,14 @@ public class TransferAuto {
     public enum TransferState {
         OFF, IN, OUT
     }
-    public Action transferOutAction() {
+    public Action transferInAction() {
         return new Action() {
             private boolean initialized = false;
 
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    transferOut();
+                    transferIn();
                     initialized = true;
                 }
 
@@ -55,8 +57,23 @@ public class TransferAuto {
         };
     }
 
-    TransferState transferState = TransferState.OFF;
-    
+    public Action transferOutAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    transferOut();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+
     public void transferState(){
         switch (transferState) {
             case OFF: {
