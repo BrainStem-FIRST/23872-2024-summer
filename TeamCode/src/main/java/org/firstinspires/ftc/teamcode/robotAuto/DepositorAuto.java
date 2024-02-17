@@ -84,21 +84,7 @@ public class DepositorAuto {
         };
     }
 
-    public Action pixelHoldAction() {
-        return new Action() {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    pixelHold();
-                    initialized = true;
-                }
-
-                return false;
-            }
-        };
-    }
+   
 
     public Action pixelHoldAction() {
         return new Action() {
