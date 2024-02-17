@@ -84,7 +84,7 @@ public class DepositorAuto {
         };
     }
 
-   
+
 
     public Action pixelHoldAction() {
         return new Action() {

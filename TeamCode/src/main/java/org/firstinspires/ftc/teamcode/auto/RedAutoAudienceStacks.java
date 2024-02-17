@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -15,14 +14,14 @@ import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
-@Autonomous(name="Blue Auto Audience Stacks", group="Robot")
-public final class BlueAutoAudienceStacks extends LinearOpMode {
+@Autonomous(name="Red Auto Audience Stacks", group="Robot")
+public final class RedAutoAudienceStacks extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
     private HuskyLens.Block[] blocks;
 
-    private Pose2d startPose = new Pose2d(-35.25, 62.50, Math.toRadians(90));
+    private Pose2d startPose = new Pose2d(-35.25, -62.50, Math.toRadians(-90));
 
     // Determine the prop position
     int targetTagPos = -1;
@@ -90,7 +89,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
             }
 //3
             if (blocks.length == 0) {
-                line = 3;
+                line = 1;
             }
 
         }
@@ -105,7 +104,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToLinearHeading(new Pose2d(-44, 36, Math.toRadians(0)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-44, -36, Math.toRadians(0)), Math.toRadians(180))
                                     .build()));
             drive.updatePoseEstimate();
             Actions.runBlocking(
@@ -113,7 +112,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(-30.75, 29), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(-30.75, -29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.45),
@@ -128,9 +127,9 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(-64.65, 5, Math.toRadians(180)), Math.toRadians(180))
-                                    .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(-63, 18))
+                                    .splineToLinearHeading(new Pose2d(-64.65, -5, Math.toRadians(180)), Math.toRadians(180))
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(-63, -18))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -162,7 +161,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-35, -6, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
             );
@@ -185,7 +184,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(57.5, 35, Math.toRadians(180)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(57.5, -35, Math.toRadians(180)), Math.toRadians(-90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.3),
@@ -230,7 +229,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(-34, 19, Math.toRadians(90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.25),
+                            new SleepAction(.47),
                             collector.collectorOffAction(),
                             new SleepAction(.25)
 
@@ -368,9 +367,9 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-64.65, 4, Math.toRadians(180)), Math.toRadians(180))
-                                    .setTangent(Math.toRadians(90))
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-64.65, 5, Math.toRadians(180)), Math.toRadians(180))
+                                    .setTangent(Math.toRadians(-90))
                                     .strafeTo(new Vector2d(-63, 18))
                                     .build(),
                             collector.collectorStackInAction(),
@@ -391,7 +390,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             new SleepAction(0.15),
                             depositor.pixelHoldAction(),
-                            new SleepAction(0.55)
+                            new SleepAction(0.35)
                     )
             );
 
@@ -426,8 +425,8 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(57.5, 44, Math.toRadians(180)), Math.toRadians(90))
-                                    .build(),
+                                    .splineToLinearHeading(new Pose2d(57.5, 43, Math.toRadians(180)), Math.toRadians(90))
+                                    .build(), 
                             depositor.depositorScoringAction(),
                             new SleepAction(2.3),
                             depositor.bottomPixelDropAction(),
@@ -441,7 +440,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(57, 30), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(57, 36), Math.toRadians(90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),

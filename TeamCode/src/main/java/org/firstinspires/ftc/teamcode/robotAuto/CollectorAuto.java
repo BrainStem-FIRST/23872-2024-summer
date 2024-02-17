@@ -282,7 +282,7 @@ public class CollectorAuto {
     }
 
     private void collectorOut() {
-        CollectorMotor.setPower(-0.85);
+        CollectorMotor.setPower(-0.25);
     }
 
     private void collectorStackOff() {
