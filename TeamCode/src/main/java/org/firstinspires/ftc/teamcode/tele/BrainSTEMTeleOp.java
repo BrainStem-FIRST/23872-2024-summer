@@ -144,7 +144,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                     robot.collector.setCollectorOut();
                     robot.transfer.setTransferOut();
                 }
-                if (waitForHolder.seconds() > 3.5) {
+                if (waitForHolder.seconds() > 5) {
                     robot.collector.setCollectorOff();
                     robot.transfer.setTransferOff();
                 }
