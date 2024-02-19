@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.robotTele.TransferTele;
 public class BrainSTEMTeleOp extends LinearOpMode {
     private boolean retractionInProgress = false;
     private ElapsedTime waitForHolder = new ElapsedTime();
+    private boolean extakeInProgress = false;
     private final ElapsedTime retractionTime = new ElapsedTime();
     private final ElapsedTime restingTime = new ElapsedTime();
     private int rightBumperCounter = 0;
@@ -134,6 +135,25 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                     retractionInProgress = true;
                 }
             }
+            //extake automation
+            if (stickyButtonLeftBumper.getState()) {
+                extakeInProgress = true;
+            }
+            if (extakeInProgress) {
+                if (waitForHolder.seconds() > 1) {
+                    robot.collector.setCollectorOut();
+                    robot.transfer.setTransferOut();
+                }
+                if (waitForHolder.seconds() > 3.5) {
+                    robot.collector.setCollectorOff();
+                    robot.transfer.setTransferOff();
+                }
+            }
+            if (stickyButtonRightBumper.getState()) {
+                waitForHolder.reset();
+                extakeInProgress = false;
+            }
+            telemetry.addData("extake automation", extakeInProgress);
 
 //depositor
             stickyButtonX.update(gamepad1.x);

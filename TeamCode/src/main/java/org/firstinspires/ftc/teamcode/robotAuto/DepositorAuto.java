@@ -49,17 +49,17 @@ public class DepositorAuto {
 
 
     public enum PixelState {
-        HOLD, DROP
+        HOLD, TOP_DROP, BOTTOM_DROP
     }
 
-    public Action pixelDropAction() {
+    public Action topPixelDropAction() {
         return new Action() {
             private boolean initialized = false;
 
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    pixelDrop();
+                    topPixelDrop();
                     initialized = true;
                 }
 
@@ -67,6 +67,24 @@ public class DepositorAuto {
             }
         };
     }
+
+    public Action bottomPixelDropAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    bottomPixelDrop();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+
 
     public Action pixelHoldAction() {
         return new Action() {
@@ -90,8 +108,12 @@ public class DepositorAuto {
                 pixelHold();
                 break;
             }
-            case DROP: {
-                pixelDrop();
+            case TOP_DROP: {
+                topPixelDrop();
+                break;
+            }
+            case BOTTOM_DROP: {
+                bottomPixelDrop();
                 break;
             }
         }
@@ -132,10 +154,10 @@ public class DepositorAuto {
         TopPixHold.setPosition(0.01);
         BottomPixHold.setPosition(0.01);
     }
-    private void pixelDrop() {
-        telemetry.addData("Pixel Dropped", "True");
-        telemetry.update();
+    private void topPixelDrop() {
         TopPixHold.setPosition(0.7);
+    }
+    private void bottomPixelDrop() {
         BottomPixHold.setPosition(0.7);
     }
     public enum DepositorServoState {
@@ -145,9 +167,13 @@ public class DepositorAuto {
     public void setHoldState() {
         pixelState = PixelState.HOLD;
     }
-    public void setDropState() {
-        pixelState = PixelState.DROP;
+    public void setTopDropState() {
+        pixelState = PixelState.TOP_DROP;
     }
+    public void setBottomDropState() {
+        pixelState = PixelState.BOTTOM_DROP;
+    }
+
     public void depositorServoState(LiftAuto lift) {
         switch (depositorServoState){
             case RESTING: {
