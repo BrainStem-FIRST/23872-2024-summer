@@ -277,7 +277,8 @@ public class CollectorAuto {
         CollectorMotor.setPower(0);
     }
 
-    private void collectorIn() {
+    private void collectorIn()
+    {
         CollectorMotor.setPower(0.85);
     }
 
