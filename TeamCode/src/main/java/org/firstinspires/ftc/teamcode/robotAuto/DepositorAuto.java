@@ -49,7 +49,7 @@ public class DepositorAuto {
 
 
     public enum PixelState {
-        HOLD, TOP_DROP, BOTTOM_DROP
+        HOLD, TOP_DROP, BOTTOM_DROP, DROP
     }
 
     public Action topPixelDropAction() {
@@ -102,6 +102,23 @@ public class DepositorAuto {
         };
     }
 
+    public Action pixelDropAction() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    pixelDrop();
+                    initialized = true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+
     public void pixelState() {
         switch (pixelState){
             case HOLD: {
@@ -114,6 +131,10 @@ public class DepositorAuto {
             }
             case BOTTOM_DROP: {
                 bottomPixelDrop();
+                break;
+            }
+            case DROP: {
+                pixelDrop();
                 break;
             }
         }
@@ -159,6 +180,11 @@ public class DepositorAuto {
     }
     private void bottomPixelDrop() {
         BottomPixHold.setPosition(0.7);
+    }
+    private void pixelDrop() {
+        BottomPixHold.setPosition(0.7);
+        TopPixHold.setPosition(0.7);
+
     }
     public enum DepositorServoState {
         RESTING, SCORING
