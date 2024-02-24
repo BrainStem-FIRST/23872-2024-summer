@@ -136,23 +136,23 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 }
             }
             //extake automation
-            if (stickyButtonLeftBumper.getState()) {
-                extakeInProgress = true;
-            }
-            if (extakeInProgress) {
-                if (waitForHolder.seconds() > 1) {
-                    robot.collector.setCollectorOut();
-                    robot.transfer.setTransferOut();
-                }
-                if (waitForHolder.seconds() > 5) {
-                    robot.collector.setCollectorOff();
-                    robot.transfer.setTransferOff();
-                }
-            }
-            if (stickyButtonRightBumper.getState()) {
-                waitForHolder.reset();
-                extakeInProgress = false;
-            }
+//            if (stickyButtonLeftBumper.getState()) {
+//                extakeInProgress = true;
+//            }
+//            if (extakeInProgress) {
+//                if (waitForHolder.seconds() > 1) {
+//                    robot.collector.setCollectorOut();
+//                    robot.transfer.setTransferOut();
+//                }
+//                if (waitForHolder.seconds() > 5) {
+//                    robot.collector.setCollectorOff();
+//                    robot.transfer.setTransferOff();
+//                }
+//            }
+//            if (stickyButtonRightBumper.getState()) {
+//                waitForHolder.reset();
+//                extakeInProgress = false;
+//            }
             telemetry.addData("extake automation", extakeInProgress);
 
 //depositor
@@ -235,6 +235,9 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
 
                 robot.update();
+                telemetry.addData("x", drive.pose.position.x);
+                telemetry.addData("y", drive.pose.position.y);
+                telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
                 telemetry.addData("rightBumperCounter", rightBumperCounter);
                 telemetry.addData("stateCounter", robot.depositor.stateCounter);
                 telemetry.addData("left servo pos", robot.depositor.LeftDepositor.getPosition());

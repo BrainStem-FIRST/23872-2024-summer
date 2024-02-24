@@ -73,13 +73,13 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
             if (blocks.length != 0) {
                 if (blocks[0].x < 110) {
                     // Prop is on left 1
-                    line = 3;
+                    line = 1;
                 } else if (blocks[0].x > 220) {
                     // prop is on right 3
-                    line = 3;
+                    line = 1;
                 } else {
                     // prop is on center 2
-                    line = 3;
+                    line = 1;
                 }
 
 
@@ -90,7 +90,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
             }
 //3
             if (blocks.length == 0) {
-                line = 3;
+                line = 1;
             }
 
         }
@@ -109,6 +109,10 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                                     .build()
                     )
             );
+
+            telemetry.addData("Robot's position", drive.pose.position);
+
+            telemetry.addData("Robot's heading", drive.pose.heading);
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
@@ -176,7 +180,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-35, 6, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-35, 9, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
             );
@@ -287,7 +291,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
             );
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(0.45),
+                            new SleepAction(0.25),
                             depositor.pixelHoldAction(),
                             new SleepAction(1)
                     )
@@ -324,9 +328,9 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             transfer.transferOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
+                                    .setTangent(Math.toRadians(0))
                                     .splineToLinearHeading(new Pose2d(50, 30, Math.toRadians(180)), Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(57, 45, Math.toRadians(180)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(57, 48, Math.toRadians(180)), Math.toRadians(90))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(2.3),
@@ -341,7 +345,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(56.5, 33), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(56.5, 35), Math.toRadians(90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),
@@ -356,7 +360,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(51, 8, Math.toRadians(180)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(51, 12, Math.toRadians(180)), Math.toRadians(-90))
                                     .build()
                     )
             );

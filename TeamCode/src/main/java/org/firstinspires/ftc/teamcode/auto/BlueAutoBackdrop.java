@@ -63,13 +63,13 @@ public final class BlueAutoBackdrop extends LinearOpMode {
             if (blocks.length != 0) {
                 if (blocks[0].x < 80) {
                     // Prop is on left
-                    line = 1;
+                    line = 3;
                 } else if (blocks[0].x > 240) {
                     // prop is on right
                     line = 3;
                 } else {
                     // prop is on center 2
-                    line = 2;
+                    line = 3;
                 }
 
 
@@ -80,7 +80,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
             }
 
             if (blocks.length == 0){
-                line = 1;
+                line = 3;
             }
 
         }
