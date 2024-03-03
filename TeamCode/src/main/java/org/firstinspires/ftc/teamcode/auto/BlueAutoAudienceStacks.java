@@ -76,10 +76,10 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     line = 1;
                 } else if (blocks[0].x > 220) {
                     // prop is on right 3
-                    line = 1;
+                    line = 3;
                 } else {
                     // prop is on center 2
-                    line = 1;
+                    line = 2;
                 }
 
 
@@ -88,9 +88,9 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
 
                 telemetry.update();
             }
-//3
+//2
             if (blocks.length == 0) {
-                line = 1;
+                line = 2;
             }
 
         }
@@ -120,7 +120,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(-32, 29), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(-27.75, 29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.25),
@@ -219,7 +219,7 @@ public final class BlueAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(56.75, 44.5), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(56.75, 45.75), Math.toRadians(90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
@@ -12,6 +13,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
+import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
+
 
 @Autonomous(name="Blue Auto Backdrop", group="Robot")
 public final class BlueAutoBackdrop extends LinearOpMode {
@@ -30,6 +33,8 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, 62, Math.toRadians(90)));
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
+        TransferAuto transfer = new TransferAuto(hardwareMap, telemetry);
+
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
@@ -63,13 +68,13 @@ public final class BlueAutoBackdrop extends LinearOpMode {
             if (blocks.length != 0) {
                 if (blocks[0].x < 80) {
                     // Prop is on left
-                    line = 3;
+                    line = 1;
                 } else if (blocks[0].x > 240) {
                     // prop is on right
                     line = 3;
                 } else {
                     // prop is on center 2
-                    line = 3;
+                    line = 2;
                 }
 
 
@@ -78,9 +83,9 @@ public final class BlueAutoBackdrop extends LinearOpMode {
 
                 telemetry.update();
             }
-
+//2
             if (blocks.length == 0){
-                line = 3;
+                line = 1;
             }
 
         }
@@ -95,56 +100,72 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToLinearHeading(new Pose2d(12, 34, Math.toRadians(0)), Math.toRadians(180))
-                                    .build()));
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(false)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(15, 28), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(15, 28, Math.toRadians(0)), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.67),
                             collector.collectorOffAction()
                     )
             );
-//
 
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(15,50), Math.toRadians(-90))
-                                    .build()
-                    )
-            );
                             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
+                                    .setTangent(Math.toRadians(90))
                                     .splineToLinearHeading(new Pose2d(55.75, 41.50, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5)
+                            new SleepAction(1)
                     )
             );
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
             drive.actionBuilder(drive.pose)
-                    .setTangent(Math.toRadians(90))
-                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                    .setTangent(Math.toRadians(180))
+                    .splineToLinearHeading( new Pose2d(-67,5, Math.toRadians(-90)), Math.toRadians(180),new TranslationalVelConstraint(45))
+                    .build(),
+                            collector.collectorInAction(),
+                            transfer.transferInAction()
+                    ));
+
+
+
+                            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                            .setTangent(Math.toRadians(90))
+                    .strafeTo(new Vector2d(-65.75, 19))
                     .build()
+                    )
+            );
+
+            Actions.runBlocking(
+                    new SequentialAction(
+                            new SleepAction(0.45),
+                            depositor.pixelHoldAction(),
+                            new SleepAction(0.5)
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading( new Pose2d(55,31, Math.toRadians(-90)), Math.toRadians(180),new TranslationalVelConstraint(45))
+                                    .build(),
+                            depositor.pixelDropAction(),
+                            new SleepAction(0.5)
+
                     )
             );
 

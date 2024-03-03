@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
+import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
 @Autonomous(name="Red Auto Backdrop", group="Robot")
 public final class RedAutoBackdrop extends LinearOpMode {
@@ -30,6 +32,8 @@ public final class RedAutoBackdrop extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, -62, Math.toRadians(-90)));
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
+        TransferAuto transfer = new TransferAuto(hardwareMap, telemetry);
+
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
@@ -79,6 +83,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
 
                 telemetry.update();
             }
+            //6
             if (blocks.length == 0){
                 line = 4;
             }
@@ -96,40 +101,77 @@ public final class RedAutoBackdrop extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(6, -27, Math.toRadians(180)), Math.toRadians(180))
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(28, -28, Math.toRadians(-180)),Math.PI/2)
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.75),
+                            new SleepAction(.67),
                             collector.collectorOffAction()
                     )
             );
-                            // Move robot to backdrop
+
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
-                              drive.actionBuilder(drive.pose)
+                            drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(10))
-                                    .splineToLinearHeading(new Pose2d(53,-31.75, Math.toRadians(-180)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(55.75, -41.50, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5)
+                            new SleepAction(1)
                     )
             );
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
-                              drive.actionBuilder(drive.pose)
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading( new Pose2d(-63,-5, Math.toRadians(180)), Math.toRadians(180),new TranslationalVelConstraint(45))
+                                    .build(),
+                            collector.collectorInAction(),
+                            transfer.transferInAction()
+                    ));
+
+
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading( new Pose2d(48,-65, Math.toRadians(180)), Math.toRadians(-90))
+                                    .strafeTo(new Vector2d(-65.75, -19), new TranslationalVelConstraint(45))
                                     .build()
                     )
             );
+
+            Actions.runBlocking(
+                    new SequentialAction(
+                            new SleepAction(0.45),
+                            depositor.pixelHoldAction(),
+                            new SleepAction(0.5)
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(-60))
+                                    .splineToLinearHeading( new Pose2d(-12,-12, Math.toRadians(180)), Math.toRadians(-40),new TranslationalVelConstraint(45))
+                                    .splineToConstantHeading(new Vector2d(55,40), Math.toRadians(-40), new TranslationalVelConstraint(45))
+                                    .build(),
+                            depositor.pixelDropAction(),
+                            new SleepAction(0.5)
+
+                    )
+            );
+
         }
         if (line == 5) {
             Actions.runBlocking(

@@ -96,7 +96,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             } else if (!gamepad2.b && !gamepad2.a){}
 
             if (robot.depositor.pixelState == DepositorTele.PixelState.HOLD) {
-                if (waitTime.seconds() > 1){
+                if (waitTime.seconds() > 0.1){
                     robot.collector.setCollectorOut();
                     robot.transfer.setTransferOut();
                 }
@@ -108,6 +108,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 
 
 //pixel holder
+
             stickyButtonRightBumper.update(gamepad1.right_bumper);
             stickyButtonLeftBumper.update(gamepad1.left_bumper);
             if (stickyButtonRightBumper.getState()) {
@@ -135,7 +136,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                     retractionInProgress = true;
                 }
             }
-            //extake automation
+//            extake automation
 //            if (stickyButtonLeftBumper.getState()) {
 //                extakeInProgress = true;
 //            }
@@ -153,7 +154,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 //                waitForHolder.reset();
 //                extakeInProgress = false;
 //            }
-            telemetry.addData("extake automation", extakeInProgress);
+//            telemetry.addData("extake automation", extakeInProgress);
 
 //depositor
             stickyButtonX.update(gamepad1.x);
