@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
 @Autonomous(name="Red Auto Backdrop", group="Robot")
-public final class RedAutoBackdrop extends LinearOpMode {
+public final class RedAutoBackdropStacks extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
