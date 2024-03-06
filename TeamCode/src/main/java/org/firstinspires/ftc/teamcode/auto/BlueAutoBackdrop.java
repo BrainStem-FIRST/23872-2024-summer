@@ -95,64 +95,37 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         telemetry.addData("Going for", line);
         telemetry.update();
 
+
         if (line == 1) {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(15, 28, Math.toRadians(0)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(12, 34, Math.toRadians(0)), Math.toRadians(180))
+                                    .build()));
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(false)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(15, 28), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.67),
                             collector.collectorOffAction()
                     )
             );
+//
 
-                            drive.updatePoseEstimate();
+            drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(55.75, 41.50, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1)
-                    )
-            );
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-            drive.actionBuilder(drive.pose)
-                    .setTangent(Math.toRadians(180))
-                    .splineToLinearHeading( new Pose2d(-67,5, Math.toRadians(-90)), Math.toRadians(180),new TranslationalVelConstraint(45))
-                    .build(),
-                            collector.collectorInAction(),
-                            transfer.transferInAction()
-                    ));
-
-
-
-                            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                            .setTangent(Math.toRadians(90))
-                    .strafeTo(new Vector2d(-65.75, 19))
-                    .build()
-                    )
-            );
-
-            Actions.runBlocking(
-                    new SequentialAction(
-                            new SleepAction(0.45),
-                            depositor.pixelHoldAction(),
-                            new SleepAction(0.5)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(15,50), Math.toRadians(-90))
+                                    .build()
                     )
             );
             drive.updatePoseEstimate();
@@ -161,11 +134,23 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading( new Pose2d(55,31, Math.toRadians(-90)), Math.toRadians(180),new TranslationalVelConstraint(45))
+                                    .splineToLinearHeading(new Pose2d(55.75, 41.50, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(2.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(0.5)
-
+                            new SleepAction(2.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(2.5)
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading( new Pose2d(48,65, Math.toRadians(180)), Math.toRadians(90))
+                                    .build()
                     )
             );
 
@@ -183,7 +168,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             // Move robot to backdrop
                     )
             );
-                            drive.updatePoseEstimate();
+            drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
@@ -236,7 +221,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             new SleepAction(2.0),
                             depositor.depositorRestingAction(),
                             new SleepAction(2.5)
-                            )
+                    )
             ); drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
@@ -250,6 +235,3 @@ public final class BlueAutoBackdrop extends LinearOpMode {
         }
     }
 }
-
-
-

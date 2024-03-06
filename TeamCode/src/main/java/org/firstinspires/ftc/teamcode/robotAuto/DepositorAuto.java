@@ -176,6 +176,7 @@ public class DepositorAuto {
         BottomPixHold.setPosition(0.01);
     }
     private void topPixelDrop() {
+
         TopPixHold.setPosition(0.7);
     }
     private void bottomPixelDrop() {

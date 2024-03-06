@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
-@Autonomous(name="Red Auto Backdrop", group="Robot")
+@Autonomous(name="Red Auto Backdrop Stacks", group="Robot")
 public final class RedAutoBackdropStacks extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
