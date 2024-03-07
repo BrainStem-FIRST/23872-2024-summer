@@ -48,10 +48,10 @@ public class BrainSTEMTeleOp extends LinearOpMode {
             if (robot.depositor.depositorServoState == DepositorTele.DepositorServoState.SCORING) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(
-                                -gamepad1.left_stick_y * 0.70,
+                                -gamepad1.left_stick_y * 0.45,
                                 -gamepad1.left_stick_x * 0.45
                         ),
-                        -gamepad1.right_stick_x * 0.70));
+                        -gamepad1.right_stick_x * 0.45));
 
 
             } else {
@@ -95,16 +95,16 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 robot.drawbridge.setDrawbridgeOne();
             } else if (!gamepad2.b && !gamepad2.a){}
 
-            if (robot.depositor.pixelState == DepositorTele.PixelState.HOLD) {
-                if (waitTime.seconds() > 0.1){
-                    robot.collector.setCollectorOut();
-                    robot.transfer.setTransferOut();
-                }
-
-            }
-            if (stickyButtonLeftBumper.getState()){
-                waitTime.reset();
-            }
+//            if (robot.depositor.pixelState == DepositorTele.PixelState.HOLD) {
+//                if (waitTime.seconds() > 0.1){
+//                    robot.collector.setCollectorOut();
+//                    robot.transfer.setTransferOut();
+//                }
+//
+//            }
+//            if (stickyButtonLeftBumper.getState()){
+//                waitTime.reset();
+//            }
 
 
 //pixel holder
