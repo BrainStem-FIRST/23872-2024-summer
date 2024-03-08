@@ -85,7 +85,7 @@ public final class BlueAutoBackdrop extends LinearOpMode {
             }
 //2
             if (blocks.length == 0){
-                line = 1;
+                line = 3;
             }
 
         }
@@ -134,14 +134,14 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(55.75, 41.50, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(58, 24.75, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5)
+                            new SleepAction(1.0)
                     )
             );
             drive.updatePoseEstimate();
@@ -174,14 +174,14 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(53, 33, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(58, 33, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5)
+                            new SleepAction(1.0)
                     )
             );
             drive.updatePoseEstimate();
@@ -199,10 +199,10 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(5, 28.5, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(5, 25.5, Math.toRadians(180)), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.65),
+                            new SleepAction(0.6),
                             collector.collectorOffAction()
                             // Move robot to backdrop
                     )
@@ -212,15 +212,15 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(53, 24.75, Math.toRadians(180)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(58, 42, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2.5)
+                            new SleepAction(1.0)
                     )
             ); drive.updatePoseEstimate();
             Actions.runBlocking(
