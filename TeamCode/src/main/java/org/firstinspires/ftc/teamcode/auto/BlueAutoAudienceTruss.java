@@ -15,13 +15,14 @@ import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
-
-@Autonomous(name="Blue Auto Backdrop Stacks", group="Robot")
-public final class BlueAutoBackdropStacks extends LinearOpMode {
+@Autonomous(name="Blue Auto Audience Truss", group="Robot")
+public final class BlueAutoAudienceTruss extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
     private HuskyLens.Block[] blocks;
+
+    private Pose2d startPose = new Pose2d(-35.25, 62.50, Math.toRadians(90));
 
     // Determine the prop position
     int targetTagPos = -1;
@@ -30,14 +31,15 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(12, 62, Math.toRadians(90)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        //Set starting position
+        drive.pose = startPose;
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
         TransferAuto transfer = new TransferAuto(hardwareMap, telemetry);
 
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
-
 
         if (!huskyLens.knock()) {
             telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
@@ -51,7 +53,7 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
 
 
         blocks = huskyLens.blocks();
-
+//3
         int line = 3;
         int counter = 0;
 
@@ -63,18 +65,21 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
             telemetry.addData("amount of blocks", blocks.length);
             telemetry.addData("counter", counter);
             telemetry.addData("started", isStarted());
+            telemetry.addData("Current Position", drive.pose.position);
+            telemetry.addData("Current Heading", drive.pose.heading.toString());
+            drive.updatePoseEstimate();
 
             telemetry.update();
             if (blocks.length != 0) {
-                if (blocks[0].x < 80) {
-                    // Prop is on left
+                if (blocks[0].x < 110) {
+                    // Prop is on left 1
                     line = 1;
-                } else if (blocks[0].x > 240) {
-                    // prop is on right
+                } else if (blocks[0].x > 220) {
+                    // prop is on right 3
                     line = 3;
                 } else {
                     // prop is on center 2
-                    line = 2;
+                    line = 3;
                 }
 
 
@@ -84,7 +89,7 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                 telemetry.update();
             }
 //2
-            if (blocks.length == 0){
+            if (blocks.length == 0) {
                 line = 3;
             }
 
@@ -100,37 +105,20 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(29, 30, Math.toRadians(-180)),Math.PI/2)
+                                    .splineToLinearHeading(new Pose2d(-30, 28, Math.toRadians(0)),Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.6),
+                            new SleepAction(.7),
                             collector.collectorOffAction()
-                    )
+                            )
             );
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(58, 44, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1)
-                    )
-            );
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-63.25, 8, Math.toRadians(180)), Math.toRadians(180))
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-65, 5, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(45))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -142,7 +130,7 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-63, 21.5))
+                                    .strafeTo(new Vector2d(-64, 21))
                                     .build()
 
                     )
@@ -150,11 +138,12 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
 
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(0.25),
+//                            new SleepAction(0.25),
                             depositor.pixelHoldAction(),
                             new SleepAction(1.5)
                     )
             );
+
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
@@ -162,20 +151,39 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                             transfer.transferOutAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(60))
-                                    .splineToLinearHeading( new Pose2d(-12,12, Math.toRadians(180)), Math.toRadians(40),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(56.5,24), Math.toRadians(40))
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-22, 65, Math.toRadians(180)), Math.toRadians(0))
+                                    .build()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                         .splineToLinearHeading(new Pose2d(55, 34, Math.toRadians(180)), Math.toRadians(15))
                                     .build(),
-                            collector.collectorStackOffAction(),
-                            transfer.transferOffAction(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1.0),
+                            depositor.bottomPixelDropAction(),
+                            new SleepAction(1.0)
+                    )
+
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(56.75, 42, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            new SleepAction(1.0),
+                            depositor.topPixelDropAction(),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
-
-
+                            new SleepAction(1.0)
                     )
             );
 
@@ -184,40 +192,22 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(15, 28, Math.toRadians(-90)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(-34, 18, Math.toRadians(90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.60),
+                            new SleepAction(.6),
                             collector.collectorOffAction()
+
                     )
             );
-            // Move robot to backdrop
-
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(58, 29, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1.0)
-                    )
-            );
-
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-65,10.5, Math.toRadians(180)), Math.toRadians(180))
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-72, 5, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(45))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -229,18 +219,21 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-64, 23))
+                                    .strafeTo(new Vector2d(-70, 21))
+                                    .lineToXConstantHeading(-64)
                                     .build()
+
                     )
             );
 
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(2),
+                            new SleepAction(1.25),
                             depositor.pixelHoldAction(),
-                            new SleepAction(1.25)
+                            new SleepAction(1.5)
                     )
             );
+
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
@@ -248,35 +241,54 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                             transfer.transferOutAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(30))
-                                    .splineToLinearHeading( new Pose2d(20,9, Math.toRadians(180)), Math.toRadians(40),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(57,42), Math.toRadians(30), new TranslationalVelConstraint(35))
-                                    .build(),
+                                    .setTangent(Math.toRadians(0))
+                                    .strafeTo(new Vector2d(-24, 65))
+                                            .build()
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
                             collector.collectorStackOffAction(),
                             transfer.transferOffAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(57, 33, Math.toRadians(180)), Math.toRadians(90))
+                                    .build(),
                             depositor.depositorScoringAction(),
+                            new SleepAction(1.5),
+                            depositor.bottomPixelDropAction(),
+                            new SleepAction(1.0)
+                    )
+
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(56.5, 44), Math.toRadians(90))
+                                    .build(),
                             new SleepAction(1.0),
-                            depositor.pixelDropAction(),
+                            depositor.topPixelDropAction(),
                             new SleepAction(1.0),
                             depositor.depositorRestingAction(),
                             new SleepAction(1.0)
-
-
                     )
             );
+
         }
+
         if (line == 3) {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(3, 28, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(45))
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(0.7),
-                            collector.collectorOffAction()
-                            // Move robot to backdrop
+                                    .splineToLinearHeading(new Pose2d(-40, 29, Math.toRadians(0)), Math.toRadians(180))
+                                    .build()
+
                     )
             );
 
@@ -284,25 +296,7 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(58, 24 , Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-65,11, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-65, 5, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(45))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -314,18 +308,21 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-64, 20))
+                                    .strafeTo(new Vector2d(-64, 21))
                                     .build()
+
                     )
             );
 
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(2),
+//                            new SleepAction(0.25),
                             depositor.pixelHoldAction(),
-                            new SleepAction(1.25)
+                            new SleepAction(1.5)
                     )
             );
+
+
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
@@ -333,26 +330,44 @@ public final class BlueAutoBackdropStacks extends LinearOpMode {
                             transfer.transferOutAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(-40))
-                                    .splineToLinearHeading( new Pose2d(-12,13, Math.toRadians(180)), Math.toRadians(40),new TranslationalVelConstraint(50))
-                                    .splineToConstantHeading(new Vector2d(57,44), Math.toRadians(40), new TranslationalVelConstraint(35))
-                                    .build(),
-                            collector.collectorStackOffAction(),
-                            transfer.transferOffAction(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.5),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
-
-
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(-24, 65))
+                                    .build()
                     )
             );
 
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.collectorStackOffAction(),
+                            transfer.transferOffAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(57, 44, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(1.5),
+                            depositor.bottomPixelDropAction(),
+                            new SleepAction(1.0)
+                    )
+
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(57, 25), Math.toRadians(90))
+                                    .build(),
+                            new SleepAction(1.0),
+                            depositor.topPixelDropAction(),
+                            new SleepAction(1.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(1)
+                    )
+            );
         }
     }
 }
-
-
-
