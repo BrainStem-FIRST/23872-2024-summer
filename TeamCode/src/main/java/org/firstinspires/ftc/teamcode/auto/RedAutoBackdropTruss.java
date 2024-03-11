@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
+import org.firstinspires.ftc.teamcode.robotAuto.LiftAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.TransferAuto;
 
 @Autonomous(name="Red Auto Backdrop Truss", group="Robot")
@@ -33,6 +34,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
         CollectorAuto collector = new CollectorAuto(hardwareMap, telemetry);
         DepositorAuto depositor = new DepositorAuto(hardwareMap, telemetry);
         TransferAuto transfer = new TransferAuto(hardwareMap, telemetry);
+        LiftAuto lift = new LiftAuto(hardwareMap, telemetry);
 
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
@@ -95,7 +97,8 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
             }
             //6
             if (blocks.length == 0){
-                line = 6;
+                line = 4
+                ;
             }
 
         }
@@ -120,7 +123,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                             collector.collectorOutAction(),
                             new SleepAction(0.7),
                             collector.collectorOffAction()
-                            // Move robot to backdrop
+//                             Move robot to backdrop
                     )
             );
 
@@ -154,7 +157,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .splineToLinearHeading(new Pose2d(-65, -49, Math.toRadians(165)), Math.toRadians(180), new TranslationalVelConstraint(35))
+                                   .splineToLinearHeading(new Pose2d(-65, -49, Math.toRadians(165)), Math.toRadians(180), new TranslationalVelConstraint(35))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -305,7 +308,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(30, -26, Math.toRadians(-180)),Math.PI/2)
+                                    .splineToLinearHeading(new Pose2d(30, -21, Math.toRadians(-180)),Math.PI/2)
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.67),
@@ -319,7 +322,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(55.75, -43, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(57, -46, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -343,7 +346,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .splineToLinearHeading(new Pose2d(-65, -49, Math.toRadians(165)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-66, -49, Math.toRadians(160)), Math.toRadians(180))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -355,7 +358,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-65, -34))
+                                    .strafeTo(new Vector2d(-65, -31))
                                     .build()
                     )
             );
@@ -376,7 +379,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
                                     .splineToLinearHeading( new Pose2d(-22,-65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(56,-34), Math.toRadians(-40), new TranslationalVelConstraint(35))
+                                    .splineToConstantHeading(new Vector2d(57,-30), Math.toRadians(-40), new TranslationalVelConstraint(35))
                                     .build(),
                             collector.collectorStackOffAction(),
                             transfer.transferOffAction(),

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
@@ -105,38 +106,23 @@ public final class RedAutoAudienceTruss extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setReversed(false)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-39, -29), Math.toRadians(180))
-                                    .build(),
+                                    .setReversed(true)
+                                    .splineToLinearHeading(new Pose2d(-39, -29, Math.toRadians(180)), Math.toRadians(90))                                    .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.25),
+                            new SleepAction(.7),
                             collector.collectorOffAction()
                     )
             );
 
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .lineToXConstantHeading(-35)
-                                    .build()
-                    )
-            );
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-67, -2, Math.toRadians(180)), Math.toRadians(180))
-                                    .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-65.75, -22))
+                                    .splineToLinearHeading(new Pose2d(-66, -49, Math.toRadians(-160)), Math.toRadians(180))
                                     .build(),
-                            collector.collectorInAction(),
+                            collector.collectorStackInAction(),
                             transfer.transferInAction()
-
                     )
             );
 
@@ -144,19 +130,19 @@ public final class RedAutoAudienceTruss extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent((Math.toRadians(180)))
-                                    .lineToXConstantHeading(-64)
+                                    .setTangent(Math.toRadians(-90))
+                                    .strafeTo(new Vector2d(-65, -31))
                                     .build()
                     )
             );
+
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(1.3),
+                            new SleepAction(1.5),
                             depositor.pixelHoldAction(),
                             new SleepAction(1.5)
                     )
             );
-
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
@@ -164,30 +150,8 @@ public final class RedAutoAudienceTruss extends LinearOpMode {
                             transfer.transferOutAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-35, -6, Math.toRadians(180)), Math.toRadians(0))
-                                    .build()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .lineToXConstantHeading(30)
-                                    .build()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            collector.collectorStackOffAction(),
-                            transfer.transferOffAction(),
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading( new Pose2d(-22,-65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
                                     .splineToLinearHeading(new Pose2d(58, -45, Math.toRadians(180)), Math.toRadians(-90))
                                     .build(),
                             depositor.depositorScoringAction(),

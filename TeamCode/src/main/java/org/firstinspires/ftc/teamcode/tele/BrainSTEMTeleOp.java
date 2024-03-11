@@ -136,25 +136,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                     retractionInProgress = true;
                 }
             }
-//            extake automation
-//            if (stickyButtonLeftBumper.getState()) {
-//                extakeInProgress = true;
-//            }
-//            if (extakeInProgress) {
-//                if (waitForHolder.seconds() > 1) {
-//                    robot.collector.setCollectorOut();
-//                    robot.transfer.setTransferOut();
-//                }
-//                if (waitForHolder.seconds() > 5) {
-//                    robot.collector.setCollectorOff();
-//                    robot.transfer.setTransferOff();
-//                }
-//            }
-//            if (stickyButtonRightBumper.getState()) {
-//                waitForHolder.reset();
-//                extakeInProgress = false;
-//            }
-//            telemetry.addData("extake automation", extakeInProgress);
+//
 
 //depositor
             stickyButtonX.update(gamepad1.x);

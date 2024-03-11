@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.robotAuto;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,11 +19,11 @@ public class LiftAuto {
 
 
 
-    private final static double kP = 0.85;
+    private final static double kP = 0.01;
     //kP value not working.. needs tuning
     private final static double kI = 0.0;
     private final static double kD = 0.0;
-    private final static double kS = 0.002;
+    private final static double kS = 0.04;
     PIDController pidController = new PIDController(kP, kI, kD);
     private final static int levelZeroHeight = 0;
     private final static int levelOneHeight = 108;
@@ -101,19 +105,23 @@ public class LiftAuto {
 
             }
 
-            public void increaseLevel(){
-                levelCounter += 1;
-                if (levelCounter >= 6){
-                    levelCounter = 5;
+    public Action liftTwo() {
+        return new Action() {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    setLiftTwo();
+                    initialized = true;
                 }
+
+                return false;
             }
-            public void decreaseLevel() {
-                levelCounter -= 1;
-                if (levelCounter < 0) {
-                    levelCounter = 0;
-                }
-            }
-            public void updateLevel(){
+        };
+    }
+
+    public void updateLevel(){
                 telemetry.addData("Level Counter", levelCounter);
                 switch (levelCounter){
                     case 0:
