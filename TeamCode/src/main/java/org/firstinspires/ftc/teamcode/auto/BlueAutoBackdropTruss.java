@@ -10,6 +10,7 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robotAuto.CollectorAuto;
 import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
@@ -100,7 +101,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToLinearHeading(new Pose2d(30, 21, Math.toRadians(180)),Math.toRadians(-90), new TranslationalVelConstraint(50))
+                                    .splineToLinearHeading(new Pose2d(26.5, 21, Math.toRadians(180)),Math.toRadians(-90), new TranslationalVelConstraint(50))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.7),
@@ -113,7 +114,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToLinearHeading(new Pose2d(57, 46, Math.toRadians(180)), Math.toRadians(0), new TranslationalVelConstraint(50))
+                                    .splineToLinearHeading(new Pose2d(57, 46, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -128,7 +129,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-22, 67, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-22, 62, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -156,9 +157,9 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
 
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(0.75),
+                            new SleepAction(1),
                             depositor.pixelHoldAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(0.75)
                     )
             );
             drive.updatePoseEstimate();
@@ -169,17 +170,25 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading( new Pose2d(-22,65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(57,30), Math.toRadians(40), new TranslationalVelConstraint(35))
+                                    .splineToLinearHeading( new Pose2d(-22,62, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
+                                    .splineToConstantHeading(new Vector2d(49,30), Math.toRadians(70))
                                     .build(),
                             collector.collectorStackOffAction(),
                             transfer.transferOffAction(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
+                            depositor.depositorScoringAction()
+                    )
+                    );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .splineToConstantHeading(new Vector2d(56.5,30), Math.toRadians(40))
+                                    .build(),
                             depositor.pixelDropAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1)
 
 
                     )
@@ -190,7 +199,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(15, 27, Math.toRadians(-90)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(14, 29, Math.toRadians(-90)), Math.toRadians(-90))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.60),
@@ -205,7 +214,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(58, 30, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(58, 29.85, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -222,7 +231,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-22, 67, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-22, 65, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -260,20 +269,30 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
+                            collector.collectorStackOutAction(),
+                            transfer.transferOutAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading( new Pose2d(-22,65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(54.25,38), Math.toRadians(30))
+                                    .splineToLinearHeading( new Pose2d(-22,64, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
+                                    .splineToConstantHeading(new Vector2d(47,30), Math.toRadians(70))
                                     .build(),
                             collector.collectorStackOffAction(),
                             transfer.transferOffAction(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
+                            depositor.depositorScoringAction()
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .splineToConstantHeading(new Vector2d(54,32), Math.toRadians(0))
+                                    .build(),
                             depositor.pixelDropAction(),
-                            new SleepAction(1.0),
+                            new SleepAction(1),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.0)
+                            new SleepAction(1)
 
 
                     )
@@ -285,7 +304,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(3, 28, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(45))
+                                    .splineToLinearHeading(new Pose2d(6.5, 28, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(45))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(0.7),
@@ -303,11 +322,11 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(58, 24 , Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
                             new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1.0)
                     )
             );
 
@@ -316,7 +335,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-22, 67, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-22, 65, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -325,7 +344,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .splineToLinearHeading(new Pose2d(-65, 40, Math.toRadians(-165)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-66, 40, Math.toRadians(-160)), Math.toRadians(180))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -337,16 +356,18 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(-65, 28))
+                                    .strafeTo(new Vector2d(-65, 27))
                                     .build()
                     )
             );
-
+//
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(1.5),
+                            new SleepAction(0.75),
                             depositor.pixelHoldAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(0.5),
+                            collector.collectorStackOutAction(),
+                            transfer.transferOutAction()
                     )
             );
             drive.updatePoseEstimate();
@@ -358,21 +379,28 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
                                     .splineToLinearHeading( new Pose2d(-22,65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(57,44), Math.toRadians(40), new TranslationalVelConstraint(35))
+                                    .splineToConstantHeading(new Vector2d(47,30), Math.toRadians(70))
                                     .build(),
                             collector.collectorStackOffAction(),
                             transfer.transferOffAction(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
+                            depositor.depositorScoringAction()
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .splineToConstantHeading(new Vector2d(54,44), Math.toRadians(0))
+                                    .build(),
                             depositor.pixelDropAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1)
 
 
                     )
             );
-
         }
     }
 }

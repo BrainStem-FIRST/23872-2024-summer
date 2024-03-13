@@ -106,7 +106,7 @@ public class TransferAuto {
         transferMotor.setPower(0);
     }
     private void transferIn(){
-        transferMotor.setPower(1);
+        transferMotor.setPower(0.65);
     }
     private void transferOut(){
         transferMotor.setPower(-1);
