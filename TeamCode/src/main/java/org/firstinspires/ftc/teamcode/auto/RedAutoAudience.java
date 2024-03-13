@@ -81,7 +81,7 @@ public final class RedAutoAudience extends LinearOpMode {
             }
             //5
             if (blocks.length == 0){
-                line = 4;
+                line = 6;
             }
 
         }
@@ -97,7 +97,7 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-33, -29, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-27, -29, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
 
                     )
@@ -109,10 +109,10 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-38.5, -29), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-36, -29), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.77),
+                            new SleepAction(.55),
                             collector.collectorOffAction(),
                             new SleepAction(10)
 
@@ -156,14 +156,14 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(56.5, -38.5, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(57, -35, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
                             depositor.pixelDropAction(),
                             new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1.0)
 
 
 
@@ -188,10 +188,10 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-34, -19, Math.toRadians(-90)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(-34, -21, Math.toRadians(-90)), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.77),
+                            new SleepAction(0.55),
                             collector.collectorOffAction(),
                             new SleepAction(10)
 
@@ -277,10 +277,10 @@ public final class RedAutoAudience extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(-28, -27.25), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(-30, -29), Math.toRadians(0))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.75),
+                            new SleepAction(.55),
                             collector.collectorOffAction(),
                             new SleepAction(10)
 
