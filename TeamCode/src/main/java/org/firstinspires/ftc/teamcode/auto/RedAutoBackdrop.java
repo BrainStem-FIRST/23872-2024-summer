@@ -117,7 +117,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(1, -27, Math.toRadians(180)), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.75),
+                            new SleepAction(0.55),
                             collector.collectorOffAction()
                     )
             );
@@ -132,11 +132,11 @@ public final class RedAutoBackdrop extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(53,-22, Math.toRadians(-180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2)
+                            new SleepAction(1.0)
                     )
             );
             drive.updatePoseEstimate();
@@ -157,7 +157,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(9, -26, Math.toRadians(90)), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.60),
+                            new SleepAction(0.55),
                             collector.collectorOffAction()
                             )
             );
@@ -172,11 +172,11 @@ public final class RedAutoBackdrop extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(55.5, -27, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(2.0),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2)
+                            new SleepAction(1.0)
                     )
                             );
 
@@ -195,11 +195,11 @@ public final class RedAutoBackdrop extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(12, -24, Math.toRadians(0)), Math.toRadians(0))
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(15.5, -24, Math.toRadians(0)), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.7),
+                            new SleepAction(0.55),
                             collector.collectorOffAction()
                             // Move robot to backdrop
                     )
@@ -210,7 +210,7 @@ public final class RedAutoBackdrop extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .setTangent(Math.toRadians(180))
+//                                    .setTangent(Math.toRadians(-90))
                                     .splineToConstantHeading(new Vector2d(14,-50), Math.toRadians(-90))
                                     .build()
                     )
@@ -221,14 +221,14 @@ public final class RedAutoBackdrop extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(56.5, -44, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(56.5, -37, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2),
-                            depositor.topPixelDropAction(),
-                            new SleepAction(2),
+                            new SleepAction(1.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(2)
+                            new SleepAction(1.0)
                             )
             );
 
