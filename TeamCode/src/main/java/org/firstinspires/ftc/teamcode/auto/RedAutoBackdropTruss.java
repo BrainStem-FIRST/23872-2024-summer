@@ -95,7 +95,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
 
                 telemetry.update();
             }
-            //6
+            //4
             if (blocks.length == 0){
                 line = 4
                 ;
@@ -121,7 +121,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                                     .lineToXConstantHeading(6)
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.7),
+                            new SleepAction(0.55),
                             collector.collectorOffAction()
 //                             Move robot to backdrop
                     )
@@ -136,7 +136,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                                     .splineToLinearHeading(new Pose2d(56.5, -23, Math.toRadians(180)), Math.toRadians(0), new TranslationalVelConstraint(45))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
                             new SleepAction(1.0),
                             depositor.depositorRestingAction(),
@@ -213,10 +213,10 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(15, -28, Math.toRadians(90)), Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(13, -28, Math.toRadians(90)), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(0.60),
+                            new SleepAction(0.55),
                             collector.collectorOffAction()
                     )
             );
@@ -228,7 +228,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(58, -30, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(58, -29, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(1.0),
@@ -240,12 +240,13 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
             );
 
 
+
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-22, -67, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-22, -67, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(35))
                                     .build()
                     )
             );
@@ -254,99 +255,7 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .splineToLinearHeading(new Pose2d(-65, -49, Math.toRadians(165)), Math.toRadians(180))
-                                    .build(),
-                            collector.collectorStackInAction(),
-                            transfer.transferInAction()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-65, -34))
-                                    .build()
-                    )
-            );
-
-            Actions.runBlocking(
-                    new SequentialAction(
-                            new SleepAction(1.25),
-                            depositor.pixelHoldAction(),
-                            new SleepAction(1.5)
-                    )
-            );
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            collector.collectorStackOutAction(),
-                            transfer.transferOutAction(),
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading( new Pose2d(-22,-65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(56,-34), Math.toRadians(-40))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.5),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1.5),
-                            collector.collectorStackOffAction(),
-                            transfer.transferOffAction()
-
-                    )
-            );
-        }
-
-        if (line == 6) {
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(30, -21, Math.toRadians(-180)),Math.PI/2)
-                                    .build(),
-                            collector.collectorOutAction(),
-                            new SleepAction(.67),
-                            collector.collectorOffAction()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setReversed(true)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(57, -46, Math.toRadians(180)), Math.toRadians(0))
-                                    .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
-                            depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1)
-                    )
-            );
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(-22, -67, Math.toRadians(180)), Math.toRadians(180))
-                                    .build()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .splineToLinearHeading(new Pose2d(-66, -49, Math.toRadians(160)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-65, -49, Math.toRadians(165)), Math.toRadians(180), new TranslationalVelConstraint(35))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -365,9 +274,9 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
 
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(1.5),
+                            new SleepAction(1.75),
                             depositor.pixelHoldAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1.35)
                     )
             );
             drive.updatePoseEstimate();
@@ -378,17 +287,110 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading( new Pose2d(-22,-65, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
-                                    .splineToConstantHeading(new Vector2d(57,-30), Math.toRadians(-40), new TranslationalVelConstraint(35))
+                                    .splineToLinearHeading(new Pose2d(-22,-64, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
+                                    .splineToConstantHeading(new Vector2d(54,-38), Math.toRadians(-40))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(1.0),
+                            depositor.pixelDropAction(),
+                            new SleepAction(1.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(1.0),
+                            collector.collectorStackOffAction(),
+                            transfer.transferOffAction()
+
+                    )
+            );
+        }
+
+        if (line == 6) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(26.5, -24, Math.toRadians(-180)),Math.PI/2)
+                                    .build(),
+                            collector.collectorOutAction(),
+                            new SleepAction(.55),
+                            collector.collectorOffAction()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(57, -42, Math.toRadians(180)), Math.toRadians(0))
+                                    .build(),
+                            depositor.depositorScoringAction(),
+                            new SleepAction(1.25),
+                            depositor.pixelDropAction(),
+                            new SleepAction(1.0),
+                            depositor.depositorRestingAction(),
+                            new SleepAction(1.0)
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(-22, -67, Math.toRadians(180)), Math.toRadians(180), new TranslationalVelConstraint(35))
+                                    .build()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .splineToLinearHeading(new Pose2d(-65, -49, Math.toRadians(165)), Math.toRadians(180), new TranslationalVelConstraint(35))
+                                    .build(),
+                            collector.collectorStackInAction(),
+                            transfer.transferInAction()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(-65, -35))
+                                    .build()
+                    )
+            );
+
+            Actions.runBlocking(
+                    new SequentialAction(
+                            new SleepAction(1.75),
+                            depositor.pixelHoldAction(),
+                            new SleepAction(1.35)
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.collectorStackOutAction(),
+                            transfer.transferOutAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setReversed(true)
+                                    .setTangent(Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(-22,-64, Math.toRadians(180)), Math.toRadians(0),new TranslationalVelConstraint(45))
+                                    .splineToConstantHeading(new Vector2d(56,-25), Math.toRadians(60), new TranslationalVelConstraint(35))
                                     .build(),
                             collector.collectorStackOffAction(),
                             transfer.transferOffAction(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1.0),
                             depositor.pixelDropAction(),
-                            new SleepAction(1.5),
+                            new SleepAction(1.0),
                             depositor.depositorRestingAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1.0)
 
 
                     )
