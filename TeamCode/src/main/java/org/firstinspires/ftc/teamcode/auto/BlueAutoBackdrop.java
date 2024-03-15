@@ -222,7 +222,9 @@ public final class BlueAutoBackdrop extends LinearOpMode {
                             depositor.depositorRestingAction(),
                             new SleepAction(1.0)
                     )
-            ); drive.updatePoseEstimate();
+            );
+
+            drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
