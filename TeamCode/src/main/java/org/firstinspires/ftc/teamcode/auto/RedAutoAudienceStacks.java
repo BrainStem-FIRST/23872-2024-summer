@@ -119,7 +119,7 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(false)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-36.5, -29), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-38, -29), Math.toRadians(180))
                                     .build(),
                             collector.collectorOutAction(),
                             new SleepAction(.55),
@@ -207,10 +207,12 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                             transfer.transferOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToLinearHeading(new Pose2d(57.5, -44, Math.toRadians(180)), Math.toRadians(75))
+                                    .splineToLinearHeading(new Pose2d(50, -40, Math.toRadians(180)), Math.toRadians(75))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
+                                    drive.actionBuilder(drive.pose)
+                                    .splineToLinearHeading(new Pose2d(56, -44, Math.toRadians(180)), Math.toRadians(-90))
+                                    .build(),
                             depositor.bottomPixelDropAction(),
                             new SleepAction(1.0)
                     )
@@ -222,7 +224,7 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(58, -27.75), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(55, -26.56), Math.toRadians(-90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),
@@ -263,18 +265,36 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(-65, -4, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(-64, -2, Math.toRadians(180)), Math.toRadians(180))
+                                    .build()
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.collectorInAction(),
+                            transfer.transferInAction(),
+                            drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-63, -23))
-                                    .build(),
-                            collector.collectorStackInAction(),
-                            transfer.transferInAction()
+                                    .strafeTo(new Vector2d(-65.75, -20))
+                                    .build()
+
+
                     )
             );
 
+            drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(1.25),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent((Math.toRadians(180)))
+                                    .lineToXConstantHeading(-64)
+                                    .build()
+                    )
+            );
+            Actions.runBlocking(
+                    new SequentialAction(
+                            new SleepAction(1.3),
                             depositor.pixelHoldAction(),
                             new SleepAction(1.0)
                     )
@@ -310,10 +330,12 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                             transfer.transferOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToLinearHeading(new Pose2d(56.75, -33, Math.toRadians(180)), Math.toRadians(75))
+                                    .splineToLinearHeading(new Pose2d(50, -40, Math.toRadians(180)), Math.toRadians(75))
                                     .build(),
-                            depositor.depositorScoringAction(),
-                            new SleepAction(1.0),
+                                    depositor.depositorScoringAction(),
+                                    drive.actionBuilder(drive.pose)
+                                    .splineToLinearHeading(new Pose2d(56.75, -33, Math.toRadians(180)), Math.toRadians(-90))
+                                    .build(),
                             depositor.bottomPixelDropAction(),
                             new SleepAction(1.0)
                     )
@@ -325,7 +347,7 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(58, -42), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(55, -42), Math.toRadians(-90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),
@@ -363,9 +385,30 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-34, -29), Math.toRadians(90))
                                     .build(),
                             collector.collectorOutAction(),
-                            new SleepAction(.45),
-                            collector.collectorOffAction(),
-                            new SleepAction(0.25)
+                            new SleepAction(.55),
+                            collector.collectorOffAction()
+                    )
+            );
+
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .splineToLinearHeading(new Pose2d(-64, -2, Math.toRadians(180)), Math.toRadians(180))
+                                    .build()
+                    )
+            );
+            drive.updatePoseEstimate();
+            Actions.runBlocking(
+                    new SequentialAction(
+                            collector.collectorInAction(),
+                            transfer.transferInAction(),
+                            drive.actionBuilder(drive.pose)
+                                    .setTangent(Math.toRadians(90))
+                                    .strafeTo(new Vector2d(-65.75, -20))
+                                    .build()
+
 
                     )
             );
@@ -374,33 +417,19 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(-65, -6, Math.toRadians(180)), Math.toRadians(180))
-                                            .build(),
-                            collector.collectorStackInAction(),
-                            transfer.transferInAction()
-                            )
-            );
-
-                            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
-                            drive.actionBuilder(drive.pose)
-                                    .setTangent(Math.toRadians(90))
-                                    .strafeTo(new Vector2d(-64, -22))
+                                    .setTangent((Math.toRadians(180)))
+                                    .lineToXConstantHeading(-64)
                                     .build()
-
                     )
             );
-
-
             Actions.runBlocking(
                     new SequentialAction(
-                            new SleepAction(1.7),
+                            new SleepAction(1.3),
                             depositor.pixelHoldAction(),
-                            new SleepAction(1.5)
+                            new SleepAction(1.0)
                     )
             );
+
 
             drive.updatePoseEstimate();
             Actions.runBlocking(
@@ -432,13 +461,12 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                             transfer.transferOffAction(),
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-//                                    .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(57, -38, Math.toRadians(180)), Math.toRadians(-45))
-                                    .setTangent(Math.toRadians(-90))
-                                    .splineToLinearHeading(new Pose2d(58, -32, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToLinearHeading(new Pose2d(50, -35, Math.toRadians(180)), Math.toRadians(-45))
                                     .build(),
                             depositor.depositorScoringAction(),
-                            new SleepAction(2.3),
+                            drive.actionBuilder(drive.pose)
+                            .splineToLinearHeading(new Pose2d(55, -32, Math.toRadians(180)), Math.toRadians(-90))
+                                    .build(),
                             depositor.bottomPixelDropAction(),
                             new SleepAction(1.0)
                     )
@@ -450,7 +478,7 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(59, -47), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(55, -47), Math.toRadians(-90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),
