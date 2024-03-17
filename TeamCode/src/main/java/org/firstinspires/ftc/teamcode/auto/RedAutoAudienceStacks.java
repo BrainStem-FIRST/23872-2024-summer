@@ -308,7 +308,7 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(-35, -6, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(-35, -9, Math.toRadians(180)), Math.toRadians(0))
                                     .build()
                     )
             );
@@ -334,7 +334,7 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                                     .build(),
                                     depositor.depositorScoringAction(),
                                     drive.actionBuilder(drive.pose)
-                                    .splineToLinearHeading(new Pose2d(56.75, -33, Math.toRadians(180)), Math.toRadians(-90))
+                                    .splineToLinearHeading(new Pose2d(56.75, -35.6, Math.toRadians(180)), Math.toRadians(90))
                                     .build(),
                             depositor.bottomPixelDropAction(),
                             new SleepAction(1.0)
@@ -347,13 +347,12 @@ public final class RedAutoAudienceStacks extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(55, -42), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(57, -42), Math.toRadians(-90))
                                     .build(),
                             new SleepAction(1.0),
                             depositor.topPixelDropAction(),
                             new SleepAction(1.0),
-                            depositor.depositorRestingAction(),
-                            new SleepAction(1)
+                            depositor.depositorRestingAction()
                     )
             );
 
