@@ -86,7 +86,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
             }
 //2
             if (blocks.length == 0){
-                line = 3;
+                line = 1;
             }
 
         }
@@ -123,7 +123,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                                     .stopAndAdd(depositor.depositorScoringAction())
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(56.5, 42, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(58, 43, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
 //                            depositor.depositorScoringAction(),
 //                            new SleepAction(0.5),
@@ -132,13 +132,14 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                             depositor.depositorRestingAction()
                     )
             );
+            //seoni's stellar sequential action
             drive.updatePoseEstimate();
             Actions.runBlocking(
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(90))
                                     .splineToLinearHeading(new Pose2d(-22, 62, Math.toRadians(180)), Math.toRadians(180))
-                                    .splineToLinearHeading(new Pose2d(-64, 49, Math.toRadians(-160)), Math.toRadians(180), new TranslationalVelConstraint(45))
+                                    .splineToLinearHeading(new Pose2d(-64, 49, Math.toRadians(-158)), Math.toRadians(180), new TranslationalVelConstraint(45))
                                     .build(),
                             collector.collectorStackInAction(),
                             transfer.transferInAction()
@@ -150,7 +151,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setTangent(Math.toRadians(-90))
-                                    .strafeTo(new Vector2d(-66, 31))
+                                    .strafeTo(new Vector2d(-65, 29))
                                     .build(),
                             new SleepAction(0.75),
                             depositor.pixelHoldAction(),
@@ -178,7 +179,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(53 ,30), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(54 ,30), Math.toRadians(0))
                                     .build(),
                             depositor.pixelDropAction(),
                             new SleepAction(0.75),
@@ -210,7 +211,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(57, 30, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(57, 31.5, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(0.5),
@@ -298,7 +299,7 @@ public final class BlueAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .setTangent(Math.toRadians(0))
-                                    .splineToLinearHeading(new Pose2d(57, 28, Math.toRadians(180)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(57, 29, Math.toRadians(180)), Math.toRadians(0))
                                     .build(),
                             depositor.depositorScoringAction(),
                             new SleepAction(0.5),

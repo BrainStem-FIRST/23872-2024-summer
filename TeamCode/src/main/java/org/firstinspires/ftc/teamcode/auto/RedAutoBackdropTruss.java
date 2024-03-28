@@ -207,18 +207,15 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .splineToConstantHeading(new Vector2d(53.75,-32), Math.toRadians(0))
                                     .build(),
-                            depositor.pixelDropAction()
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
+                            depositor.pixelDropAction(),
+                            new SleepAction(0.75),
+                            depositor.depositorRestingAction(),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(50)
+                                    .splineToConstantHeading(new Vector2d(50, -60), Math.toRadians(180))
                                     .build()
                     )
             );
+
 
 
         }
@@ -318,20 +315,14 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                     .splineToConstantHeading(new Vector2d(53.75,-38), Math.toRadians(0))
                                     .build(),
                             depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction()
-
-                    )
-            );
-
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
+                            new SleepAction(0.75),
+                            depositor.depositorRestingAction(),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(50)
+                                    .splineToConstantHeading(new Vector2d(50, -60), Math.toRadians(180))
                                     .build()
                     )
             );
+
         }
 
         if (line == 6) {
@@ -426,17 +417,10 @@ public final class RedAutoBackdropTruss extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(53.75,-25), Math.toRadians(0))
                                     .build(),
                             depositor.pixelDropAction(),
-                            new SleepAction(1.0),
-                            depositor.depositorRestingAction()
-
-
-                    )
-            );
-            drive.updatePoseEstimate();
-            Actions.runBlocking(
-                    new SequentialAction(
+                            new SleepAction(0.75),
+                            depositor.depositorRestingAction(),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(50)
+                                    .splineToConstantHeading(new Vector2d(50, -60), Math.toRadians(180))
                                     .build()
                     )
             );
