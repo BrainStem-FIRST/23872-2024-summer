@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import android.util.Size;
+
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +40,7 @@ public class SensorHuskyLens extends LinearOpMode {
     // Determine the prop position
     int targetTagPos = -1;
     int targetBlockPos = -1; // The block of interest within the blocks array.
+
 
     enum alliance {
         RED, BLUE
@@ -86,13 +95,37 @@ telemetry.update();
     {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
+        //trying to get april tags to see xyz positions
+        AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                .build();
+
+
+
+//        while (!isStopRequested()&& opModeIsActive()){
+//
+//            if (tagProcessor.getDetections().size() > 0) {
+//                AprilTagDetection tag = tagProcessor.getDetections().get(0);
+//                telemetry.addData("x",tag.ftcPose.x);
+//                telemetry.addData("y",tag.ftcPose.y);
+//                telemetry.addData("z",tag.ftcPose.z);
+//                telemetry.addData("pitch",tag.ftcPose.pitch);
+//                telemetry.addData("roll",tag.ftcPose.roll);
+//                telemetry.addData("yaw",tag.ftcPose.yaw);
+//                telemetry.addData("id", tag.id);
+//
+//            }
+//        }
+
         /*
          * This sample rate limits the reads solely to allow a user time to observe
-         * what is happening on the Driver Station telemetry.  Typical applications
+         * what is happening on the Driver Station telemetry.  Typical applicatiosns
          * would not likely rate limit.
          */
         Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
-
         /*
          * Immediately expire so that the first time through we'll do the read.
          */
@@ -126,7 +159,7 @@ telemetry.update();
          * within the OpMode by calling selectAlgorithm() and passing it one of the values
          * found in the enumeration HuskyLens.Algorithm.
          */
-        //huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         telemetry.update();
@@ -181,6 +214,7 @@ telemetry.update();
 
                 sleep(20);
             }
+
             telemetry.update();
         }
 

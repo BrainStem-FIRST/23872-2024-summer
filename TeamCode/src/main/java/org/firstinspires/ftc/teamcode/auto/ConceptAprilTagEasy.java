@@ -27,13 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
-
-import android.util.Size;
+package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -64,7 +63,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Concept: AprilTag Easy", group = "Concept")
-//@Disabled
+@Disabled
 public class ConceptAprilTagEasy extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -110,11 +109,6 @@ public class ConceptAprilTagEasy extends LinearOpMode {
             }
         }
 
-        VisionPortal visionPortal = new VisionPortal.Builder()
-                .setCameraResolution(new Size(1280, 700))
-                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .build();
-
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
@@ -123,8 +117,6 @@ public class ConceptAprilTagEasy extends LinearOpMode {
     /**
      * Initialize the AprilTag processor.
      */
-
-
     private void initAprilTag() {
 
         // Create the AprilTag processor the easy way.
@@ -138,8 +130,6 @@ public class ConceptAprilTagEasy extends LinearOpMode {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                 BuiltinCameraDirection.BACK, aprilTag);
         }
-
-
 
     }   // end method initAprilTag()
 
