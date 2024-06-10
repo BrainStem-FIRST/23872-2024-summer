@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -86,22 +88,27 @@ import java.util.concurrent.TimeUnit;
  */
 
 @TeleOp(name="Omni Drive To AprilTag", group = "Concept")
-@Disabled
 public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 {
+    private double aprilTagX = -72;
+    private double aprilTagY = 0;
+    private double robotXError;
+    private double robotYError;
+    private double robotX;
+    private double robotY;
     // Adjust these numbers to suit your robot.
     final double DESIRED_DISTANCE = 12.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
-    final double SPEED_GAIN  =  0.02  ;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
-    final double STRAFE_GAIN =  0.015 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
-    final double TURN_GAIN   =  0.01  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
+    final double SPEED_GAIN  =  0.05  ;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
+    final double STRAFE_GAIN =  0.05 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
+    final double TURN_GAIN   =  0.05  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
 
     final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
+    final double MAX_AUTO_TURN  = 0.5;   //  Clip the turn speed to this max value (adjust for your robot)
 
     private DcMotor leftFrontDrive   = null;  //  Used to control the left front drive wheel
     private DcMotor rightFrontDrive  = null;  //  Used to control the right front drive wheel
@@ -127,10 +134,10 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must match the names assigned during the robot configuration.
         // step (using the FTC Robot Controller app on the phone).
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "leftfront_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightfront_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "leftback_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "rightback_drive");
+        leftFrontDrive  = hardwareMap.get(DcMotor.class, "FL");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "FRandROdo");
+        leftBackDrive  = hardwareMap.get(DcMotor.class, "BLandLOdo");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "BR");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -181,7 +188,10 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
                 telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
-                telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
+                telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.y);
+                telemetry.addData("Robot poseX", getRobotPoseX() );
+                telemetry.addData("Robot poseY", getRobotPoseY());
+                telemetry.addData("X error", robotXError);
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
@@ -192,7 +202,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
                 double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
                 double  headingError    = desiredTag.ftcPose.bearing;
-                double  yawError        = desiredTag.ftcPose.yaw;
+                double  yawError        = desiredTag.ftcPose.y;
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
                 drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
@@ -211,8 +221,8 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
             telemetry.update();
 
             // Apply desired axes motions to the drivetrain.
-            moveRobot(drive, strafe, turn);
-            sleep(10);
+            //  moveRobot(0, -strafe, 0);
+
         }
     }
 
@@ -226,10 +236,11 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
      * Positive Yaw is counter-clockwise
      */
     public void moveRobot(double x, double y, double yaw) {
+
         // Calculate wheel powers.
         double leftFrontPower    =  x -y -yaw;
-        double rightFrontPower   =  x +y +yaw;
-        double leftBackPower     =  x +y -yaw;
+        double rightFrontPower   =  -x -y -yaw;
+        double leftBackPower     =  -x -y +yaw;
         double rightBackPower    =  x -y +yaw;
 
         // Normalize wheel powers to be less than 1.0
@@ -250,7 +261,21 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
     }
-
+    public double getRobotPoseX(){
+        robotXError = 2*desiredTag.ftcPose.range*Math.cos(desiredTag.ftcPose.bearing);
+        robotX = robotXError + aprilTagX;
+        return robotX;
+    }
+    public double getRobotPoseY(){
+        robotYError = desiredTag.ftcPose.range*Math.sin(desiredTag.ftcPose.bearing)/2;
+        if(desiredTag.ftcPose.bearing > 0) {
+            robotY = aprilTagY + robotYError;
+        }
+        else {
+            robotY = aprilTagY + robotYError;
+        }
+        return robotY;
+    }
     /**
      * Initialize the AprilTag processor.
      */
@@ -271,6 +296,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                    .setCameraResolution(new Size(1280, 800))
                     .addProcessor(aprilTag)
                     .build();
         } else {
@@ -319,3 +345,4 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         }
     }
 }
+
