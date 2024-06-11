@@ -110,10 +110,6 @@ public class ConceptAprilTagEasy extends LinearOpMode {
             }
         }
 
-        VisionPortal visionPortal = new VisionPortal.Builder()
-                .setCameraResolution(new Size(1280, 700))
-                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .build();
 
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
@@ -132,8 +128,11 @@ public class ConceptAprilTagEasy extends LinearOpMode {
 
         // Create the vision portal the easy way.
         if (USE_WEBCAM) {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+            visionPortal = new VisionPortal.Builder()
+                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                    .setCameraResolution(new Size(1280, 800))
+                    .addProcessor(aprilTag)
+                    .build();
         } else {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                 BuiltinCameraDirection.BACK, aprilTag);
