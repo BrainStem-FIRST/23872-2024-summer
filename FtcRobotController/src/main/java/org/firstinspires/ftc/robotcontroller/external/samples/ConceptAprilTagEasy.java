@@ -93,6 +93,14 @@ public class ConceptAprilTagEasy extends LinearOpMode {
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
+                AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
+                        .setDrawAxes(true)
+                        .setDrawCubeProjection(true)
+                        .setDrawTagID(true)
+                        .setDrawTagOutline(true)
+                        .setLensIntrinsics(876.021,876.021,640.943,399.004)
+                        .build();
+
                 telemetryAprilTag();
 
                 // Push telemetry to the Driver Station.

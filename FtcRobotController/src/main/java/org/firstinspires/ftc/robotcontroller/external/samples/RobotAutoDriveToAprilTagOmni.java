@@ -88,6 +88,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @TeleOp(name="Omni Drive To AprilTag", group = "Concept")
+@Disabled
 public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 {
     private double aprilTagX = -72;
@@ -279,7 +280,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
     /**
      * Initialize the AprilTag processor.
      */
-    private void initAprilTag() {
+    private void initAprilTag(){
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder().build();
 
