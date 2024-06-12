@@ -29,13 +29,44 @@
 
 package org.firstinspires.ftc.teamcode.auto;
 
+/* Copyright (c) 2023 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+
 import android.util.Size;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
@@ -88,8 +119,10 @@ import java.util.concurrent.TimeUnit;
  */
 
 @TeleOp(name="Omni Drive To AprilTag", group = "Concept")
+
 public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 {
+
     private double aprilTagX = -72;
     private double aprilTagY = 0;
     private double robotXError;
@@ -102,13 +135,13 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
     //  Drive = Error * Gain    Make these values smaller for smoother control, or larger for a more aggressive response.
-    final double SPEED_GAIN  =  0.05  ;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
-    final double STRAFE_GAIN =  0.05 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
-    final double TURN_GAIN   =  0.05  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
+    final double SPEED_GAIN  =  0.08  ;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
+    final double STRAFE_GAIN =  0.08 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
+    final double TURN_GAIN   =  0.08  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
 
-    final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_TURN  = 0.5;   //  Clip the turn speed to this max value (adjust for your robot)
+    final double MAX_AUTO_SPEED = 1;   //  Clip the approach speed to this max value (adjust for your robot)
+    final double MAX_AUTO_STRAFE= 1;   //  Clip the approach speed to this max value (adjust for your robot)
+    final double MAX_AUTO_TURN  = 1;   //  Clip the turn speed to this max value (adjust for your robot)
 
     private DcMotor leftFrontDrive   = null;  //  Used to control the left front drive wheel
     private DcMotor rightFrontDrive  = null;  //  Used to control the right front drive wheel
@@ -120,7 +153,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
-
+    private double AT_DISTANCE;
     @Override public void runOpMode()
     {
         boolean targetFound     = false;    // Set to true when an AprilTag target is detected
@@ -146,6 +179,13 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                .setLensIntrinsics(876.021,876.021,640.943,399.004)
+                .build();
 
         if (USE_WEBCAM)
             setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
@@ -189,25 +229,30 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
                 telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
                 telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.y);
-                telemetry.addData("Robot poseX", getRobotPoseX() );
+                telemetry.addData("Robot poseX", getRobotPoseX());
                 telemetry.addData("Robot poseY", getRobotPoseY());
+                telemetry.addData("Relative posX", desiredTag.ftcPose.x);
+                telemetry.addData("Relative posY", desiredTag.ftcPose.y);
                 telemetry.addData("X error", robotXError);
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
 
             // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
-            if (gamepad1.left_bumper && targetFound) {
+          /*  if (gamepad1.left_bumper && targetFound) {
 
                 // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-                double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-                double  headingError    = desiredTag.ftcPose.bearing;
-                double  yawError        = desiredTag.ftcPose.y;
+                double  rangeError      = desiredTag.ftcPose.y;
+               double headingError = desiredTag.ftcPose.bearing;
+                double  yawError        = desiredTag.ftcPose.x;
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
-                drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-                strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+              //  drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+               // turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
+              //  strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+                drive = 0.5;
+                turn = 0.5;
+                strafe = 0.5;
 
                 telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             } else {
@@ -218,11 +263,34 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 turn   = -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
                 telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             }
+
+           */
             telemetry.update();
 
             // Apply desired axes motions to the drivetrain.
-            //  moveRobot(0, -strafe, 0);
+            if(targetFound && gamepad1.left_bumper) {
+                while (desiredTag.ftcPose.x > 1 || desiredTag.ftcPose.x < -1) {
+                    if(desiredTag.ftcPose.x > 0) {
+                        moveRobot(0, -0.35, 0);
+                        sleep(250);
+                        moveRobot(0,0,0);
+                        telemetry.update();
+                    }
+                    else {
+                        moveRobot(0, 0.35, 0);
+                        sleep(250);
+                        moveRobot(0,0, 0);
+                        telemetry.update();
+                    }
+                }
 
+                while (desiredTag.ftcPose.y > 1) {
+                    moveRobot(-0.35, 0, 0);
+                    sleep(250);
+                    moveRobot(0,0,0);
+                    telemetry.update();
+                }
+            }
         }
     }
 
@@ -261,20 +329,13 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
     }
-    public double getRobotPoseX(){
-        robotXError = 2*desiredTag.ftcPose.range*Math.cos(desiredTag.ftcPose.bearing);
-        robotX = robotXError + aprilTagX;
-        return robotX;
-    }
     public double getRobotPoseY(){
-        robotYError = desiredTag.ftcPose.range*Math.sin(desiredTag.ftcPose.bearing)/2;
-        if(desiredTag.ftcPose.bearing > 0) {
-            robotY = aprilTagY + robotYError;
-        }
-        else {
-            robotY = aprilTagY + robotYError;
-        }
+        robotY = aprilTagY + desiredTag.ftcPose.x + 5.5;
         return robotY;
+    }
+    public double getRobotPoseX(){
+        robotX = aprilTagX + desiredTag.ftcPose.y+6;
+        return robotX;
     }
     /**
      * Initialize the AprilTag processor.
@@ -285,7 +346,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
-        // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per second
+        // Decimation = 1 ..  Detect 2" Tag from 10 feet away at 10 Frames per secon
         // Decimation = 2 ..  Detect 2" Tag from 6  feet away at 22 Frames per second
         // Decimation = 3 ..  Detect 2" Tag from 4  feet away at 30 Frames Per Second
         // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second
@@ -296,7 +357,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .setCameraResolution(new Size(1280, 800))
+                    .setCameraResolution(new Size(640, 480))
                     .addProcessor(aprilTag)
                     .build();
         } else {
@@ -345,4 +406,3 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         }
     }
 }
-

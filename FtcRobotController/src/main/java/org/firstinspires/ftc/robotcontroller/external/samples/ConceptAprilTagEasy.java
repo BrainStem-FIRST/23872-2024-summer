@@ -98,7 +98,7 @@ public class ConceptAprilTagEasy extends LinearOpMode {
                         .setDrawCubeProjection(true)
                         .setDrawTagID(true)
                         .setDrawTagOutline(true)
-                        .setLensIntrinsics(876.021,876.021,640.943,399.004)
+//                        .setLensIntrinsics()
                         .build();
 
                 telemetryAprilTag();
@@ -138,7 +138,7 @@ public class ConceptAprilTagEasy extends LinearOpMode {
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .setCameraResolution(new Size(1280, 800))
+                    .setCameraResolution(new Size(640, 480))
                     .addProcessor(aprilTag)
                     .build();
         } else {
