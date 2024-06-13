@@ -174,17 +174,14 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)
-                .setLensIntrinsics(876.021,876.021,640.943,399.004)
+//                .setLensIntrinsics(876.021,876.021,640.943,399.004)
                 .build();
 
         if (USE_WEBCAM)
@@ -196,10 +193,9 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         telemetry.update();
         waitForStart();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             targetFound = false;
-            desiredTag  = null;
+            desiredTag = null;
 
             // Step through the list of detected tags and look for a matching tag
             List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -224,6 +220,45 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 
             // Tell the driver what we see, and what to do.
             if (targetFound) {
+                if (desiredTag.ftcPose.x >= 3 || desiredTag.ftcPose.x <= -3) {
+                    if (desiredTag.ftcPose.x > 0) {
+                        moveRobot(0, -0.35, 0);
+                        sleep(10);
+                        moveRobot(0, 0, 0);
+                    }
+                else {
+                    moveRobot(0, 0.35, 0);
+                    sleep(10);
+                    moveRobot(0, 0, 0);
+                }
+            }
+                else{
+                    if(desiredTag.ftcPose.y+2 >= 4)
+                    moveRobot(-0.35, 0, 0);
+                    sleep(10);
+                    moveRobot(0,0,0);
+                }
+                if(desiredTag.ftcPose.bearing >= 2 || desiredTag.ftcPose.bearing <= -2){
+                    if(desiredTag.ftcPose.bearing >= 0) {
+                        moveRobot(0, 0, -0.35);
+                        sleep(10);
+                        moveRobot(0, 0, 0);
+                    }
+                    else {
+                        moveRobot(0, 0, 0.35);
+                        sleep(10);
+                        moveRobot(0, 0, 0);
+                    }
+                }
+
+
+
+//               if((desiredTag.ftcPose.x <= 3 || desiredTag.ftcPose.x >= -3) && (desiredTag.ftcPose.y >= 1)) {
+//                    moveRobot(-0.35, 0, 0);
+//                    sleep(30);
+//                    moveRobot(0, 0, 0);
+//                }
+
                 telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
                 telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
@@ -234,6 +269,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 telemetry.addData("Relative posX", desiredTag.ftcPose.x);
                 telemetry.addData("Relative posY", desiredTag.ftcPose.y);
                 telemetry.addData("X error", robotXError);
+               // sleep(1000);
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
@@ -269,27 +305,30 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 
             // Apply desired axes motions to the drivetrain.
             if(targetFound && gamepad1.left_bumper) {
+                /*
                 while (desiredTag.ftcPose.x > 1 || desiredTag.ftcPose.x < -1) {
                     if(desiredTag.ftcPose.x > 0) {
                         moveRobot(0, -0.35, 0);
-                        sleep(250);
+                        sleep(50);
                         moveRobot(0,0,0);
                         telemetry.update();
                     }
                     else {
                         moveRobot(0, 0.35, 0);
-                        sleep(250);
+                        sleep(50);
                         moveRobot(0,0, 0);
                         telemetry.update();
                     }
                 }
+*/
 
-                while (desiredTag.ftcPose.y > 1) {
-                    moveRobot(-0.35, 0, 0);
-                    sleep(250);
-                    moveRobot(0,0,0);
+                  //  moveRobot(-0.25, 0, 0);
+                   // sleep(50);
+                   // moveRobot(0,0,0);
+                    telemetry.addData("Relative posX", desiredTag.ftcPose.x);
+                    telemetry.addData("Relative posY", desiredTag.ftcPose.y);
                     telemetry.update();
-                }
+
             }
         }
     }
@@ -306,10 +345,10 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
     public void moveRobot(double x, double y, double yaw) {
 
         // Calculate wheel powers.
-        double leftFrontPower    =  x -y -yaw;
-        double rightFrontPower   =  -x -y -yaw;
-        double leftBackPower     =  -x -y +yaw;
-        double rightBackPower    =  x -y +yaw;
+        double leftFrontPower    =  x +y +yaw;
+        double rightFrontPower   =  x -y -yaw;
+        double leftBackPower     =  x -y +yaw;
+        double rightBackPower    =  x +y -yaw;
 
         // Normalize wheel powers to be less than 1.0
         double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
