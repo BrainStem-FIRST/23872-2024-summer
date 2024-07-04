@@ -61,6 +61,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -234,7 +235,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
             }
                 else{
                     if(desiredTag.ftcPose.y+2 >= 4)
-                    moveRobot(-0.35, 0, 0);
+                        moveRobot(-0.35, 0, 0);
                     sleep(10);
                     moveRobot(0,0,0);
                 }
@@ -250,6 +251,7 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                         moveRobot(0, 0, 0);
                     }
                 }
+
 
 
 
