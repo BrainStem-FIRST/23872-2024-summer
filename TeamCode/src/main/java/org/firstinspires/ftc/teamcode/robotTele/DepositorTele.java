@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.robotAuto.DepositorAuto;
 import org.firstinspires.ftc.teamcode.util.CachingServo;
 
 public class DepositorTele {
@@ -115,7 +116,9 @@ public class DepositorTele {
     }
 
     public enum DepositorServoState {
-        RESTING, SCORING
+        RESTING, SCORING;
+
+
     }
     public void depositorServoState(LiftTele lift) {
         switch (depositorServoState){
