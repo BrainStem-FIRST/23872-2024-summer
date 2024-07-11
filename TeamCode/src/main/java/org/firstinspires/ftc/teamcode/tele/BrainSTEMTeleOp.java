@@ -89,12 +89,14 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 //                }
             }
 
-            if (gamepad2.a) {
-                robot.drawbridge.setDrawbridgeFive();
-            } else if (gamepad2.b) {
-                robot.drawbridge.setDrawbridgeOne();
-            } else if (!gamepad2.b && !gamepad2.a){}
-
+           stickyButtonX.update(gamepad1.x);
+            stickyButtonY.update(gamepad1.y);
+            if (stickyButtonX.getState()) {
+                robot.collector.setMonkRaised();
+            }
+            if (stickyButtonY.getState()) {
+                robot.collector.setMonkDown();
+            }
 //            if (robot.depositor.pixelState == DepositorTele.PixelState.HOLD) {
 //                if (waitTime.seconds() > 0.1){
 //                    robot.collector.setCollectorOut();
@@ -139,13 +141,7 @@ public class BrainSTEMTeleOp extends LinearOpMode {
 //
 
 //depositor
-            stickyButtonX.update(gamepad1.x);
-            stickyButtonY.update(gamepad1.y);
-            if (stickyButtonX.getState()) {
-                robot.depositor.setRestingState();
-            } else if (stickyButtonY.getState()) {
-                robot.depositor.setScoringState();
-            }
+
             if (retractionInProgress) {
 //                if (retractionTime.seconds() > 0.05) {
 //                    robot.lift.increaseLevel();
@@ -224,7 +220,6 @@ public class BrainSTEMTeleOp extends LinearOpMode {
                 telemetry.addData("rightBumperCounter", rightBumperCounter);
                 telemetry.addData("stateCounter", robot.depositor.stateCounter);
                 telemetry.addData("left servo pos", robot.depositor.LeftDepositor.getPosition());
-                telemetry.addData("right servo pos", robot.depositor.RightDepositor.getPosition());
                 telemetry.update();
             }
         }

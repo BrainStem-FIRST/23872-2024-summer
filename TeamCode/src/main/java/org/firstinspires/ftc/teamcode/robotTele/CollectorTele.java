@@ -13,24 +13,29 @@ public class CollectorTele {
     private HardwareMap hardwareMap;
     private final Telemetry telemetry;
     private final DcMotorEx CollectorMotor;
-    private final ServoImplEx DrawbridgeServo;
-    public DrawbridgeState drawbridgeState = DrawbridgeState.ONE;
+//    private final ServoImplEx DrawbridgeServo;
+    private final ServoImplEx MonkServo;
+    public MonkState monkState = MonkState.RAISED;
+
+    private static final double MONK_RAISED =1125 ;
+    private static final double MONK_DOWN =2316 ;
+//    public DrawbridgeState drawbridgeState = DrawbridgeState.ONE;
     public CollectorState collectorState = CollectorState.OFF;
 
-    private static final double Level1 = 1800;
+//    private static final double Level1 = 1800;
 //    private static final double Level2 = 1600;
 //    private static final double Level3 = 1300;
 //    private static final double Level4 = 1000;
-    private static final double Level5 = 650;
+//    private static final double Level5 = 650;
     public CollectorTele(HardwareMap hardwareMap,Telemetry telemetry) {
         this.telemetry = telemetry;
         CollectorMotor = new CachingMotor(hardwareMap.get(DcMotorEx.class, "Collector"));
-        DrawbridgeServo = new CachingServo(hardwareMap.get(ServoImplEx.class, "Drawbridge"));
-        DrawbridgeServo.setPwmRange(new PwmControl.PwmRange(Level5, Level1));
+        MonkServo = new CachingServo(hardwareMap.get(ServoImplEx.class, "monkServo"));
+        MonkServo.setPwmRange(new PwmControl.PwmRange(MONK_RAISED,MONK_DOWN ));
     }
 
-    public enum DrawbridgeState {
-        ONE, TWO, THREE, FOUR, FIVE
+    public enum MonkState {
+        RAISED, DOWN
     }
 
     public enum CollectorState {
@@ -54,11 +59,12 @@ public class CollectorTele {
         }
     }
 
-    public void setDrawbridgeState() {
-        telemetry.addData("DrawbridgeState", drawbridgeState);
-        switch (drawbridgeState){
-            case ONE: {
-                DrawbridgeOne();
+    public void setMonkState() {
+        telemetry.addData("Monk", monkState);
+        telemetry.update();
+        switch (monkState){
+            case RAISED: {
+                MonkRaised();
                 break;
             }
 //            case TWO: {
@@ -73,31 +79,21 @@ public class CollectorTele {
 //                DrawbridgeFour();
 //                break;
 //            }
-            case FIVE: {
-                DrawbridgeFive();
+            case DOWN:
+                MonkDown();
                 break;
             }
 
         }
+
+
+        public void setMonkRaised() {monkState = MonkState.RAISED;}
+        public void setMonkDown(){
+        monkState = MonkState.DOWN;
     }
 
-        public void setDrawbridgeOne() {drawbridgeState = DrawbridgeState.ONE;}
-//        public void setDrawbridgeTwo(){drawbridgeState = DrawbridgeState.TWO;}
-//        public void setDrawbridgeThree(){
-//        drawbridgeState = DrawbridgeState.THREE;
-//    }
-//        public void setDrawbridgeFour(){
-//        drawbridgeState = DrawbridgeState.FOUR;
-//    }
-        public void setDrawbridgeFive(){
-        drawbridgeState = DrawbridgeState.FIVE;
-    }
-
-    public void DrawbridgeOne(){DrawbridgeServo.setPosition(0.99);}
-//    public void DrawbridgeTwo() {DrawbridgeServo.setPosition(Level2/(Level1-Level5));}
-//    public void DrawbridgeThree(){DrawbridgeServo.setPosition(Level3/(Level1-Level5));}
-//    public void DrawbridgeFour(){DrawbridgeServo.setPosition(Level4/Level1-Level5);}
-    public void DrawbridgeFive(){DrawbridgeServo.setPosition(0.01);}
+    public void MonkRaised(){MonkServo.setPosition(0.99);}
+    public void MonkDown(){MonkServo.setPosition(0.01);}
 
 
     public void setCollectorOff(){
