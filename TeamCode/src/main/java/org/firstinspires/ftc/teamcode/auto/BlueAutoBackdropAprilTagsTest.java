@@ -47,7 +47,7 @@ public final class BlueAutoBackdropAprilTagsTest extends LinearOpMode {
 //
 
 
-            //**sense tag and drive to it, but stop when you cant see it anymore, ready to do the next spline... but how?
+            //**sense tag and drive to it, but stop when you cant see it anymore, ready to do the next spline... but how? (function we made from other code)
 
             //drive to backdrop
 

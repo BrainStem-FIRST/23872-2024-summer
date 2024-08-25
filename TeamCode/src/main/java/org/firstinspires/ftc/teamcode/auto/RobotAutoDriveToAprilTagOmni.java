@@ -61,6 +61,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import android.util.Size;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -72,8 +73,13 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
@@ -154,12 +160,20 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
+    AprilTagProcessor.Builder AprilTagBuilder;
+    private double absolutePoseX;
+    private double tagPoseX;
+    private double robotPoseX;
+    private double absolutePoseY;
+    private double tagPoseY;
+    private double robotPoseY;
     private double AT_DISTANCE;
     @Override public void runOpMode()
     {
         boolean targetFound     = false;    // Set to true when an AprilTag target is detected
         double  drive           = 0;        // Desired forward power/speed (-1 to +1)
         double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
+
         double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
         // Initialize the Apriltag Detection process
@@ -187,6 +201,10 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 
         if (USE_WEBCAM)
             setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
+
+        AprilTagBuilder = new AprilTagProcessor.Builder();
+        AprilTagBuilder.setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary());
+        aprilTag = AprilTagBuilder.build();
 
         // Wait for driver to press start
         telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
@@ -261,6 +279,19 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 //                    moveRobot(0, 0, 0);
 //                }
 
+                for (AprilTagDetection detection : aprilTag.getDetections()){
+                    Orientation rot = Orientation.getOrientation(detection.rawPose.R, AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                    double poseX = detection.rawPose.x;
+                    double poseY = detection.rawPose.y;
+                    double poseZ = detection.rawPose.z;
+
+                    double poseAX = rot.firstAngle;
+                    double poseAY = rot.secondAngle;
+                    double poseAZ = rot.thirdAngle;
+                }
+
+
+
                 telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
                 telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
@@ -271,10 +302,25 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 telemetry.addData("Relative posX", desiredTag.ftcPose.x);
                 telemetry.addData("Relative posY", desiredTag.ftcPose.y);
                 telemetry.addData("X error", robotXError);
-               // sleep(1000);
+
+
+                // sleep(1000);
             } else {
+                tagPoseX = desiredTag.rawPose.x;
+                robotPoseX = desiredTag.ftcPose.x;
+                absolutePoseX = tagPoseX - robotPoseX;
+
+                tagPoseY = desiredTag.rawPose.y;
+                robotPoseY = desiredTag.ftcPose.y;
+                absolutePoseY = tagPoseY - robotPoseY;
+
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
+                telemetry.addData("absolute X", absolutePoseX);
+                telemetry.addData("tag X", tagPoseX);
+                telemetry.addData("robot X", robotPoseX);
+
             }
+
 
             // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
           /*  if (gamepad1.left_bumper && targetFound) {
