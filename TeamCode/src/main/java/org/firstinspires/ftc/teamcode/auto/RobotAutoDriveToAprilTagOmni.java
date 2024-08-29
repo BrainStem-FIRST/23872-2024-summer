@@ -245,12 +245,12 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                         sleep(10);
                         moveRobot(0, 0, 0);
                     }
-                else {
-                    moveRobot(0, 0.35, 0);
-                    sleep(10);
-                    moveRobot(0, 0, 0);
+                    else {
+                        moveRobot(0, 0.35, 0);
+                        sleep(10);
+                        moveRobot(0, 0, 0);
+                    }
                 }
-            }
                 else{
                     if(desiredTag.ftcPose.y+2 >= 4)
                         moveRobot(-0.35, 0, 0);
@@ -279,16 +279,16 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 //                    moveRobot(0, 0, 0);
 //                }
 
-                for (AprilTagDetection detection : aprilTag.getDetections()){
-                    Orientation rot = Orientation.getOrientation(detection.rawPose.R, AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-                    double poseX = detection.rawPose.x;
-                    double poseY = detection.rawPose.y;
-                    double poseZ = detection.rawPose.z;
-
-                    double poseAX = rot.firstAngle;
-                    double poseAY = rot.secondAngle;
-                    double poseAZ = rot.thirdAngle;
-                }
+//                for (AprilTagDetection detection : aprilTag.getDetections()){
+//                    Orientation rot = Orientation.getOrientation(detection.rawPose.R, AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+//                    double poseX = detection.rawPose.x;
+//                    double poseY = detection.rawPose.y;
+//                    double poseZ = detection.rawPose.z;
+//
+//                    double poseAX = rot.firstAngle;
+//                    double poseAY = rot.secondAngle;
+//                    double poseAZ = rot.thirdAngle;
+//                }
 
 
 
@@ -306,18 +306,18 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
 
                 // sleep(1000);
             } else {
-                tagPoseX = desiredTag.rawPose.x;
-                robotPoseX = desiredTag.ftcPose.x;
-                absolutePoseX = tagPoseX - robotPoseX;
-
-                tagPoseY = desiredTag.rawPose.y;
-                robotPoseY = desiredTag.ftcPose.y;
-                absolutePoseY = tagPoseY - robotPoseY;
+//                tagPoseX = desiredTag.rawPose.x;
+//                robotPoseX = desiredTag.ftcPose.x;
+//                absolutePoseX = tagPoseX - robotPoseX;
+//
+//                tagPoseY = desiredTag.rawPose.y;
+//                robotPoseY = desiredTag.ftcPose.y;
+//                absolutePoseY = tagPoseY - robotPoseY;
 
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
-                telemetry.addData("absolute X", absolutePoseX);
-                telemetry.addData("tag X", tagPoseX);
-                telemetry.addData("robot X", robotPoseX);
+//                telemetry.addData("absolute X", absolutePoseX);
+//                telemetry.addData("tag X", tagPoseX);
+//                telemetry.addData("robot X", robotPoseX);
 
             }
 
@@ -370,12 +370,12 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
                 }
 */
 
-                  //  moveRobot(-0.25, 0, 0);
-                   // sleep(50);
-                   // moveRobot(0,0,0);
-                    telemetry.addData("Relative posX", desiredTag.ftcPose.x);
-                    telemetry.addData("Relative posY", desiredTag.ftcPose.y);
-                    telemetry.update();
+                //  moveRobot(-0.25, 0, 0);
+                // sleep(50);
+                // moveRobot(0,0,0);
+                telemetry.addData("Relative posX", desiredTag.ftcPose.x);
+                telemetry.addData("Relative posY", desiredTag.ftcPose.y);
+                telemetry.update();
 
             }
         }
